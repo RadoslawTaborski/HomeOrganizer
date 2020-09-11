@@ -1,17 +1,26 @@
 {
-    "app":{
-        "test":{
-            "inner": "appTestPL"
-        } 
+    "root":{
+        "header": {
+            "shopping": "Lista zakupów"
+        }
     },
-    "containers":{
-        "test":{
-            "inner": "containersTestPL"
-        } 
+    "containers": {
+        "permanent-item": {
+            "name": "nazwa",
+            "category": "kategoria1",
+            "subcategory": "kategoria2",
+            "state": "stan",
+            "articles": "artykuły"
+        }
     },
-    "shared":{
-        "test":{
-            "inner": "sharedTestPL"
-        } 
+    "modules": {
+        "shared": {
+            "components": {
+                "search": {
+                    "clean": "wyczyść",
+                    "filter": "Filtr"
+                }
+            }
+        }
     }
 }

@@ -1,17 +1,26 @@
 {
-    "app":{
-        "test":{
-            "inner": "appTestEn"
-        } 
+    "root":{
+        "header": {
+            "shopping": "Shopping list"
+        }
     },
-    "containers":{
-        "test":{
-            "inner": "containersTestEn"
-        } 
+    "containers": {
+        "permanent-item": {
+            "name": "name",
+            "category": "category1",
+            "subcategory": "category2",
+            "state": "state",
+            "articles": "items"
+        }
     },
-    "shared":{
-        "test":{
-            "inner": "sharedTestEn"
-        } 
+    "modules": {
+        "shared": {
+            "components": {
+                "search": {
+                    "clean": "clean",
+                    "filter": "Filter"
+                }
+            }
+        }
     }
 }

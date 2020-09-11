@@ -16,21 +16,14 @@ export class SearchComponent implements AfterViewInit, OnDestroy {
     @ViewChild('searchForm', { static: true }) searchForm;
     formInitValue: {};
     formSubscriber: Subscriber<any>;
-    isLoaded = false;
 
     constructor(private translate: TranslateService) {
     }
 
     ngOnInit() {
-        this.isLoaded=false;
-        this.translate.get('modules.shared.components.search.clean').subscribe(t => {
-            console.log("init", t)
-            this.isLoaded = true;
-        });
     }
 
     ngAfterViewInit(): void {
-        this.isLoaded=false;
         this.formSubscriber = this.searchForm
             .valueChanges
             .pipe(
@@ -42,26 +35,12 @@ export class SearchComponent implements AfterViewInit, OnDestroy {
                 filter(_ => !this.searchForm.pristine)
             )
             .subscribe((value) => this.searchChange.emit(value));
-            this.translate.get('modules.shared.components.search.clean').subscribe(t => {
-                console.log("after", t)
-                this.isLoaded = true;
-            });
     }
 
     ngOnChanges() {
-        this.isLoaded=false;
-        this.translate.get('modules.shared.components.search.clean').subscribe(t => {
-            console.log("changes", t)
-            this.isLoaded = true;
-        });
     }
 
     ngOnDestroy(): void {
-        this.isLoaded=false;
-        this.translate.get('modules.shared.components.search.clean').subscribe(t => {
-            console.log("destroy", t)
-            this.isLoaded = true;
-        });
         this.formSubscriber.unsubscribe();
     }
 

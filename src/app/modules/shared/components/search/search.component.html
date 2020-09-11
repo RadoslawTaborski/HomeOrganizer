@@ -1,30 +1,28 @@
 <form #searchForm="ngForm" id="search-form" class="card card-body">
-    <div *ngIf="isLoaded">
-        <h4 class="card-title">
-            {{'modules.shared.components.search.filter'|translate}}
-            <button class="btn btn-primary btn-sm"
-                (click)="clear()">{{'modules.shared.components.search.clean'|translate}}</button>
-        </h4>
+    <h4 class="card-title">
+        {{'modules.shared.components.search.filter'|translate}}
+        <button class="btn btn-primary btn-sm"
+            (click)="clear()">{{'modules.shared.components.search.clean'|translate}}</button>
+    </h4>
 
-        <div class="form-group" *ngFor="let control of controls" [ngSwitch]="control.tag">
+    <div class="form-group" *ngFor="let control of controls" [ngSwitch]="control.tag">
 
-            <label [for]="control.name">
-                {{control.display | camelCaseToSign:' '}}
-            </label>
+        <label [for]="control.name">
+            {{control.display | camelCaseToSign:' '}}
+        </label>
 
-            <input *ngSwitchCase="'INPUT_TEXT'" type="text" class="form-control" [id]="'search-by-' + control.name"
-                [name]="control.name" ngModel>
+        <input *ngSwitchCase="'INPUT_TEXT'" type="text" class="form-control" [id]="'search-by-' + control.name"
+            [name]="control.name" ngModel>
 
-            <input *ngSwitchCase="'INPUT_NUMBER'" type="number" class="form-control" [id]="'search-by-' + control.name"
-                [name]="control.name" ngModel>
+        <input *ngSwitchCase="'INPUT_NUMBER'" type="number" class="form-control" [id]="'search-by-' + control.name"
+            [name]="control.name" ngModel>
 
-            <select *ngSwitchCase="'SELECT'" class="form-control" [id]="'search-by-' + control.name"
-                [name]="control.name" [ngModel]="control.value">
-                <option *ngFor="let opt of control.options" [value]="provideSelectIdentifier(control, opt)">
-                    {{provideSelectText(control, opt)}}
-                </option>
-            </select>
+        <select *ngSwitchCase="'SELECT'" class="form-control" [id]="'search-by-' + control.name" [name]="control.name"
+            [ngModel]="control.value">
+            <option *ngFor="let opt of control.options" [value]="provideSelectIdentifier(control, opt)">
+                {{provideSelectText(control, opt)}}
+            </option>
+        </select>
 
-        </div>
     </div>
 </form>

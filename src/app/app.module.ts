@@ -7,7 +7,12 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {ContainersModule} from "./containers/containers.module"
-import {ModulesModule} from "./modules/modules.module"
+import {ModulesModule} from "./modules/modules.module";
+import { HeaderComponent } from './root/header/header.component';
+import { FooterComponent } from './root/footer/footer.component'
+import { ParametersService } from './root/services/parameters.service';
+import { StateService } from './root/services/state.service';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -15,7 +20,9 @@ export function createTranslateLoader(http: HttpClient) {
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HeaderComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
@@ -30,9 +37,13 @@ export function createTranslateLoader(http: HttpClient) {
           deps: [HttpClient]
       },
       isolate: false
-  })
+  }),
+    NgbModule
   ],
-  providers: [],
+  providers: [
+    ParametersService,
+    StateService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
