@@ -10,7 +10,11 @@
             "category": "category1",
             "subcategory": "category2",
             "state": "state",
-            "articles": "items"
+            "articles": "items",
+            "critical": "critical",
+            "little": "little",
+            "medium": "medium",
+            "lot": "lot"
         }
     },
     "modules": {

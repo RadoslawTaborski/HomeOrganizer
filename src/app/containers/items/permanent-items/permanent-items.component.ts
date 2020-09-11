@@ -55,7 +55,7 @@ export class PermanentItemsComponent implements OnInit {
         new SearchControl(SearchFieldTypes.INPUT_TEXT, PermanentItemsFilterTypes.NAME, this.translate.instant('containers.permanent-item.name')),
         new SearchControl(SearchFieldTypes.SELECT, PermanentItemsFilterTypes.CATEGORY, this.translate.instant('containers.permanent-item.category'), null, await this.getCategories(), (t: Category) => t?.name, (t: Category) => t?.id),
         new SearchControl(SearchFieldTypes.SELECT, PermanentItemsFilterTypes.SUBCATEGORY, this.translate.instant('containers.permanent-item.subcategory'), null, await this.getSubCategories(), (t: SubCategory) => t?.name, (t: SubCategory) => t?.id),
-        new SearchControl(SearchFieldTypes.SELECT, PermanentItemsFilterTypes.STATE, this.translate.instant('containers.permanent-item.state'), null, await this.getStates(), (t: State) => State[t], (t: State) => State[t]),
+        new SearchControl(SearchFieldTypes.SELECT, PermanentItemsFilterTypes.STATE, this.translate.instant('containers.permanent-item.state'), null, await this.getStates(), (t: State) => this.translateState(t), (t: State) => State[t]),
       ]);
 
       this.dataGridConfig = new DataGridConfig([
@@ -88,6 +88,19 @@ export class PermanentItemsComponent implements OnInit {
 
   getStates(): State[] {
     return [State.CRITICAL, State.LITTLE, State.LOT, State.MEDIUM]
+  }
+
+  translateState(t: State): string {
+    switch (t) {
+      case State.CRITICAL:
+        return this.translate.instant('containers.permanent-item.critical');
+      case State.LITTLE:
+        return this.translate.instant('containers.permanent-item.little');
+      case State.MEDIUM:
+        return this.translate.instant('containers.permanent-item.medium');
+      case State.LOT:
+        return this.translate.instant('containers.permanent-item.lot');
+    }
   }
 
   updateSearchConfig() {
