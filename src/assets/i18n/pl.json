@@ -1,0 +1,17 @@
+{
+    "app":{
+        "test":{
+            "inner": "appTestPL"
+        } 
+    },
+    "containers":{
+        "test":{
+            "inner": "containersTestPL"
+        } 
+    },
+    "shared":{
+        "test":{
+            "inner": "sharedTestPL"
+        } 
+    }
+}

@@ -1,0 +1,13 @@
+<table class="table table-hover">
+    <thead>
+        <tr *ngIf="data">
+            <th *ngFor="let header of config.data">
+                {{(header.display) | uppercase}}
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr data-grid-row *ngFor="let item of data" [model]="item" [config]="config" [itemAction]="itemAction">
+        </tr>
+    </tbody>
+</table>

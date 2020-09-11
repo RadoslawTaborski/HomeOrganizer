@@ -1,0 +1,26 @@
+<td [ngSwitch]="item.type" *ngFor="let item of config.data">
+
+    <div *ngSwitchCase="'img'">
+        <img src={{castToImg(item).src}} height="70">
+    </div>
+
+    <div *ngSwitchCase="'input'" class="form-group form-inline">
+        <input class="form-control" type="number" [(ngModel)]="model[item.key]"
+        [disabled]="castToInput(item).access ? !(castToInput(item).access | async) : false"
+            (input)="action('update', model)">
+    </div>
+
+    <div *ngSwitchCase="'button'" class="form-group form-inline">
+        <button [disabled]="castToButton(item).access ? !(castToButton(item).access | async) : false" class="btn btn-secondary" [style]="provideButtonStyle(item,model)" (click)="action(castToButton(item).display, model)">{{provideButtonText(item, model)}}</button>
+    </div>
+
+    <div *ngSwitchDefault>
+        <div *ngIf="castToText(item).textProvider">
+            {{provideText(item, model)}}
+        </div>
+        <div *ngIf="!castToText(item).textProvider">
+            {{model[item.key]}}
+        </div>
+    </div>
+
+</td>
