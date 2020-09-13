@@ -4,10 +4,14 @@ import { PermanentItemsComponent } from './items/permanent-items/permanent-items
 import { ModulesModule } from "../modules/modules.module"
 import { BrowserModule } from '@angular/platform-browser';
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { TemporaryItemsComponent } from './items/temporary-items/temporary-items.component';
+import { ShoppingItemsComponent } from './items/shopping-items/shopping-items.component';
 
 @NgModule({
   declarations: [
     PermanentItemsComponent,
+    TemporaryItemsComponent,
+    ShoppingItemsComponent,
   ],
   imports: [
     BrowserModule,

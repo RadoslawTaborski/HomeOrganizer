@@ -1,7 +1,9 @@
 {
     "root":{
         "header": {
-            "shopping": "Shopping list"
+            "shopping": "Shopping list",
+            "permanent": "Permanent",
+            "temporary": "Temporary"
         }
     },
     "containers": {

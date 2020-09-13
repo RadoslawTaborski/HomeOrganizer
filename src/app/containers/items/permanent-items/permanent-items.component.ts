@@ -75,6 +75,7 @@ export class PermanentItemsComponent implements OnInit {
       this.itemActionSubscriber = this.itemAction
         .subscribe((action) => {
           switch (action.type) {
+            case 'state': this.changeState(action.data); break;
             case 'add': this.add(action.data); break;
             case 'remove': this.remove(action.data); break;
             case 'update': this.update(action.data); break;
@@ -84,6 +85,10 @@ export class PermanentItemsComponent implements OnInit {
 
       this.isLoaded = true;
     });
+  }
+
+  changeState(data: PermanentItemModel) {
+    console.log("change state")
   }
 
   getStates(): State[] {

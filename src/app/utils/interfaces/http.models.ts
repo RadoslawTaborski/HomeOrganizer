@@ -1,7 +1,5 @@
 import { Observable } from 'rxjs';
 
-export type HttpMetodNames = 'add' | 'remove' | 'update' | 'more';
-
 export interface HttpServiceModel {
     fetch(filters?: { [key: string]: any }): Promise<ResponseData>;
     get(id: string, deep?: number): Promise<any>;

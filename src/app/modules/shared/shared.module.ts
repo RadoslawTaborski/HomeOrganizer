@@ -6,6 +6,7 @@ import { DataGridRowComponent } from "./components/data-grid/data-grid-row/data-
 import { SearchComponent } from "./components/search/search.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CamelCaseToSignPipe } from './pipes/camel-case-to-sign/camel-case-to-sign.pipe';
+import { ModalConfirmComponent } from './components/modal/confirm/modal-confirm.component';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { CamelCaseToSignPipe } from './pipes/camel-case-to-sign/camel-case-to-si
     DataGridRowComponent,
     SearchComponent,
     CamelCaseToSignPipe,
+    ModalConfirmComponent,
   ],
   imports: [
     CommonModule,
@@ -24,7 +26,8 @@ import { CamelCaseToSignPipe } from './pipes/camel-case-to-sign/camel-case-to-si
     DataGridComponent,
     DataGridRowComponent,
     SearchComponent,
-    CamelCaseToSignPipe
+    CamelCaseToSignPipe,
+    ModalConfirmComponent
   ]
 })
 export class SharedModule { }

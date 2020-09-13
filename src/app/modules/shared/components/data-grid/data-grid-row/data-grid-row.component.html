@@ -11,7 +11,7 @@
     </div>
 
     <div *ngSwitchCase="'button'" class="form-group form-inline">
-        <button [disabled]="castToButton(item).access ? !(castToButton(item).access | async) : false" class="btn btn-secondary" [style]="provideButtonStyle(item,model)" (click)="action(castToButton(item).display, model)">{{provideButtonText(item, model)}}</button>
+        <button [disabled]="castToButton(item).access ? !(castToButton(item).access | async) : false" class="btn btn-secondary" [style]="provideButtonStyle(item,model)" (click)="action(castToButton(item).key, model)">{{provideButtonText(item, model)}}</button>
     </div>
 
     <div *ngSwitchDefault>

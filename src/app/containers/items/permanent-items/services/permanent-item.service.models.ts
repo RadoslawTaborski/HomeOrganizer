@@ -1,5 +1,4 @@
 import { SubCategory, IItemModel } from "../../models/models";
-import { HttpMetodNames } from 'src/app/utils/interfaces/http.models';
 
 export enum State {
     CRITICAL,
@@ -31,8 +30,10 @@ export class PermanentItemModel implements IPermanentItemModel{
     }
 }
 
+export type PermanentItemMethods = 'add' | 'remove' | 'update' | 'more' | 'state';
+
 export interface PermanentItemAction {
-    type: HttpMetodNames,
+    type: PermanentItemMethods 
     data: PermanentItemModel
 }
 
