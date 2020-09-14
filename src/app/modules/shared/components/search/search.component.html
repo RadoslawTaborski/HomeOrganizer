@@ -3,6 +3,8 @@
         {{'modules.shared.components.search.filter'|translate}}
         <button class="btn btn-primary btn-sm"
             (click)="clear()">{{'modules.shared.components.search.clean'|translate}}</button>
+        <button class="btn btn-danger btn-sm"
+            (click)="close()">{{'modules.shared.components.search.close'|translate}}</button>
     </h4>
 
     <div class="form-group" *ngFor="let control of controls" [ngSwitch]="control.tag">

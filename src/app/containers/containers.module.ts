@@ -6,6 +6,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { TemporaryItemsComponent } from './items/temporary-items/temporary-items.component';
 import { ShoppingItemsComponent } from './items/shopping-items/shopping-items.component';
+import { SidebarModule } from 'ng-sidebar';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { ShoppingItemsComponent } from './items/shopping-items/shopping-items.co
     BrowserModule,
     CommonModule,
     ModulesModule,
-    NgbModule
+    NgbModule,
+    SidebarModule.forRoot(),
   ],
   exports: [
     PermanentItemsComponent

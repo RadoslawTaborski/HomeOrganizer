@@ -24,7 +24,8 @@
             "components": {
                 "search": {
                     "clean": "clean",
-                    "filter": "Filter"
+                    "filter": "Filter",
+                    "close": "close"
                 }
             }
         }

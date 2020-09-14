@@ -1,13 +1,7 @@
-<table class="table table-hover">
-    <thead>
-        <tr *ngIf="data">
-            <th *ngFor="let header of config.data">
-                {{(header.display) | uppercase}}
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr data-grid-row *ngFor="let item of data" [model]="item" [config]="config" [itemAction]="itemAction">
-        </tr>
-    </tbody>
-</table>
+<div class="card border-primary" style="width: 100%;">
+    <div *ngIf="data">
+        <div *ngFor="let item of data; let i = index">
+            <data-grid-row [index]="i" [model]="data[i]" [config]="config" [itemAction]="itemAction"></data-grid-row>
+        </div>
+    </div>
+</div>

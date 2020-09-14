@@ -10,6 +10,11 @@ export class ShoppingItemsComponent implements OnInit {
 
   question: string = "Hallu?"
   btnText: string = "Open"
+  _opened: boolean = false;
+ 
+  _toggleSidebar() {
+    this._opened = !this._opened;
+  }
 
   constructor() { }
 
@@ -22,5 +27,15 @@ export class ShoppingItemsComponent implements OnInit {
       case 'dissmised': console.log('nok', data); break;
     }
     
+  }
+
+  openNav(){
+    document.getElementById("mySidebar").style.width = "250px";
+    document.getElementById("main").style.marginLeft = "250px";
+  }
+  
+  closeNav() {
+    document.getElementById("mySidebar").style.width = "0";
+    document.getElementById("main").style.marginLeft = "0";
   }
 }

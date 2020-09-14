@@ -30,6 +30,7 @@ export class PermanentItemsComponent implements OnInit {
   subcategory: SubCategory[] = [];
   category: Category[] = [];
   isLoaded: boolean = false;
+  filterVisible: boolean = false;
 
   constructor(
     public itemsService: PermanentItemService,
@@ -60,8 +61,8 @@ export class PermanentItemsComponent implements OnInit {
 
       this.dataGridConfig = new DataGridConfig([
         new DataGridItemText(PermanentItemTypes.NAME, this.translate.instant('containers.permanent-item.name')),
-        new DataGridItemText(PermanentItemTypes.CATEGORY, this.translate.instant('containers.permanent-item.category'), (t: IPermanentItemModel): string => t.category.parent.name),
-        new DataGridItemText(PermanentItemTypes.SUBCATEGORY, this.translate.instant('containers.permanent-item.subcategory'), (t: IPermanentItemModel): string => t.category.name),
+        new DataGridItemText(PermanentItemTypes.CATEGORY, this.translate.instant('containers.permanent-item.category'), (t: IPermanentItemModel): string => t.category.parent.name, false),
+        new DataGridItemText(PermanentItemTypes.SUBCATEGORY, this.translate.instant('containers.permanent-item.subcategory'), (t: IPermanentItemModel): string => t.category.name, false),
         new DataGridItemButton(PermanentItemTypes.STATE, this.translate.instant('containers.permanent-item.state'), () => "", this.stateService.access, (t: IPermanentItemModel) => this.buttonStyleProvider(t)),
       ]);
 
@@ -203,5 +204,17 @@ export class PermanentItemsComponent implements OnInit {
 
   private replace(reference, array) {
     [].splice.apply(reference, [0, reference.length].concat(array));
+  }
+
+  openFilter(){
+    this.filterVisible = true;
+  }
+
+  closeFilter(){
+    this.filterVisible = false;
+  }
+
+  addItem(){
+    
   }
 }

@@ -13,6 +13,7 @@ export class SearchComponent implements AfterViewInit, OnDestroy {
 
     @Input() controls: SearchControl[];
     @Output() searchChange = new EventEmitter();
+    @Output() closeEvent = new EventEmitter();
     @ViewChild('searchForm', { static: true }) searchForm;
     formInitValue: {};
     formSubscriber: Subscriber<any>;
@@ -46,6 +47,10 @@ export class SearchComponent implements AfterViewInit, OnDestroy {
 
     clear() {
         this.searchForm.setValue(this.formInitValue);
+    }
+
+    close() {
+        this.closeEvent.emit();
     }
 
     provideSelectText(item: SearchControlModel, model: any): string {

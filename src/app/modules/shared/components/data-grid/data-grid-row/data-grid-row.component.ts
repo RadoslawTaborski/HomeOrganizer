@@ -3,11 +3,13 @@ import { Subject } from "rxjs";
 import { DataGridConfig, DataGridItemButtonModel, DataGridItemModel, DataGridItemImageModel, DataGridItemInputModel, DataGridItemTextModel } from '../data-grid-config';
 
 @Component({
-    selector: '[data-grid-row]',
-    templateUrl: './data-grid-row.component.html'
+    selector: 'data-grid-row',
+    templateUrl: './data-grid-row.component.html',
+    styleUrls: ['./data-grid-row.component.scss']
 })
 export class DataGridRowComponent {
     @Input() model: any;
+    @Input() index: number;
     @Input() config: DataGridConfig;
     @Input() itemAction: Subject<any>;
 

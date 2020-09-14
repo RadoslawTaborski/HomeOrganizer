@@ -1,12 +1,19 @@
 <div *ngIf="isLoaded" class="row">
-    <div class="col-sm-3">
-        <app-search [controls]="updateSearchConfig()" (searchChange)="updateFilters($event)"></app-search>
-    </div>
-    <div class="col-sm-9">
+
+    <div style="width: 100%;">
         <div class="card card-body">
             <div class="row">
+                <div class="col" style="position:sticky;">
+                    <button type="button" class="btn btn-primary btn-lg" (click)="openFilter()">
+                        <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                    </button>
+                    <button type="button" class="btn btn-success btn-lg" (click)="addItem()">
+                        <i class="fas fa-plus-circle"></i>
+                    </button>
+                </div>
                 <div class="col">
-                    <div class="badge badge-success ml-1">{{'containers.permanent-item.articles'|translate}}: {{items?.data.length}} / {{items?.total}}</div>
+                    <div class="badge badge-success ml-1">{{'containers.permanent-item.articles'|translate}}:
+                        {{items?.data.length}} / {{items?.total}}</div>
                 </div>
                 <div class="col">
                     <ngb-pagination [collectionSize]="items?.total" [maxSize]="5" size="sm"
@@ -16,6 +23,12 @@
                 </div>
             </div>
             <app-datagrid [data]='items?.data' [config]='dataGridConfig' [itemAction]="itemAction"></app-datagrid>
+        </div>
+    </div>
+    <div style="position: absolute;">
+        <div class="card bg-active" *ngIf="filterVisible" style="display: inline-block;">
+            <app-search [controls]="updateSearchConfig()" (searchChange)="updateFilters($event)"
+                (closeEvent)="closeFilter()"></app-search>
         </div>
     </div>
 </div>
