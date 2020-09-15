@@ -13,9 +13,6 @@ import { AddItemConfig, AddItemModel, AddItemSelect } from "../add/add-config"
 })
 export class AddComponent extends ModalBase implements OnInit {
 
-  @Input() title: string;
-  @Input() buttonSend: string;
-  @Input() action: Subject<any>;
   @Input() config: AddItemConfig;
   @Output() addAction = new EventEmitter();
 

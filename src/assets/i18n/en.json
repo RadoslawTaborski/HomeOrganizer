@@ -17,11 +17,7 @@
             "critical": "critical",
             "little": "little",
             "medium": "medium",
-            "lot": "lot",
-            "addItem":{
-                "title": "Add new item",
-                "sendButton": "Add"
-            }
+            "lot": "lot"
         }
     },
     "modules": {
@@ -31,6 +27,10 @@
                     "clean": "clean",
                     "filter": "Filter",
                     "close": "close"
+                },
+                "add": {
+                    "add": "add",
+                    "title": "add new item"
                 }
             }
         }

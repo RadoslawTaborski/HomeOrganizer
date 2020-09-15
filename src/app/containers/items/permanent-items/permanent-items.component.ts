@@ -33,7 +33,6 @@ export class PermanentItemsComponent implements OnInit {
   subcategory: SubCategory[] = [];
   category: Category[] = [];
   isLoaded: boolean = false;
-  filterVisible: boolean = false;
 
   constructor(
     public itemsService: PermanentItemService,
@@ -95,10 +94,6 @@ export class PermanentItemsComponent implements OnInit {
 
       this.isLoaded = true;
     });
-  }
-
-  changeState(data: PermanentItemModel) {
-    console.log("change state")
   }
 
   getStates(): State[] {
@@ -180,6 +175,10 @@ export class PermanentItemsComponent implements OnInit {
     console.log("add");
   }
 
+  changeState(data: PermanentItemModel) {
+    console.log("change state")
+  }
+
   async updateFilters(value?) {
     if (value.category && value.category !== "null") {
       await this.getSubCategories(value.category);
@@ -215,15 +214,7 @@ export class PermanentItemsComponent implements OnInit {
     [].splice.apply(reference, [0, reference.length].concat(array));
   }
 
-  openFilter(){
-    this.filterVisible = true;
-  }
-
-  closeFilter(){
-    this.filterVisible = false;
-  }
-
   addItem(data: any){
-    debugger;
+    console.log(data)
   }
 }

@@ -8,6 +8,8 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CamelCaseToSignPipe } from './pipes/camel-case-to-sign/camel-case-to-sign.pipe';
 import { ModalConfirmComponent } from './components/modal/confirm/modal-confirm.component';
 import { AddComponent } from './components/modal/add/add.component';
+import { GridSearchAddComponent } from './components/grid-search-add/grid-search-add.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -17,12 +19,14 @@ import { AddComponent } from './components/modal/add/add.component';
     CamelCaseToSignPipe,
     ModalConfirmComponent,
     AddComponent,
+    GridSearchAddComponent,
   ],
   imports: [
     CommonModule,
     TranslateModule,
     FormsModule,
     ReactiveFormsModule,
+    NgbModule
   ],
   exports: [
     DataGridComponent,
@@ -30,7 +34,8 @@ import { AddComponent } from './components/modal/add/add.component';
     SearchComponent,
     CamelCaseToSignPipe,
     ModalConfirmComponent,
-    AddComponent
+    AddComponent,
+    GridSearchAddComponent
   ]
 })
 export class SharedModule { }

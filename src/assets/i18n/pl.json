@@ -17,11 +17,7 @@
             "critical": "stan krytyczny",
             "little": "mało",
             "medium": "w normie",
-            "lot": "dużo",
-            "addItem":{
-                "title": "Dodaj nowy artyku",
-                "sendButton": "Dodaj"
-            }
+            "lot": "dużo"
         }
     },
     "modules": {
@@ -31,6 +27,10 @@
                     "clean": "wyczyść",
                     "filter": "Filtr",
                     "close": "zamknij"
+                },
+                "add": {
+                    "add": "dodaj",
+                    "title": "dodaj nowy element"
                 }
             }
         }

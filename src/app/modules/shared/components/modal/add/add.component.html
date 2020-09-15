@@ -1,6 +1,6 @@
 <ng-template #content let-d="dismiss">
     <div class="modal-header">
-        <h4 class="modal-title">{{title}}</h4>
+        <h4 class="modal-title">{{'modules.shared.components.add.title'|translate}}</h4>
         <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -26,10 +26,10 @@
             </select>
         </div>
         <br>
-        <input class="button btn-primary" type = "submit" value = "{{buttonSend}}">
+        <input class="button btn-primary" type = "submit" value = "{{'modules.shared.components.add.add'|translate}}">
     </form>
 </ng-template>
 
 <button class="btn btn-success btn-lg" (click)="open(content)">
-    <i class="fas fa-plus-square"></i>
+    <i class="fa fa-plus-square"></i>
 </button>
