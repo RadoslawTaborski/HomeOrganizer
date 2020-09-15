@@ -11,16 +11,19 @@ import { SearchConfig } from '../search/search-config';
 export class GridSearchAddComponent implements OnInit {
 
   @Input() dataGridConfig: DataGridConfig;
-  @Input() searchConfig: SearchConfig;
-  @Input() addConfig: AddItemConfig;
-
-  @Input() filters: any;
   @Input() items: any;
   @Input() action: any;
   @Input() badgeItemName: string;
 
+  @Input() filterOn: boolean;
+  @Input() searchConfig: SearchConfig;
+  @Input() filters: any;
   @Output() updFilters = new EventEmitter();
+
+  @Input() addOn: boolean;
+  @Input() addConfig: AddItemConfig;
   @Output() addAction = new EventEmitter();
+
 
   filterVisible: boolean;
 

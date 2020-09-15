@@ -1,9 +1,10 @@
 {
     "root": {
         "header": {
-            "shopping": "Lista zakupów",
-            "permanent": "Permanentne",
-            "temporary": "Tymczasowe"
+            "shopping": "Lista zbiorcza",
+            "shopping-lists": "Listy zakupów",
+            "permanent": "Lista permanentna",
+            "temporary": "Lista tymczasowa"
         }
     },
     "containers": {
@@ -23,6 +24,9 @@
             "temporary-item": {
                 "quantity": "ilość"
             }
+        },
+        "lists":{
+            "shoppingLists":"listy"
         }
     },
     "modules": {

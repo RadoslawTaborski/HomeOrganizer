@@ -8,12 +8,14 @@ import { TemporaryItemsComponent } from './items/temporary-items/temporary-items
 import { ShoppingItemsComponent } from './items/shopping-items/shopping-items.component';
 import { SidebarModule } from 'ng-sidebar';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ShoppingListsComponent } from './lists/shopping-lists/shopping-lists.component';
 
 @NgModule({
   declarations: [
     PermanentItemsComponent,
     TemporaryItemsComponent,
     ShoppingItemsComponent,
+    ShoppingListsComponent,
   ],
   imports: [
     BrowserModule,

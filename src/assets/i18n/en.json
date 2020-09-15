@@ -1,9 +1,10 @@
 {
     "root": {
         "header": {
-            "shopping": "Shopping list",
-            "permanent": "Permanent",
-            "temporary": "Temporary"
+            "shopping": "General list",
+            "shopping-lists": "Shopping lists",
+            "permanent": "Permanent list",
+            "temporary": "Temporary list"
         }
     },
     "containers": {
@@ -23,6 +24,9 @@
             "temporary-item": {
                 "quantity": "quantity"
             }
+        },
+        "lists":{
+            "shoppingLists":"lists"
         }
     },
     "modules": {

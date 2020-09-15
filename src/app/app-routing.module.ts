@@ -3,11 +3,13 @@ import { Routes, RouterModule } from '@angular/router';
 import { PermanentItemsComponent } from './containers/items/permanent-items/permanent-items.component';
 import { ShoppingItemsComponent } from './containers/items/shopping-items/shopping-items.component';
 import { TemporaryItemsComponent } from './containers/items/temporary-items/temporary-items.component';
+import { ShoppingListsComponent } from './containers/lists/shopping-lists/shopping-lists.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'shopping', pathMatch: 'full' },
   { path: 'shopping', component: ShoppingItemsComponent },
   { path: 'permanent', component: PermanentItemsComponent },
+  { path: 'shopping-lists', component: ShoppingListsComponent },
   { path: 'temporary', component: TemporaryItemsComponent },
   { path: '**', redirectTo: 'shopping' }
 ];
