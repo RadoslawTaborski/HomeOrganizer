@@ -11,6 +11,7 @@ import { CategoryService } from '../services/category/category.service';
 import { SubcategoryService } from '../services/subcategory/subcategory.service';
 import { SubCategory, Category } from '../models/models';
 import { TranslateService } from '@ngx-translate/core';
+import { AddItemConfig, AddItemInput, AddItemSelect } from 'src/app/modules/shared/components/modal/add/add-config';
 
 @Component({
   selector: 'app-permanent-items',
@@ -21,6 +22,8 @@ export class PermanentItemsComponent implements OnInit {
 
   dataGridConfig: DataGridConfig;
   searchConfig: SearchConfig;
+  addConfig: AddItemConfig;
+
   items: { data: IPermanentItemModel[], total: number };
   filters: BehaviorSubject<PermanentItemsFilters>;
   itemAction: Subject<PermanentItemAction>;
@@ -64,6 +67,12 @@ export class PermanentItemsComponent implements OnInit {
         new DataGridItemText(PermanentItemTypes.CATEGORY, this.translate.instant('containers.permanent-item.category'), (t: IPermanentItemModel): string => t.category.parent.name, false),
         new DataGridItemText(PermanentItemTypes.SUBCATEGORY, this.translate.instant('containers.permanent-item.subcategory'), (t: IPermanentItemModel): string => t.category.name, false),
         new DataGridItemButton(PermanentItemTypes.STATE, this.translate.instant('containers.permanent-item.state'), () => "", this.stateService.access, (t: IPermanentItemModel) => this.buttonStyleProvider(t)),
+        new DataGridItemText(PermanentItemTypes.DATE, this.translate.instant('containers.permanent-item.lastUpdate')),
+      ]);
+
+      this.addConfig = new AddItemConfig([
+        new AddItemInput(PermanentItemsFilterTypes.NAME, this.translate.instant('containers.permanent-item.name')),
+        new AddItemSelect(PermanentItemTypes.SUBCATEGORY, this.translate.instant('containers.permanent-item.subcategory'), null, await this.getSubCategories(), (t: SubCategory) => t?.name, (t: SubCategory) => t?.id),
       ]);
 
       this.filters = new BehaviorSubject(new PermanentItemsFilters());
@@ -214,7 +223,7 @@ export class PermanentItemsComponent implements OnInit {
     this.filterVisible = false;
   }
 
-  addItem(){
-    
+  addItem(data: any){
+    debugger;
   }
 }

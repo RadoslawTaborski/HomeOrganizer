@@ -12,11 +12,16 @@
             "category": "kategoria1",
             "subcategory": "kategoria2",
             "state": "stan",
+            "lastUpdate": "ostatnia zmiana",
             "articles": "artykuły",
             "critical": "stan krytyczny",
             "little": "mało",
             "medium": "w normie",
-            "lot": "dużo"
+            "lot": "dużo",
+            "addItem":{
+                "title": "Dodaj nowy artyku",
+                "sendButton": "Dodaj"
+            }
         }
     },
     "modules": {

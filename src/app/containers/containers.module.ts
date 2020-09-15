@@ -7,6 +7,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { TemporaryItemsComponent } from './items/temporary-items/temporary-items.component';
 import { ShoppingItemsComponent } from './items/shopping-items/shopping-items.component';
 import { SidebarModule } from 'ng-sidebar';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,8 @@ import { SidebarModule } from 'ng-sidebar';
   imports: [
     BrowserModule,
     CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
     ModulesModule,
     NgbModule,
     SidebarModule.forRoot(),

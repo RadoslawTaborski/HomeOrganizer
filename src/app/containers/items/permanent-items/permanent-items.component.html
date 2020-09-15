@@ -7,9 +7,7 @@
                     <button type="button" class="btn btn-primary btn-lg" (click)="openFilter()">
                         <i class="fa fa-arrow-right" aria-hidden="true"></i>
                     </button>
-                    <button type="button" class="btn btn-success btn-lg" (click)="addItem()">
-                        <i class="fas fa-plus-circle"></i>
-                    </button>
+                    <app-add [title]="'containers.permanent-item.addItem.title'|translate" [config]="addConfig" [buttonSend]="'containers.permanent-item.addItem.sendButton'|translate" [action]="'itemAction'" (addAction)="addItem($event)"></app-add>
                 </div>
                 <div class="col">
                     <div class="badge badge-success ml-1">{{'containers.permanent-item.articles'|translate}}:

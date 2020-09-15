@@ -1,0 +1,35 @@
+<ng-template #content let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">{{title}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <form #searchForm="ngForm" id="search-form" class="card card-body" (ngSubmit) = "onClickSubmit(searchForm.value)">  
+        <div class="form-group" *ngFor="let control of config.data" [ngSwitch]="control.type" class="modal-body">
+    
+            <label [for]="control.key">
+                {{control.display | camelCaseToSign:' '}}
+            </label>
+    
+            <input *ngSwitchCase="'input'" type="text" class="form-control" [id]="control.key"
+                [name]="control.key" ngModel>
+    
+            <input *ngSwitchCase="'input_number'" type="number" class="form-control" [id]="control.key"
+                [name]="control.key" ngModel>
+
+            <select *ngSwitchCase="'select'" class="form-control" [id]="control.key" [name]="control.key"
+                [ngModel]="castToSelect(control).value">
+                <option *ngFor="let opt of castToSelect(control).options" [value]="provideSelectIdentifier(control, opt)">
+                    {{provideSelectText(control, opt)}}
+                </option>
+            </select>
+        </div>
+        <br>
+        <input class="button btn-primary" type = "submit" value = "{{buttonSend}}">
+    </form>
+</ng-template>
+
+<button class="btn btn-success btn-lg" (click)="open(content)">
+    <i class="fas fa-plus-square"></i>
+</button>

@@ -37,13 +37,13 @@ export class PermanentItemService implements HttpServiceModel {
 
   async mockFetch(filters?: { [key: string]: any; }): Promise<ResponseData> {
     let items: PermanentItemModel[] = [
-      new PermanentItemModel({id: "1", name: 'papier toaletowy', category: await this.subcategoryService.get("2"), state: State.CRITICAL}),
-      new PermanentItemModel({id: "2", name: 'płyn do naczyń', category: await this.subcategoryService.get("3"), state: State.LITTLE}),
-      new PermanentItemModel({id: "3", name: 'mleko', category: await this.subcategoryService.get("1"), state: State.MEDIUM}),
-      new PermanentItemModel({id: "4", name: 'ręcznik papierowy', category: await this.subcategoryService.get("2"), state: State.LOT}),
-      new PermanentItemModel({id: "5", name: 'masło', category: await this.subcategoryService.get("1"), state: State.LOT}),
-      new PermanentItemModel({id: "6", name: 'kostka do wc', category: await this.subcategoryService.get("2"), state: State.MEDIUM}),
-      new PermanentItemModel({id: "7", name: 'płyn do płukania', category: await this.subcategoryService.get("2"), state: State.CRITICAL}),
+      new PermanentItemModel({id: "1", name: 'papier toaletowy', category: await this.subcategoryService.get("2"), state: State.CRITICAL, date: '12.08.2019'}),
+      new PermanentItemModel({id: "2", name: 'płyn do naczyń', category: await this.subcategoryService.get("3"), state: State.LITTLE, date: '13.08.2019'}),
+      new PermanentItemModel({id: "3", name: 'mleko', category: await this.subcategoryService.get("1"), state: State.MEDIUM, date: '14.08.2019'}),
+      new PermanentItemModel({id: "4", name: 'ręcznik papierowy', category: await this.subcategoryService.get("2"), state: State.LOT, date: '15.08.2019'}),
+      new PermanentItemModel({id: "5", name: 'masło', category: await this.subcategoryService.get("1"), state: State.LOT, date: '16.08.2019'}),
+      new PermanentItemModel({id: "6", name: 'kostka do wc', category: await this.subcategoryService.get("2"), state: State.MEDIUM, date: '17.08.2019'}),
+      new PermanentItemModel({id: "7", name: 'płyn do płukania', category: await this.subcategoryService.get("2"), state: State.CRITICAL, date: '18.08.2019'}),
     ]
 
     if(filters.name && filters.name !==""){

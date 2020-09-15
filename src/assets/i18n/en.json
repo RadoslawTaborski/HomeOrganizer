@@ -12,11 +12,16 @@
             "category": "category1",
             "subcategory": "category2",
             "state": "state",
+            "lastUpdate": "last update",
             "articles": "items",
             "critical": "critical",
             "little": "little",
             "medium": "medium",
-            "lot": "lot"
+            "lot": "lot",
+            "addItem":{
+                "title": "Add new item",
+                "sendButton": "Add"
+            }
         }
     },
     "modules": {

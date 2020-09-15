@@ -7,6 +7,7 @@ import { SearchComponent } from "./components/search/search.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CamelCaseToSignPipe } from './pipes/camel-case-to-sign/camel-case-to-sign.pipe';
 import { ModalConfirmComponent } from './components/modal/confirm/modal-confirm.component';
+import { AddComponent } from './components/modal/add/add.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { ModalConfirmComponent } from './components/modal/confirm/modal-confirm.
     SearchComponent,
     CamelCaseToSignPipe,
     ModalConfirmComponent,
+    AddComponent,
   ],
   imports: [
     CommonModule,
@@ -27,7 +29,8 @@ import { ModalConfirmComponent } from './components/modal/confirm/modal-confirm.
     DataGridRowComponent,
     SearchComponent,
     CamelCaseToSignPipe,
-    ModalConfirmComponent
+    ModalConfirmComponent,
+    AddComponent
   ]
 })
 export class SharedModule { }

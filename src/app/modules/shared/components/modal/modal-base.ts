@@ -16,6 +16,7 @@ export class ModalBase implements ModalModel {
     constructor(private modalService) { }
 
     checkAndSend(form) {
+        debugger;
         if (form.valid) {
             this.openedModal.close(form.value);
         } else {
@@ -43,7 +44,7 @@ export class ModalBase implements ModalModel {
         }
     }
 
-    go(result: string) {
+    go(result: any) {
         throw new Error('you should override go method');
     }
 }

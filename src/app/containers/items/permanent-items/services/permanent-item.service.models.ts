@@ -7,16 +7,19 @@ export enum State {
     LOT
 }
 
+
 export enum PermanentItemTypes {
-    NAME = 'name',
-    CATEGORY = 'category',
-    SUBCATEGORY = 'subcategory',
-    STATE = 'state',
-    ID = 'id'
+  NAME = 'name',
+  CATEGORY = 'category',
+  SUBCATEGORY = 'subcategory',
+  STATE = 'state',
+  ID = 'id',
+  DATE = "date"
 }
 
 export interface IPermanentItemModel extends IItemModel {
     state: State;
+    date: string;
 }
 
 export class PermanentItemModel implements IPermanentItemModel{
@@ -24,6 +27,7 @@ export class PermanentItemModel implements IPermanentItemModel{
     id: string;
     name: string;
     category: SubCategory;
+    date: string
 
     public constructor(init?:Partial<PermanentItemModel>) {
         Object.assign(this, init);

@@ -5,8 +5,11 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class CamelCaseToSignPipe implements PipeTransform {
 
-  transform(value: unknown, ...args: unknown[]): unknown {
-    return null;
-  }
+  transform(expression, sign) {
+    return expression
+        .replace(/[A-Z]/g, function (val) {
+            return sign + val.toLowerCase();
+        });
+}
 
 }
