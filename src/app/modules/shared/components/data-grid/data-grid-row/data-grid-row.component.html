@@ -1,29 +1,26 @@
 <div class="card-header" attr.id="heading{{index}}" data-toggle="collapse" attr.data-target="#body{{index}}">
-    <table style="width: 100%;" data-toggle="collapse"
-        attr.href="#body{{index}}">
+    <table style="width: 100%;" data-toggle="collapse" attr.href="#body{{index}}">
         <tr style="width: 100%;">
-            <td [ngSwitch]="item.type" *ngFor="let item of config.data" style="width: 100%;">
-                <div *ngIf="item.alwaysVisible">
-                    <div *ngSwitchCase="'img'">
-                        <img src={{castToImg(item).src}} height="70">
-                    </div>
+            <td [ngSwitch]="item.type" *ngFor="let item of getVisibleAttributes(true)" attr.style="width: {{item.width}};">
+                <div *ngSwitchCase="'img'">
+                    <img src={{castToImg(item).src}} height="70">
+                </div>
 
-                    <div *ngSwitchCase="'input'" class="form-group form-inline">
-                        <input class="form-control" type="number" [(ngModel)]="model[item.key]"
-                            [disabled]="castToInput(item).access ? !(castToInput(item).access | async) : false"
-                            (input)="action('update', model)">
-                    </div>
+                <div *ngSwitchCase="'input'" class="form-group form-inline">
+                    <input class="form-control" type="number" [(ngModel)]="model[item.key]"
+                        [disabled]="castToInput(item).access ? !(castToInput(item).access | async) : false"
+                        (input)="action('update', model)">
+                </div>
 
-                    <div *ngSwitchCase="'button'" class="form-group form-inline">
-                        <button [disabled]="castToButton(item).access ? !(castToButton(item).access | async) : false"
-                            class="btn btn-secondary" [style]="provideButtonStyle(item,model)"
-                            (click)="action(castToButton(item).key, model); $event.stopPropagation()" >{{provideButtonText(item, model)}}</button>
-                    </div>
+                <div *ngSwitchCase="'button'" class="form-group form-inline">
+                    <button [disabled]="castToButton(item).access ? !(castToButton(item).access | async) : false"
+                        class="btn btn-secondary" [style]="provideButtonStyle(item,model)"
+                        (click)="action(castToButton(item).key, model); $event.stopPropagation()">{{provideButtonText(item, model)}}</button>
+                </div>
 
-                    <div *ngSwitchDefault>
-                        <p *ngIf="castToText(item).textProvider">{{provideText(item, model)}}</p>
-                        <p *ngIf="!castToText(item).textProvider">{{model[item.key]}}</p>
-                    </div>
+                <div *ngSwitchDefault>
+                    <p *ngIf="castToText(item).textProvider">{{provideText(item, model)}}</p>
+                    <p *ngIf="!castToText(item).textProvider">{{model[item.key]}}</p>
                 </div>
             </td>
         </tr>
@@ -32,30 +29,28 @@
 
 <div attr.id="body{{index}}" class="collapse in" role="tabpanel" attr.aria-labelledby="heading{{index}}">
     <div class="card-block">
-        <div [ngSwitch]="item.type" *ngFor="let item of config.data" style="width: 100%;">
-            <div *ngIf="!item.alwaysVisible">
-                <p style="display:inline; margin-left: 1em;">{{item.display}}: </p>
-                <div *ngSwitchCase="'img'" style="display:inline">
-                    <img src={{castToImg(item).src}} height="70">
-                </div>
+        <div [ngSwitch]="item.type" *ngFor="let item of getVisibleAttributes(false)" style="width: 100%;">
+            <p style="display:inline; margin-left: 1em;">{{item.display}}: </p>
+            <div *ngSwitchCase="'img'" style="display:inline">
+                <img src={{castToImg(item).src}} height="70">
+            </div>
 
-                <div *ngSwitchCase="'input'" class="form-group form-inline" style="display:inline">
-                    <input class="form-control" type="number" [(ngModel)]="model[item.key]"
-                        [disabled]="castToInput(item).access ? !(castToInput(item).access | async) : false"
-                        (input)="action('update', model)">
-                </div>
+            <div *ngSwitchCase="'input'" class="form-group form-inline" style="display:inline">
+                <input class="form-control" type="number" [(ngModel)]="model[item.key]"
+                    [disabled]="castToInput(item).access ? !(castToInput(item).access | async) : false"
+                    (input)="action('update', model)">
+            </div>
 
-                <div *ngSwitchCase="'button'" class="form-group form-inline" style="display:inline">
-                    <button [disabled]="castToButton(item).access ? !(castToButton(item).access | async) : false"
-                        class="btn btn-secondary" [style]="provideButtonStyle(item,model)"
-                        (click)="action(castToButton(item).key, model)">{{provideButtonText(item, model)}}</button>
-                </div>
+            <div *ngSwitchCase="'button'" class="form-group form-inline" style="display:inline">
+                <button [disabled]="castToButton(item).access ? !(castToButton(item).access | async) : false"
+                    class="btn btn-secondary" [style]="provideButtonStyle(item,model)"
+                    (click)="action(castToButton(item).key, model)">{{provideButtonText(item, model)}}</button>
+            </div>
 
-                <div *ngSwitchDefault style="display:inline">
-                    <p style="display:inline" *ngIf="castToText(item).textProvider">
-                        {{provideText(item, model)}}</p>
-                    <p style="display:inline" *ngIf="!castToText(item).textProvider">{{model[item.key]}}</p>
-                </div>
+            <div *ngSwitchDefault style="display:inline">
+                <p style="display:inline" *ngIf="castToText(item).textProvider">
+                    {{provideText(item, model)}}</p>
+                <p style="display:inline" *ngIf="!castToText(item).textProvider">{{model[item.key]}}</p>
             </div>
         </div>
     </div>

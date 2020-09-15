@@ -9,7 +9,7 @@
                     <app-add [config]="addConfig" (addAction)="addItem($event)"></app-add>
                 </div>
                 <div class="col">
-                    <div class="badge badge-success ml-1">{{'containers.permanent-item.articles'|translate}}:
+                    <div class="badge badge-success ml-1">{{badgeItemName}}:
                         {{items?.data.length}} / {{items?.total}}</div>
                 </div>
                 <div class="col">

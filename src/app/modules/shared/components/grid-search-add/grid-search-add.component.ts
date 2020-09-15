@@ -17,6 +17,7 @@ export class GridSearchAddComponent implements OnInit {
   @Input() filters: any;
   @Input() items: any;
   @Input() action: any;
+  @Input() badgeItemName: string;
 
   @Output() updFilters = new EventEmitter();
   @Output() addAction = new EventEmitter();

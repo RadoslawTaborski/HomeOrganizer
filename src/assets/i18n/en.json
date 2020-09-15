@@ -1,5 +1,5 @@
 {
-    "root":{
+    "root": {
         "header": {
             "shopping": "Shopping list",
             "permanent": "Permanent",
@@ -7,17 +7,22 @@
         }
     },
     "containers": {
-        "permanent-item": {
+        "items": {
             "name": "name",
             "category": "category1",
             "subcategory": "category2",
-            "state": "state",
-            "lastUpdate": "last update",
             "articles": "items",
-            "critical": "critical",
-            "little": "little",
-            "medium": "medium",
-            "lot": "lot"
+            "permanent-item": {
+                "state": "state",
+                "lastUpdate": "last update",
+                "critical": "critical",
+                "little": "little",
+                "medium": "medium",
+                "lot": "lot"
+            },
+            "temporary-item": {
+                "quantity": "quantity"
+            }
         }
     },
     "modules": {

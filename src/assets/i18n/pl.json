@@ -7,17 +7,22 @@
         }
     },
     "containers": {
-        "permanent-item": {
+        "items": {
             "name": "nazwa",
             "category": "kategoria1",
             "subcategory": "kategoria2",
-            "state": "stan",
-            "lastUpdate": "ostatnia zmiana",
             "articles": "artykuły",
-            "critical": "stan krytyczny",
-            "little": "mało",
-            "medium": "w normie",
-            "lot": "dużo"
+            "permanent-item": {
+                "state": "stan",
+                "lastUpdate": "ostatnia zmiana",
+                "critical": "stan krytyczny",
+                "little": "mało",
+                "medium": "w normie",
+                "lot": "dużo"
+            },
+            "temporary-item": {
+                "quantity": "ilość"
+            }
         }
     },
     "modules": {

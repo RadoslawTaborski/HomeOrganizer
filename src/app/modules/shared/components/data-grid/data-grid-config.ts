@@ -3,6 +3,7 @@ export interface DataGridItemModel {
     display: string;
     type: string;
     alwaysVisible: boolean;
+    width?: string;
 }
 
 export interface DataGridItemTextModel extends DataGridItemModel {
@@ -34,7 +35,8 @@ export class DataGridItemText implements DataGridItemTextModel {
         public key,
         public display,
         public textProvider?,
-        public alwaysVisible = true,
+        public width?,
+        public alwaysVisible = false,
         public type = null) { }
 }
 
@@ -45,7 +47,8 @@ export class DataGridItemButton implements DataGridItemButtonModel {
         public displayProvider,
         public access,
         public styleProvider?,
-        public alwaysVisible = true,
+        public width?,
+        public alwaysVisible = false,
         public type = FieldTypes.BUTTON) { }
 }
 
@@ -54,7 +57,8 @@ export class DataGridItemInput implements DataGridItemInputModel {
         public key,
         public display,
         public access,
-        public alwaysVisible = true,
+        public width?,
+        public alwaysVisible = false,
         public type = FieldTypes.INPUT) { }
 }
 
@@ -63,7 +67,8 @@ export class DataGridItemImage implements DataGridItemImageModel {
         public key,
         public display,
         public src,
-        public alwaysVisible = true,
+        public width?,
+        public alwaysVisible = false,
         public type = FieldTypes.IMAGE) { }
 }
 

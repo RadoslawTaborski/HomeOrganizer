@@ -1,7 +1,7 @@
-import { Component, OnInit, DebugElement } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IPermanentItemModel, PermanentItemTypes, State, PermanentItemAction, PermanentItemsFilters, PermanentItemModel, PermanentItemsFilterTypes } from './services/permanent-item.service.models'
 import { PermanentItemService } from './services/permanent-item.service'
-import { DataGridConfig, DataGridItemModel, DataGridItemText, DataGridItemButton, DataGridItemInput, DataGridItemImage } from '../../../modules/shared/components/data-grid/data-grid-config';
+import { DataGridConfig, DataGridItemText, DataGridItemButton } from '../../../modules/shared/components/data-grid/data-grid-config';
 import { StateService } from 'src/app/root/services/state.service';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Subject, Subscription } from 'rxjs';
@@ -53,25 +53,25 @@ export class PermanentItemsComponent implements OnInit {
     await this.fetchCategories();
     await this.fetchSubCategories();
 
-    await this.translate.get('containers.permanent-item.name').subscribe(async t => {
+    await this.translate.get('containers.items.name').subscribe(async t => {
       this.searchConfig = new SearchConfig([
-        new SearchControl(SearchFieldTypes.INPUT_TEXT, PermanentItemsFilterTypes.NAME, this.translate.instant('containers.permanent-item.name')),
-        new SearchControl(SearchFieldTypes.SELECT, PermanentItemsFilterTypes.CATEGORY, this.translate.instant('containers.permanent-item.category'), null, await this.getCategories(), (t: Category) => t?.name, (t: Category) => t?.id),
+        new SearchControl(SearchFieldTypes.INPUT_TEXT, PermanentItemsFilterTypes.NAME, this.translate.instant('containers.items.name')),
+        new SearchControl(SearchFieldTypes.SELECT, PermanentItemsFilterTypes.CATEGORY, this.translate.instant('containers.items.category'), null, await this.getCategories(), (t: Category) => t?.name, (t: Category) => t?.id),
         new SearchControl(SearchFieldTypes.SELECT, PermanentItemsFilterTypes.SUBCATEGORY, this.translate.instant('containers.permanent-item.subcategory'), null, await this.getSubCategories(), (t: SubCategory) => t?.name, (t: SubCategory) => t?.id),
         new SearchControl(SearchFieldTypes.SELECT, PermanentItemsFilterTypes.STATE, this.translate.instant('containers.permanent-item.state'), null, await this.getStates(), (t: State) => this.translateState(t), (t: State) => State[t]),
       ]);
 
       this.dataGridConfig = new DataGridConfig([
-        new DataGridItemText(PermanentItemTypes.NAME, this.translate.instant('containers.permanent-item.name')),
-        new DataGridItemText(PermanentItemTypes.CATEGORY, this.translate.instant('containers.permanent-item.category'), (t: IPermanentItemModel): string => t.category.parent.name, false),
-        new DataGridItemText(PermanentItemTypes.SUBCATEGORY, this.translate.instant('containers.permanent-item.subcategory'), (t: IPermanentItemModel): string => t.category.name, false),
-        new DataGridItemButton(PermanentItemTypes.STATE, this.translate.instant('containers.permanent-item.state'), () => "", this.stateService.access, (t: IPermanentItemModel) => this.buttonStyleProvider(t)),
-        new DataGridItemText(PermanentItemTypes.DATE, this.translate.instant('containers.permanent-item.lastUpdate')),
+        new DataGridItemText(PermanentItemTypes.NAME, this.translate.instant('containers.items.name'), null, "50%", true),
+        new DataGridItemText(PermanentItemTypes.CATEGORY, this.translate.instant('containers.items.category'), (t: IPermanentItemModel): string => t.category.parent.name),
+        new DataGridItemText(PermanentItemTypes.SUBCATEGORY, this.translate.instant('containers.items.subcategory'), (t: IPermanentItemModel): string => t.category.name),
+        new DataGridItemButton(PermanentItemTypes.STATE, this.translate.instant('containers.items.permanent-item.state'), () => "", this.stateService.access, (t: IPermanentItemModel) => this.buttonStyleProvider(t), "25%", true),
+        new DataGridItemText(PermanentItemTypes.DATE, this.translate.instant('containers.items.permanent-item.lastUpdate'), null, "25%", true),
       ]);
 
       this.addConfig = new AddItemConfig([
-        new AddItemInput(PermanentItemsFilterTypes.NAME, this.translate.instant('containers.permanent-item.name')),
-        new AddItemSelect(PermanentItemTypes.SUBCATEGORY, this.translate.instant('containers.permanent-item.subcategory'), null, await this.getSubCategories(), (t: SubCategory) => t?.name, (t: SubCategory) => t?.id),
+        new AddItemInput(PermanentItemsFilterTypes.NAME, this.translate.instant('containers.items.name')),
+        new AddItemSelect(PermanentItemTypes.SUBCATEGORY, this.translate.instant('containers.items.subcategory'), null, await this.getSubCategories(), (t: SubCategory) => t?.name, (t: SubCategory) => t?.id),
       ]);
 
       this.filters = new BehaviorSubject(new PermanentItemsFilters());
@@ -103,13 +103,13 @@ export class PermanentItemsComponent implements OnInit {
   translateState(t: State): string {
     switch (t) {
       case State.CRITICAL:
-        return this.translate.instant('containers.permanent-item.critical');
+        return this.translate.instant('containers.items.permanent-item.critical');
       case State.LITTLE:
-        return this.translate.instant('containers.permanent-item.little');
+        return this.translate.instant('containers.items.permanent-item.little');
       case State.MEDIUM:
-        return this.translate.instant('containers.permanent-item.medium');
+        return this.translate.instant('containers.items.permanent-item.medium');
       case State.LOT:
-        return this.translate.instant('containers.permanent-item.lot');
+        return this.translate.instant('containers.items.permanent-item.lot');
     }
   }
 
@@ -180,6 +180,7 @@ export class PermanentItemsComponent implements OnInit {
   }
 
   async updateFilters(value?) {
+    debugger;
     if (value.category && value.category !== "null") {
       await this.getSubCategories(value.category);
       await this.getCategories()

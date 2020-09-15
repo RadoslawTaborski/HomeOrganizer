@@ -50,4 +50,8 @@ export class DataGridRowComponent {
             return ""
         }
     }
+
+    getVisibleAttributes(value: boolean){
+        return this.config.data.filter(d=>d.alwaysVisible==value);
+    }
 }
