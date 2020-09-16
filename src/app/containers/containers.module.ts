@@ -9,6 +9,7 @@ import { ShoppingItemsComponent } from './items/shopping-items/shopping-items.co
 import { SidebarModule } from 'ng-sidebar';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ShoppingListsComponent } from './lists/shopping-lists/shopping-lists.component';
+import { ShoppingListDetailsComponent } from './lists/shopping-lists/details/shopping-list-details.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { ShoppingListsComponent } from './lists/shopping-lists/shopping-lists.co
     TemporaryItemsComponent,
     ShoppingItemsComponent,
     ShoppingListsComponent,
+    ShoppingListDetailsComponent,
   ],
   imports: [
     BrowserModule,

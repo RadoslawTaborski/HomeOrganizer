@@ -1,13 +1,20 @@
+import { ActivatedRouteSnapshot } from '@angular/router';
+import { Observable } from 'rxjs';
+import { ITemporaryItemModel } from 'src/app/containers/items/temporary-items/services/temporary-item.service.models';
+
 export enum ShoppingListsTypes {
   NAME = 'name',
   CREATED = 'created',
   UPDATED = 'updated',
   ID = 'id',
+  MORE = 'more',
+  ARCHIVE ='remove'
 }
 
 export interface IShoppingListModel  {
     id: string;
     name: string;
+    data: ITemporaryItemModel[];
     created: string;
     updated: string;
 }
@@ -15,6 +22,7 @@ export interface IShoppingListModel  {
 export class ShoppingListModel implements IShoppingListModel{
     id: string;
     name: string;
+    data: ITemporaryItemModel[];
     created: string;
     updated: string;
 
@@ -35,4 +43,8 @@ export class ShoppingListsFilters {
         public currentPage = 1,
         public itemsPerPage = 15) {
     }
+}
+
+export interface ShoppingListResolver<T> {
+    resolve(route: ActivatedRouteSnapshot): Promise<T>
 }

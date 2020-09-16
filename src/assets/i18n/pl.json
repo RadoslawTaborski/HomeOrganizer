@@ -26,7 +26,13 @@
             }
         },
         "lists":{
-            "shoppingLists":"listy"
+            "name": "nazwa",
+            "shoppingLists":"listy",
+            "more":"więcej",
+            "delete": "archiwizuj",
+            "created": "utworzono",
+            "updated": "zaktualizowano",
+            "confirm": "Czy na pewno?"
         }
     },
     "modules": {

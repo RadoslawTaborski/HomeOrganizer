@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ITemporaryItemModel, TemporaryItemTypes, TemporaryItemAction, TemporaryItemsFilters, TemporaryItemModel, TemporaryItemsFilterTypes } from './services/temporary-item.service.models'
 import { TemporaryItemService } from './services/temporary-item.service'
 import { BehaviorSubject, Subject, Subscription } from 'rxjs';
@@ -20,11 +20,12 @@ import { debounceTime } from 'rxjs/operators';
 })
 export class TemporaryItemsComponent implements OnInit {
 
+  @Input() items: { data: ITemporaryItemModel[], total: number };
+
   dataGridConfig: DataGridConfig;
   searchConfig: SearchConfig;
   addConfig: AddItemConfig;
 
-  items: { data: ITemporaryItemModel[], total: number };
   filters: BehaviorSubject<TemporaryItemsFilters>;
   itemAction: Subject<TemporaryItemAction>;
   filtersSubscriber: Subscription;
@@ -35,7 +36,6 @@ export class TemporaryItemsComponent implements OnInit {
   isLoaded: boolean = false;
 
   constructor(
-    public itemsService: TemporaryItemService,
     public categoryService: CategoryService,
     public subcategoryService: SubcategoryService,
     private translate: TranslateService,
@@ -75,7 +75,7 @@ export class TemporaryItemsComponent implements OnInit {
 
       this.filtersSubscriber = this.filters
         .pipe(debounceTime(500))
-        .subscribe(() => this.fetch());
+        .subscribe(() => this.items);
 
       this.itemActionSubscriber = this.itemAction
         .subscribe((action) => {
@@ -141,7 +141,6 @@ export class TemporaryItemsComponent implements OnInit {
   }
 
   async updateFilters(value?) {
-    debugger;
     if (value.category && value.category !== "null") {
       await this.getSubCategories(value.category);
       await this.getCategories()
@@ -152,12 +151,6 @@ export class TemporaryItemsComponent implements OnInit {
       await this.getSubCategories()
     }
     this.filters.next({ ...this.filters.value, ...value });
-  }
-
-  async fetch() {
-    await this.itemsService.fetch(this.filters.getValue()).then(v => {
-      this.items = v;
-    })
   }
 
   async fetchSubCategories() {

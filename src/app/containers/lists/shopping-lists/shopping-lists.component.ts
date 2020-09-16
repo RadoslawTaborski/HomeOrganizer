@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Subject, Subscription } from 'rxjs';
-import { DataGridConfig, DataGridItemText } from 'src/app/modules/shared/components/data-grid/data-grid-config';
+import { DataGridConfig, DataGridItemButton, DataGridItemText } from 'src/app/modules/shared/components/data-grid/data-grid-config';
 import { AddItemConfig, AddItemInput } from 'src/app/modules/shared/components/modal/add/add-config';
 import { ShoppingListAction, IShoppingListModel, ShoppingListsTypes, ShoppingListModel, ShoppingListsFilters } from './services/shopping-lists.service.models'
 import { ShoppingListsService } from './services/shopping-lists.service'
 import { debounceTime } from 'rxjs/operators';
+import { StateService } from 'src/app/root/services/state.service';
 
 @Component({
   selector: 'app-shopping-lists',
@@ -30,6 +31,7 @@ export class ShoppingListsComponent implements OnInit {
   constructor(
     private translate: TranslateService,
     private listsService: ShoppingListsService,
+    public stateService: StateService,
     public router: Router
   ) { }
 
@@ -41,7 +43,11 @@ export class ShoppingListsComponent implements OnInit {
     this.translate.get('containers.items.name').subscribe(async (t) => {
 
       this.dataGridConfig = new DataGridConfig([
-        new DataGridItemText(ShoppingListsTypes.NAME, this.translate.instant('containers.items.name'), null, "100%", true),
+        new DataGridItemText(ShoppingListsTypes.NAME, this.translate.instant('containers.lists.name'), null, "75%", true),
+        new DataGridItemButton(ShoppingListsTypes.MORE, this.translate.instant('containers.lists.more'), () => this.translate.instant('containers.lists.more'), this.stateService.access, null, "25%", true),
+        new DataGridItemButton(ShoppingListsTypes.ARCHIVE, this.translate.instant('containers.lists.delete'), () => this.translate.instant('containers.lists.delete'), this.stateService.access, null, "25%", true),
+        new DataGridItemText(ShoppingListsTypes.CREATED, this.translate.instant('containers.items.name'), null),
+        new DataGridItemText(ShoppingListsTypes.UPDATED, this.translate.instant('containers.items.name'), null,),
       ]);
 
       this.addConfig = new AddItemConfig([
@@ -70,7 +76,7 @@ export class ShoppingListsComponent implements OnInit {
   }
 
   more(data: ShoppingListModel) {
-    console.log("more");
+    this.router.navigate(['shopping-lists/' + data.id]);
   }
 
   update(data: ShoppingListModel) {
@@ -78,7 +84,9 @@ export class ShoppingListsComponent implements OnInit {
   }
 
   remove(data: ShoppingListModel) {
-    console.log("remove");
+    if(confirm(this.translate.instant('containers.lists.confirm'))){
+      console.log('removed')
+    }
   }
 
   add(data: ShoppingListModel) {

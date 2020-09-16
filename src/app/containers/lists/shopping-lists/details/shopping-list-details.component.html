@@ -1,0 +1,3 @@
+<div *ngIf="data | async as item">
+    <app-temporary-items [items]="{data: item.data, total: item.data.length}"></app-temporary-items>
+</div>

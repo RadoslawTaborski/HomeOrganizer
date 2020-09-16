@@ -38,7 +38,6 @@ export class PermanentItemsComponent implements OnInit {
     public itemsService: PermanentItemService,
     public categoryService: CategoryService,
     public subcategoryService: SubcategoryService,
-    public statusService: StateService,
     private translate: TranslateService,
     public stateService: StateService,
     public router: Router) {
@@ -180,7 +179,6 @@ export class PermanentItemsComponent implements OnInit {
   }
 
   async updateFilters(value?) {
-    debugger;
     if (value.category && value.category !== "null") {
       await this.getSubCategories(value.category);
       await this.getCategories()
