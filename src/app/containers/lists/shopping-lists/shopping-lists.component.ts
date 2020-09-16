@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Subject, Subscription } from 'rxjs';
@@ -8,6 +8,7 @@ import { ShoppingListAction, IShoppingListModel, ShoppingListsTypes, ShoppingLis
 import { ShoppingListsService } from './services/shopping-lists.service'
 import { debounceTime } from 'rxjs/operators';
 import { StateService } from 'src/app/root/services/state.service';
+import { ConfirmOption } from 'src/app/modules/shared/components/modal/confirm/modal-confirm.component';
 
 @Component({
   selector: 'app-shopping-lists',
@@ -27,6 +28,8 @@ export class ShoppingListsComponent implements OnInit {
   filtersSubscriber: Subscription;
 
   isLoaded: boolean = false;
+
+  @ViewChild('confirmModal') confirmModal;
 
   constructor(
     private translate: TranslateService,
@@ -84,9 +87,14 @@ export class ShoppingListsComponent implements OnInit {
   }
 
   remove(data: ShoppingListModel) {
-    if(confirm(this.translate.instant('containers.lists.confirm'))){
-      console.log('removed')
-    }
+    this.confirmModal.clickButton();
+  }
+
+  removeAction(data: {result: ConfirmOption, details: string}){
+    switch(data.result){
+      case 'ok': console.log('removed', data); break;
+      case 'dissmised': console.log('nok', data); break;
+    }   
   }
 
   add(data: ShoppingListModel) {

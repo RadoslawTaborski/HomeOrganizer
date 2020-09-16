@@ -10,4 +10,4 @@
     </div>
 </ng-template>
 
-<button class="btn btn-sm btn-danger" (click)="open(content)">{{btnText}}</button>
+<button attr.hidden="{{!displayButton}}" #openBtn class="btn btn-sm btn-danger" (click)="open(content)">{{btnText}}</button>
