@@ -4,4 +4,4 @@
         (addAction)="addItem($event)" [filters]="filters">
     </app-grid-search-add>
 </div>
-<modal-confirm #confirmModal [question]="'containers.lists.confirm'|translate" [displayButton]="displayConfirm" (outputAction)="removeAction($event)"></modal-confirm>
+<modal-confirm #confirmModal [question]="'containers.lists.confirm'|translate" [displayButton]="false" (outputAction)="removeAction($event)"></modal-confirm>

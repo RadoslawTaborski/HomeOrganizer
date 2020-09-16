@@ -60,23 +60,23 @@ export class ShoppingListsService implements HttpServiceModel {
       new ShoppingListModel({
         id: "1", name: 'weekend', created: "07.09.2020", updated: "09.09.2020",
         data: [
-          new TemporaryItemModel({ id: "1", name: 'szotka do toalety', category: await this.subcategoryService.get("2"), quantity: "1 kg" }),
-          new TemporaryItemModel({ id: "2", name: 'sitko', category: await this.subcategoryService.get("3"), quantity: "1 kg" }),
-          new TemporaryItemModel({ id: "3", name: 'kremówka', category: await this.subcategoryService.get("1"), quantity: "1 kg" }),
+          new TemporaryItemModel({ id: "1", name: 'szczotka do toalety', category: await this.subcategoryService.get("2"), quantity: "1 sztuka" }),
+          new TemporaryItemModel({ id: "2", name: 'sitko', category: await this.subcategoryService.get("3"), quantity: "1" }),
+          new TemporaryItemModel({ id: "3", name: 'kremówka', category: await this.subcategoryService.get("1"), quantity: "200g" }),
         ]
       }),
       new ShoppingListModel({
         id: "2", name: 'parapetówa', created: "07.09.2020", updated: "09.09.2020",
         data: [
-          new TemporaryItemModel({ id: "4", name: 'kieliszki', category: await this.subcategoryService.get("2"), quantity: "1 kg" }),
-          new TemporaryItemModel({ id: "5", name: 'twaróg sernikowy', category: await this.subcategoryService.get("1"), quantity: "1 kg" }),
+          new TemporaryItemModel({ id: "4", name: 'kieliszki', category: await this.subcategoryService.get("2"), quantity: "6 sztuk" }),
+          new TemporaryItemModel({ id: "5", name: 'twaróg sernikowy', category: await this.subcategoryService.get("1"), quantity: "1 opk" }),
         ]
       }),
       new ShoppingListModel({
         id: "3", name: 'obiad środa', created: "07.09.2020", updated: "09.09.2020",
         data: [
-          new TemporaryItemModel({ id: "6", name: 'pumeks', category: await this.subcategoryService.get("2"), quantity: "1 kg" }),
-          new TemporaryItemModel({ id: "7", name: 'szczoteczka', category: await this.subcategoryService.get("2"), quantity: "1 kg" }),
+          new TemporaryItemModel({ id: "6", name: 'pumeks', category: await this.subcategoryService.get("2"), quantity: "1" }),
+          new TemporaryItemModel({ id: "7", name: 'szczoteczka', category: await this.subcategoryService.get("2"), quantity: "1" }),
         ]
       }),
     ]

@@ -33,7 +33,7 @@ export class TemporaryItemService implements HttpServiceModel {
 
   async mockFetch(filters?: { [key: string]: any; }): Promise<ResponseData> {
     let items: TemporaryItemModel[] = [
-      new TemporaryItemModel({id: "1", name: 'szotka do toalety', category: await this.subcategoryService.get("2"), quantity: "1 kg"}),
+      new TemporaryItemModel({id: "1", name: 'szczotka do toalety', category: await this.subcategoryService.get("2"), quantity: "1 kg"}),
       new TemporaryItemModel({id: "2", name: 'sitko', category: await this.subcategoryService.get("3"), quantity: "1 kg"}),
       new TemporaryItemModel({id: "3", name: 'kremówka', category: await this.subcategoryService.get("1"), quantity: "1 kg"}),
       new TemporaryItemModel({id: "4", name: 'kieliszki', category: await this.subcategoryService.get("2"), quantity: "1 kg"}),

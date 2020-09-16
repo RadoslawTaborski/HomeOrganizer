@@ -53,7 +53,6 @@ export class TemporaryItemsComponent implements OnInit {
 
     this.translate.get('containers.items.name').subscribe(async (t) => {
       this.searchConfig = new SearchConfig([
-        new SearchControl(SearchFieldTypes.INPUT_TEXT, TemporaryItemsFilterTypes.NAME, this.translate.instant('containers.items.name')),
         new SearchControl(SearchFieldTypes.SELECT, TemporaryItemsFilterTypes.CATEGORY, this.translate.instant('containers.items.category'), null, await this.getCategories(), (t: Category) => t?.name, (t: Category) => t?.id),
         new SearchControl(SearchFieldTypes.SELECT, TemporaryItemsFilterTypes.SUBCATEGORY, this.translate.instant('containers.items.subcategory'), null, await this.getSubCategories(), (t: SubCategory) => t?.name, (t: SubCategory) => t?.id),
       ]);

@@ -23,6 +23,13 @@
             },
             "temporary-item": {
                 "quantity": "ilość"
+            },
+            "shopping":{
+                "state": "stan",
+                "critical": "pilnie potrzeba",
+                "little": "brakuje",
+                "medium": "w normie",
+                "lot": "ok"
             }
         },
         "lists":{
