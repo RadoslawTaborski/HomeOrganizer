@@ -39,13 +39,13 @@ export class ShoppingItemsService implements HttpServiceModel {
 
   async mockFetch(filters?: { [key: string]: any; }): Promise<ResponseData> {
     let items: ShoppingItemModel[] = [
-      new ShoppingItemModel({ id: "1", name: 'papier toaletowy', category: await this.subcategoryService.get("2"), state: State.CRITICAL, date: '12.08.2019' }),
-      new ShoppingItemModel({ id: "2", name: 'płyn do naczyń', category: await this.subcategoryService.get("3"), state: State.LITTLE, date: '13.08.2019' }),
-      new ShoppingItemModel({ id: "3", name: 'mleko', category: await this.subcategoryService.get("1"), state: State.MEDIUM, date: '14.08.2019' }),
-      new ShoppingItemModel({ id: "4", name: 'ręcznik papierowy', category: await this.subcategoryService.get("2"), quantity: "2 rolki", date: '15.08.2019' }),
-      new ShoppingItemModel({ id: "5", name: 'masło', category: await this.subcategoryService.get("1"), quantity: "1 kostka", date: '16.08.2019' }),
-      new ShoppingItemModel({ id: "6", name: 'kostka do wc', category: await this.subcategoryService.get("2"), quantity: "1 sztuka", date: '17.08.2019' }),
-      new ShoppingItemModel({ id: "7", name: 'płyn do płukania', category: await this.subcategoryService.get("2"), quantity: "1 sztuka", date: '18.08.2019' }),
+      new ShoppingItemModel({ id: "1", name: 'papier toaletowy', category: await this.subcategoryService.get("2"), state: State.CRITICAL, updateTime: '12.08.2019' }),
+      new ShoppingItemModel({ id: "2", name: 'płyn do naczyń', category: await this.subcategoryService.get("3"), state: State.LITTLE, updateTime: '13.08.2019' }),
+      new ShoppingItemModel({ id: "3", name: 'mleko', category: await this.subcategoryService.get("1"), state: State.MEDIUM, updateTime: '14.08.2019' }),
+      new ShoppingItemModel({ id: "4", name: 'ręcznik papierowy', category: await this.subcategoryService.get("2"), quantity: "2 rolki", updateTime: '15.08.2019' }),
+      new ShoppingItemModel({ id: "5", name: 'masło', category: await this.subcategoryService.get("1"), quantity: "1 kostka", updateTime: '16.08.2019' }),
+      new ShoppingItemModel({ id: "6", name: 'kostka do wc', category: await this.subcategoryService.get("2"), quantity: "1 sztuka", updateTime: '17.08.2019' }),
+      new ShoppingItemModel({ id: "7", name: 'płyn do płukania', category: await this.subcategoryService.get("2"), quantity: "1 sztuka", updateTime: '18.08.2019' }),
     ]
 
     items = this.sort(items);

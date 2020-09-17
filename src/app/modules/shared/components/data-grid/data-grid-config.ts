@@ -10,6 +10,10 @@ export interface DataGridItemTextModel extends DataGridItemModel {
     textProvider?: Function;
 }
 
+export interface DataGridItemCheckboxModel extends DataGridItemModel {
+    textProvider?: Function;
+}
+
 export interface DataGridItemButtonModel extends DataGridItemModel {
     displayProvider: Function
     access: string;
@@ -28,6 +32,7 @@ export class FieldTypes {
     static INPUT = 'input';
     static IMAGE = 'img';
     static BUTTON = 'button';
+    static CHECKBOX = 'checkbox';
 }
 
 export class DataGridItemText implements DataGridItemTextModel {
@@ -38,6 +43,16 @@ export class DataGridItemText implements DataGridItemTextModel {
         public width?,
         public alwaysVisible = false,
         public type = null) { }
+}
+
+export class DataGridItemCheckbox implements DataGridItemCheckboxModel {
+    constructor(
+        public key,
+        public display,
+        public textProvider?,
+        public width?,
+        public alwaysVisible = false,
+        public type = FieldTypes.CHECKBOX) { }
 }
 
 export class DataGridItemButton implements DataGridItemButtonModel {

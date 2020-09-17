@@ -19,7 +19,6 @@ export enum PermanentItemTypes {
 
 export interface IPermanentItemModel extends IItemModel {
     state: State;
-    date: string;
 }
 
 export class PermanentItemModel implements IPermanentItemModel{
@@ -27,7 +26,10 @@ export class PermanentItemModel implements IPermanentItemModel{
     id: string;
     name: string;
     category: SubCategory;
-    date: string
+    archived: boolean;
+    createTime: string;
+    updateTime: string;
+    deleteTime: string;
 
     public constructor(init?:Partial<PermanentItemModel>) {
         Object.assign(this, init);

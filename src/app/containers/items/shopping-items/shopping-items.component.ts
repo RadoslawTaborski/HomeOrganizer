@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { DataGridConfig, DataGridItemText } from 'src/app/modules/shared/components/data-grid/data-grid-config';
+import { DataGridConfig, DataGridItemCheckbox, DataGridItemText } from 'src/app/modules/shared/components/data-grid/data-grid-config';
 import { SearchConfig, SearchControl, FieldTypes as SearchFieldTypes } from 'src/app/modules/shared/components/search/search-config';
 import { StateService } from 'src/app/root/services/state.service';
 import { Category, SubCategory } from '../models/models';
@@ -58,7 +58,8 @@ export class ShoppingItemsComponent implements OnInit {
       ]);
 
       this.dataGridConfig = new DataGridConfig([
-        new DataGridItemText(ShoppingItemTypes.NAME, this.translate.instant('containers.items.name'), null, "75%", true),
+        new DataGridItemCheckbox(ShoppingItemTypes.BOUGHT, this.translate.instant('containers.items.shopping.bought'), null, "10%", true),
+        new DataGridItemText(ShoppingItemTypes.NAME, this.translate.instant('containers.items.name'), null, "65%", true),
         new DataGridItemText(ShoppingItemTypes.STATE, this.translate.instant('containers.items.shopping.state'), (t: IShoppingItemModel): string => this.translateState(t), "25%", true),
         new DataGridItemText(ShoppingItemTypes.CATEGORY, this.translate.instant('containers.items.category'), (t: IShoppingItemModel): string => t.category.parent.name),
         new DataGridItemText(ShoppingItemTypes.SUBCATEGORY, this.translate.instant('containers.items.subcategory'), (t: IShoppingItemModel): string => t.category.name),

@@ -17,6 +17,7 @@ export interface IShoppingListModel  {
     data: ITemporaryItemModel[];
     created: string;
     updated: string;
+    archived: boolean;
 }
 
 export class ShoppingListModel implements IShoppingListModel{
@@ -25,6 +26,7 @@ export class ShoppingListModel implements IShoppingListModel{
     data: ITemporaryItemModel[];
     created: string;
     updated: string;
+    archived: boolean;
 
     public constructor(init?:Partial<ShoppingListModel>) {
         Object.assign(this, init);

@@ -25,6 +25,7 @@
                 "quantity": "quantity"
             },
             "shopping":{
+                "bought": "bought",
                 "state": "state",
                 "critical": "urgent",
                 "little": "needed",

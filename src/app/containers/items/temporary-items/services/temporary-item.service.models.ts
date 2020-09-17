@@ -1,33 +1,37 @@
 import { SubCategory, IItemModel } from "../../models/models";
 
 export enum TemporaryItemTypes {
-  NAME = 'name',
-  CATEGORY = 'category',
-  SUBCATEGORY = 'subcategory',
-  QUANTITY = 'quantity',
-  ID = 'id',
+    BOUGHT = "bought",
+    NAME = 'name',
+    CATEGORY = 'category',
+    SUBCATEGORY = 'subcategory',
+    QUANTITY = 'quantity',
+    ID = 'id',
 }
 
 export interface ITemporaryItemModel extends IItemModel {
     quantity: string;
 }
 
-export class TemporaryItemModel implements ITemporaryItemModel{
+export class TemporaryItemModel implements ITemporaryItemModel {
     quantity: string;
     id: string;
     name: string;
     category: SubCategory;
-    date: string
+    archived: boolean;
+    createTime: string;
+    updateTime: string;
+    deleteTime: string;
 
-    public constructor(init?:Partial<TemporaryItemModel>) {
+    public constructor(init?: Partial<TemporaryItemModel>) {
         Object.assign(this, init);
     }
 }
 
-export type TemporaryItemMethods = 'add' | 'remove' | 'update' | 'more' ;
+export type TemporaryItemMethods = 'add' | 'remove' | 'update' | 'more';
 
 export interface TemporaryItemAction {
-    type: TemporaryItemMethods 
+    type: TemporaryItemMethods
     data: TemporaryItemModel
 }
 
