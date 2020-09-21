@@ -12,6 +12,7 @@ import { SubcategoryService } from '../services/subcategory/subcategory.service'
 import { SubCategory, Category } from '../models/models';
 import { TranslateService } from '@ngx-translate/core';
 import { AddItemConfig, AddItemInput, AddItemSelect } from 'src/app/modules/shared/components/modal/add/add-config';
+import { DataProviderService } from '../../services/data-provider.service';
 
 @Component({
   selector: 'app-permanent-items',
@@ -35,9 +36,7 @@ export class PermanentItemsComponent implements OnInit {
   isLoaded: boolean = false;
 
   constructor(
-    public itemsService: PermanentItemService,
-    public categoryService: CategoryService,
-    public subcategoryService: SubcategoryService,
+    private dataProvider: DataProviderService,
     private translate: TranslateService,
     public stateService: StateService,
     public router: Router) {
@@ -49,14 +48,14 @@ export class PermanentItemsComponent implements OnInit {
   }
 
   async ngOnInit() {
-    await this.fetchCategories();
-    await this.fetchSubCategories();
-
+    await this.dataProvider.reloadSubCategories();
+    await this.dataProvider.reloadStates();
+    
     await this.translate.get('containers.items.name').subscribe(async t => {
       this.searchConfig = new SearchConfig([
         new SearchControl(SearchFieldTypes.SELECT, PermanentItemsFilterTypes.CATEGORY, this.translate.instant('containers.items.category'), null, await this.getCategories(), (t: Category) => t?.name, (t: Category) => t?.id),
         new SearchControl(SearchFieldTypes.SELECT, PermanentItemsFilterTypes.SUBCATEGORY, this.translate.instant('containers.items.subcategory'), null, await this.getSubCategories(), (t: SubCategory) => t?.name, (t: SubCategory) => t?.id),
-        new SearchControl(SearchFieldTypes.SELECT, PermanentItemsFilterTypes.STATE, this.translate.instant('containers.items.permanent-item.state'), null, await this.getStates(), (t: State) => this.translateState(t), (t: State) => State[t]),
+        new SearchControl(SearchFieldTypes.SELECT, PermanentItemsFilterTypes.STATE, this.translate.instant('containers.items.permanent-item.state'), null, await this.getStates(), (t: State) => this.translateState(t), (t: State) => t.id),
       ]);
 
       this.dataGridConfig = new DataGridConfig([
@@ -77,7 +76,7 @@ export class PermanentItemsComponent implements OnInit {
 
       this.filtersSubscriber = this.filters
         .pipe(debounceTime(500))
-        .subscribe(() => this.fetch());
+        .subscribe(async () => await this.fetch());
 
       this.itemActionSubscriber = this.itemAction
         .subscribe((action) => {
@@ -95,18 +94,18 @@ export class PermanentItemsComponent implements OnInit {
   }
 
   getStates(): State[] {
-    return [State.CRITICAL, State.LITTLE, State.LOT, State.MEDIUM]
+    return this.dataProvider.states
   }
 
   translateState(t: State): string {
     switch (t) {
-      case State.CRITICAL:
+      case this.dataProvider.getCriticalState():
         return this.translate.instant('containers.items.permanent-item.critical');
-      case State.LITTLE:
+      case this.dataProvider.getLittleState():
         return this.translate.instant('containers.items.permanent-item.little');
-      case State.MEDIUM:
+      case this.dataProvider.getMediumState():
         return this.translate.instant('containers.items.permanent-item.medium');
-      case State.LOT:
+      case this.dataProvider.getLotState():
         return this.translate.instant('containers.items.permanent-item.lot');
     }
   }
@@ -129,30 +128,28 @@ export class PermanentItemsComponent implements OnInit {
   }
 
   private async updateCategories(subcategoryId?: string) {
-    await this.fetchCategories();
     if (subcategoryId) {
-      this.replace(this.category, this.category.filter(c => c.id === this.subcategory.filter(t => t?.id === subcategoryId)[0].parent.id))
+      this.replace(this.category, this.dataProvider.categories.filter(c => c.id === this.subcategory.filter(t => t?.id === subcategoryId)[0].parent.id))
     } else {
       this.category.unshift(null);
     }
   }
 
   private async updateSubCategories(categoryId?: string) {
-    await this.fetchSubCategories();
     if (categoryId) {
-      this.replace(this.subcategory, this.subcategory.filter(c => c.parent.id === categoryId))
+      this.replace(this.subcategory, this.dataProvider.subcategories.filter(c => c.parent.id === categoryId))
     }
   }
 
   buttonStyleProvider(data: PermanentItemModel): string {
     switch (data.state) {
-      case State.CRITICAL:
+      case this.dataProvider.getCriticalState():
         return "background-color: darkred; width: 40px; height: 40px;"
-      case State.LITTLE:
+      case this.dataProvider.getLittleState():
         return "background-color: red; width: 40px; height: 40px;"
-      case State.MEDIUM:
+      case this.dataProvider.getMediumState():
         return "background-color: orange; width: 40px; height: 40px;"
-      case State.LOT:
+      case this.dataProvider.getLotState():
         return "background-color: green; width: 40px; height: 40px;"
     }
   }
@@ -191,21 +188,17 @@ export class PermanentItemsComponent implements OnInit {
   }
 
   async fetch() {
-    await this.itemsService.fetch(this.filters.getValue()).then(v => {
+    await this.dataProvider.getPermanentItems(this.filters.getValue()).then(v => {
+      debugger;
       this.items = v;
     })
   }
 
   async fetchSubCategories() {
-    await this.subcategoryService.fetch().then(v => {
-      this.replace(this.subcategory, v.data);
-    })
-  }
-
-  async fetchCategories() {
-    await this.categoryService.fetch().then(v => {
-      this.replace(this.category, v.data);
-    })
+    await this.dataProvider.reloadSubCategories();
+    
+    this.replace(this.category, this.dataProvider.categories)
+    this.replace(this.subcategory, this.dataProvider.subcategories)
   }
 
   private replace(reference, array) {

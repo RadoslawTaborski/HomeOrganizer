@@ -7,7 +7,7 @@ import { AddItemConfig, AddItemInput, AddItemSelect } from 'src/app/modules/shar
 import { SearchConfig, SearchControl, FieldTypes as SearchFieldTypes } from 'src/app/modules/shared/components/search/search-config';
 import { Category, SubCategory } from '../models/models';
 import { CategoryService } from '../services/category/category.service';
-import { SubcategoryService } from '../services/subcategory/subcategory.service';
+import { DataProviderService } from '../../services/data-provider.service';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StateService } from 'src/app/root/services/state.service';
@@ -36,8 +36,7 @@ export class TemporaryItemsComponent implements OnInit {
   isLoaded: boolean = false;
 
   constructor(
-    public categoryService: CategoryService,
-    public subcategoryService: SubcategoryService,
+    private dataProvider: DataProviderService,
     private translate: TranslateService,
     public stateService: StateService,
     public router: Router) { }
@@ -48,8 +47,8 @@ export class TemporaryItemsComponent implements OnInit {
   }
 
   async ngOnInit() {
-    await this.fetchCategories();
-    await this.fetchSubCategories();
+    await this.dataProvider.reloadSubCategories();
+    await this.dataProvider.reloadStates();
 
     this.translate.get('containers.items.name').subscribe(async (t) => {
       this.searchConfig = new SearchConfig([
@@ -65,7 +64,8 @@ export class TemporaryItemsComponent implements OnInit {
       ]);
 
       this.addConfig = new AddItemConfig([
-        new AddItemInput(TemporaryItemsFilterTypes.NAME, this.translate.instant('containers.items.name')),
+        new AddItemInput(TemporaryItemTypes.NAME, this.translate.instant('containers.items.name')),
+        new AddItemInput(TemporaryItemTypes.QUANTITY, this.translate.instant('containers.items.temporary-item.quantity')),
         new AddItemSelect(TemporaryItemTypes.SUBCATEGORY, this.translate.instant('containers.items.subcategory'), null, await this.getSubCategories(), (t: SubCategory) => t?.name, (t: SubCategory) => t?.id),
       ]);
 
@@ -108,18 +108,16 @@ export class TemporaryItemsComponent implements OnInit {
   }
 
   private async updateCategories(subcategoryId?: string) {
-    await this.fetchCategories();
     if (subcategoryId) {
-      this.replace(this.category, this.category.filter(c => c.id === this.subcategory.filter(t => t?.id === subcategoryId)[0].parent.id))
+      this.replace(this.category, this.dataProvider.categories.filter(c => c.id === this.subcategory.filter(t => t?.id === subcategoryId)[0].parent.id))
     } else {
       this.category.unshift(null);
     }
   }
 
   private async updateSubCategories(categoryId?: string) {
-    await this.fetchSubCategories();
     if (categoryId) {
-      this.replace(this.subcategory, this.subcategory.filter(c => c.parent.id === categoryId))
+      this.replace(this.subcategory, this.dataProvider.subcategories.filter(c => c.parent.id === categoryId))
     }
   }
 
@@ -153,15 +151,10 @@ export class TemporaryItemsComponent implements OnInit {
   }
 
   async fetchSubCategories() {
-    await this.subcategoryService.fetch().then(v => {
-      this.replace(this.subcategory, v.data);
-    })
-  }
-
-  async fetchCategories() {
-    await this.categoryService.fetch().then(v => {
-      this.replace(this.category, v.data);
-    })
+    await this.dataProvider.reloadSubCategories();
+    
+    this.replace(this.category, this.dataProvider.categories)
+    this.replace(this.subcategory, this.dataProvider.subcategories)
   }
 
   private replace(reference, array) {

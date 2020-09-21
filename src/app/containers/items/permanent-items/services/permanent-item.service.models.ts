@@ -1,10 +1,11 @@
-import { SubCategory, IItemModel } from "../../models/models";
+import { SubCategory, IItemModel, IModel } from "../../models/models";
 
-export enum State {
-    CRITICAL,
-    LITTLE,
-    MEDIUM,
-    LOT
+export class State implements IModel {
+    id: string;
+    name: string;
+    createTime: string;
+    updateTime: string;
+    deleteTime: string;
 }
 
 
@@ -26,7 +27,6 @@ export class PermanentItemModel implements IPermanentItemModel{
     id: string;
     name: string;
     category: SubCategory;
-    archived: boolean;
     createTime: string;
     updateTime: string;
     deleteTime: string;
@@ -34,6 +34,18 @@ export class PermanentItemModel implements IPermanentItemModel{
     public constructor(init?:Partial<PermanentItemModel>) {
         Object.assign(this, init);
     }
+
+    static createFromJson(a: any, states:State[], subcategories:SubCategory[]): PermanentItemModel {
+        return new PermanentItemModel ({
+            id: a.id,
+            name: a.name,
+            category: subcategories.filter(i => i.id === a.categoryId)[0],
+            state: states.filter(i=>i.id === a.stateId)[0],
+            createTime: a.createTime,
+            updateTime: a.updateTime,
+            deleteTime: a.deleteTime,
+        });
+      }
 }
 
 export type PermanentItemMethods = 'add' | 'remove' | 'update' | 'more' | 'state';

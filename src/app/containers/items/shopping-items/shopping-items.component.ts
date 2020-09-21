@@ -6,6 +6,7 @@ import { debounceTime } from 'rxjs/operators';
 import { DataGridConfig, DataGridItemCheckbox, DataGridItemText } from 'src/app/modules/shared/components/data-grid/data-grid-config';
 import { SearchConfig, SearchControl, FieldTypes as SearchFieldTypes } from 'src/app/modules/shared/components/search/search-config';
 import { StateService } from 'src/app/root/services/state.service';
+import { DataProviderService } from '../../services/data-provider.service';
 import { Category, SubCategory } from '../models/models';
 import { State } from '../permanent-items/services/permanent-item.service.models';
 import { CategoryService } from '../services/category/category.service';
@@ -34,9 +35,7 @@ export class ShoppingItemsComponent implements OnInit {
   isLoaded: boolean = false;
 
   constructor(
-    public itemsService: ShoppingItemsService,
-    public categoryService: CategoryService,
-    public subcategoryService: SubcategoryService,
+    private dataProvider: DataProviderService,
     private translate: TranslateService,
     public stateService: StateService,
     public router: Router
@@ -48,8 +47,8 @@ export class ShoppingItemsComponent implements OnInit {
   }
 
   async ngOnInit() {
-    await this.fetchCategories();
-    await this.fetchSubCategories();
+    await this.dataProvider.reloadSubCategories();
+    await this.dataProvider.reloadStates();
 
     await this.translate.get('containers.items.name').subscribe(async t => {
       this.searchConfig = new SearchConfig([
@@ -87,19 +86,19 @@ export class ShoppingItemsComponent implements OnInit {
   }
 
   getStates(): State[] {
-    return [State.CRITICAL, State.LITTLE, State.LOT, State.MEDIUM]
+    return this.dataProvider.states
   }
 
   translateState(t: IShoppingItemModel): string {
     if (t.state != null) {
       switch (t.state) {
-        case State.CRITICAL:
+        case this.dataProvider.getCriticalState():
           return this.translate.instant('containers.items.shopping.critical');
-        case State.LITTLE:
+          case this.dataProvider.getLittleState():
           return this.translate.instant('containers.items.shopping.little');
-        case State.MEDIUM:
+          case this.dataProvider.getMediumState():
           return this.translate.instant('containers.items.shopping.medium');
-        case State.LOT:
+          case this.dataProvider.getLotState():
           return this.translate.instant('containers.items.shopping.lot');
       }
     } else {
@@ -125,30 +124,28 @@ export class ShoppingItemsComponent implements OnInit {
   }
 
   private async updateCategories(subcategoryId?: string) {
-    await this.fetchCategories();
     if (subcategoryId) {
-      this.replace(this.category, this.category.filter(c => c.id === this.subcategory.filter(t => t?.id === subcategoryId)[0].parent.id))
+      this.replace(this.category, this.dataProvider.categories.filter(c => c.id === this.subcategory.filter(t => t?.id === subcategoryId)[0].parent.id))
     } else {
       this.category.unshift(null);
     }
   }
 
   private async updateSubCategories(categoryId?: string) {
-    await this.fetchSubCategories();
     if (categoryId) {
-      this.replace(this.subcategory, this.subcategory.filter(c => c.parent.id === categoryId))
+      this.replace(this.subcategory, this.dataProvider.subcategories.filter(c => c.parent.id === categoryId))
     }
   }
 
   buttonStyleProvider(data: ShoppingItemModel): string {
     switch (data.state) {
-      case State.CRITICAL:
+      case this.dataProvider.getCriticalState():
         return "background-color: darkred; width: 40px; height: 40px;"
-      case State.LITTLE:
+        case this.dataProvider.getLittleState():
         return "background-color: red; width: 40px; height: 40px;"
-      case State.MEDIUM:
+        case this.dataProvider.getMediumState():
         return "background-color: orange; width: 40px; height: 40px;"
-      case State.LOT:
+        case this.dataProvider.getLotState():
         return "background-color: green; width: 40px; height: 40px;"
     }
   }
@@ -187,22 +184,17 @@ export class ShoppingItemsComponent implements OnInit {
   }
 
   async fetch() {
-    await this.itemsService.fetch(this.filters.getValue()).then(v => {
+    await this.dataProvider.getShoppingItems(this.filters.getValue()).then(v => {
       v.data.sort(i => i.sta)
       this.items = v;
     })
   }
 
   async fetchSubCategories() {
-    await this.subcategoryService.fetch().then(v => {
-      this.replace(this.subcategory, v.data);
-    })
-  }
-
-  async fetchCategories() {
-    await this.categoryService.fetch().then(v => {
-      this.replace(this.category, v.data);
-    })
+    await this.dataProvider.reloadSubCategories();
+    
+    this.replace(this.category, this.dataProvider.categories)
+    this.replace(this.subcategory, this.dataProvider.subcategories)
   }
 
   private replace(reference, array) {

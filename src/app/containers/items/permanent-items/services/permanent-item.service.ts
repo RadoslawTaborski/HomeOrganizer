@@ -4,72 +4,43 @@ import { HttpClient } from '@angular/common/http';
 import { of } from 'rxjs';
 import { PermanentItemModel, State } from './permanent-item.service.models'
 import { SubcategoryService } from '../../services/subcategory/subcategory.service';
+import { Api } from 'src/app/utils/api';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PermanentItemService implements HttpServiceModel {
 
-  constructor(
-    private http: HttpClient,
-    private subcategoryService: SubcategoryService
-    ) { }
+  constructor(private http: HttpClient) { }
 
   fetch(filters?: { [key: string]: any; }): Promise<ResponseData> {
-    return this.mockFetch(filters);
+    return this.http.get<ResponseData>(Api.PERMANENT_ITEMS_END_POINT).toPromise();
   }
 
-  get(id: string, deep?: number): Promise<any> {
-    throw new Error("Method not implemented.");
-  }
+  get(id: string, deep?: number): Promise<PermanentItemModel> {
+    return this.http
+      .get<ResponseData>(Api.PERMANENT_ITEMS_END_POINT + `/${id}`)
+      .pipe(
+        map((resp: { data }) => resp.data)
+      ).toPromise();
+  } 
 
   add(item: any): Promise<ResponseData> {
-    throw new Error("Method not implemented.");
+    return this.http.post(Api.PERMANENT_ITEMS_END_POINT, item).pipe(
+      map((resp: { data }) => resp.data)
+    ).toPromise();
   }
 
   update(item: any): Promise<ResponseData> {
-    throw new Error("Method not implemented.");
+    return this.http.put(Api.PERMANENT_ITEMS_END_POINT, item).pipe(
+      map((resp: { data }) => resp.data)
+    ).toPromise();
   }
 
   remove(id: string): Promise<ResponseData> {
-    throw new Error("Method not implemented.");
-  }
-
-  async mockFetch(filters?: { [key: string]: any; }): Promise<ResponseData> {
-    let items: PermanentItemModel[] = [
-      new PermanentItemModel({id: "1", name: 'papier toaletowy', category: await this.subcategoryService.get("2"), state: State.CRITICAL, updateTime: '12.08.2019'}),
-      new PermanentItemModel({id: "2", name: 'płyn do naczyń', category: await this.subcategoryService.get("3"), state: State.LITTLE, updateTime: '13.08.2019'}),
-      new PermanentItemModel({id: "3", name: 'mleko', category: await this.subcategoryService.get("1"), state: State.MEDIUM, updateTime: '14.08.2019'}),
-      new PermanentItemModel({id: "4", name: 'ręcznik papierowy', category: await this.subcategoryService.get("2"), state: State.LOT, updateTime: '15.08.2019'}),
-      new PermanentItemModel({id: "5", name: 'masło', category: await this.subcategoryService.get("1"), state: State.LOT, updateTime: '16.08.2019'}),
-      new PermanentItemModel({id: "6", name: 'kostka do wc', category: await this.subcategoryService.get("2"), state: State.MEDIUM, updateTime: '17.08.2019'}),
-      new PermanentItemModel({id: "7", name: 'płyn do płukania', category: await this.subcategoryService.get("2"), state: State.CRITICAL, updateTime: '18.08.2019'}),
-    ]
-
-    if(filters.name && filters.name !==""){
-    items = items.filter(t=>t.name.includes(filters.name));
-    }
-
-    if(filters.subcategory && filters.subcategory !=="null"){
-      items = items.filter(t=>t.category.id === filters.subcategory);
-    } else if(filters.category && filters.category !=="null"){
-      items = items.filter(t=>t.category.parent.id === filters.category);
-    }
-
-    if(filters.state && filters.state !=="null"){
-      items = items.filter(t=>State[t.state] === filters.state);
-    } 
-    let start = filters.currentPage*filters.itemsPerPage-filters.itemsPerPage;
-    let end = filters.currentPage*filters.itemsPerPage;
-    let pageitems = items.slice(start,end)
-
-    let response: ResponseData = {
-      data: pageitems,
-      total: items.length,
-      message: 'OK',
-      error: ''
-    }
-
-    return of(response).toPromise();
+    return this.http.delete(Api.PERMANENT_ITEMS_END_POINT+`/${id}`).pipe(
+      map((resp: { data }) => resp.data)
+    ).toPromise();
   }
 }

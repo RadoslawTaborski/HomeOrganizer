@@ -5,67 +5,43 @@ import { Cache } from '../../../../modules/shared/utils/Cache'
 import { Observable, of } from 'rxjs';
 import { CategoryService } from '../category/category.service';
 import { map } from 'rxjs/operators'
+import { HttpClient } from '@angular/common/http';
+import { Api } from 'src/app/utils/api';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SubcategoryService implements HttpServiceModel {
 
-  private cache: Cache<SubCategory> = new Cache();
-
-  constructor(
-    private categoryService: CategoryService
-    ) { }
+  constructor(private http: HttpClient) { }
 
   fetch(filters?: { [key: string]: any; }): Promise<ResponseData> {
-    return this.mockFetch();
+    return this.http.get<ResponseData>(Api.SUBCATEGORIES_END_POINT).toPromise();
   }
 
-  async get(id: string, deep?:number): Promise<SubCategory> {
-    let entity = this.cache.get(id);
-    if(entity == null) {
-      await this.fetch();
-      if(deep==1){
-        return null
-      }
-      return this.get(id,1);
-    }
-
-    return of(entity).toPromise();
-  }
+  get(id: string, deep?: number): Promise<SubCategory> {
+    return this.http
+      .get<ResponseData>(Api.SUBCATEGORIES_END_POINT + `/${id}`)
+      .pipe(
+        map((resp: { data }) => resp.data)
+      ).toPromise();
+  } 
 
   add(item: any): Promise<ResponseData> {
-    throw new Error("Method not implemented.");
+    return this.http.post(Api.SUBCATEGORIES_END_POINT, item).pipe(
+      map((resp: { data }) => resp.data)
+    ).toPromise();
   }
 
   update(item: any): Promise<ResponseData> {
-    throw new Error("Method not implemented.");
+    return this.http.put(Api.SUBCATEGORIES_END_POINT, item).pipe(
+      map((resp: { data }) => resp.data)
+    ).toPromise();
   }
 
   remove(id: string): Promise<ResponseData> {
-    throw new Error("Method not implemented.");
-  }
-
-  async mockFetch(): Promise<ResponseData> {
-    let categories : SubCategory[] = [
-      new SubCategory({id:'1', name: 'nabiał', parent: await this.categoryService.get("2")}),
-      new SubCategory({id:'2', name: 'łazienka', parent: await this.categoryService.get("1")}),
-      new SubCategory({id:'3', name: 'kuchnia', parent: await this.categoryService.get("1")})
-    ]
-
-    categories.forEach(t=>this.cache.put(t.id, t))
-
-    let response: ResponseData = {
-      data: categories,
-      total: 3,
-      message: 'OK',
-      error: ''
-    }
-
-    categories.forEach(f=>{
-      this.cache.put(f.id, f);
-    })
-
-    return of(response).toPromise();
+    return this.http.delete(Api.SUBCATEGORIES_END_POINT+`/${id}`).pipe(
+      map((resp: { data }) => resp.data)
+    ).toPromise();
   }
 }

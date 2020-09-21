@@ -9,6 +9,7 @@ import { ShoppingListsService } from './services/shopping-lists.service'
 import { debounceTime } from 'rxjs/operators';
 import { StateService } from 'src/app/root/services/state.service';
 import { ConfirmOption } from 'src/app/modules/shared/components/modal/confirm/modal-confirm.component';
+import { DataProviderService } from '../../services/data-provider.service';
 
 @Component({
   selector: 'app-shopping-lists',
@@ -33,7 +34,7 @@ export class ShoppingListsComponent implements OnInit {
 
   constructor(
     private translate: TranslateService,
-    private listsService: ShoppingListsService,
+    private dataProvider: DataProviderService,
     public stateService: StateService,
     public router: Router
   ) { }
@@ -106,7 +107,7 @@ export class ShoppingListsComponent implements OnInit {
   }
 
   async fetch() {
-    await this.listsService.fetch(this.filters.getValue()).then(v => {
+    await this.dataProvider.getShoppingLists(this.filters.getValue()).then(v => {
       this.lists = v;
     })
   }
