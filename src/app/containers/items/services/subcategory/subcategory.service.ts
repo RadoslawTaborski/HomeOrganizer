@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpServiceModel, ResponseData } from 'src/app/utils/interfaces/http.models';
 import { SubCategory } from '../../models/models';
-import { Cache } from '../../../../modules/shared/utils/Cache'
-import { Observable, of } from 'rxjs';
-import { CategoryService } from '../category/category.service';
 import { map } from 'rxjs/operators'
 import { HttpClient } from '@angular/common/http';
 import { Api } from 'src/app/utils/api';

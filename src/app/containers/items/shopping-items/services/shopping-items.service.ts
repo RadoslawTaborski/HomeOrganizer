@@ -1,11 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpServiceModel, ResponseData } from 'src/app/utils/interfaces/http.models';
 import { HttpClient } from '@angular/common/http';
-import { of } from 'rxjs';
-import { ShoppingItemModel } from './shopping-items.service.models'
-import { SubcategoryService } from '../../services/subcategory/subcategory.service';
-import { State } from '../../permanent-items/services/permanent-item.service.models';
-import { StateService } from '../../services/state/state.service';
 import { map } from 'rxjs/operators';
 import { Api } from 'src/app/utils/api';
 

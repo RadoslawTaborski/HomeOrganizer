@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Category } from '../../models/models';
-import { Cache } from '../../../../modules/shared/utils/Cache'
 import { HttpServiceModel, ResponseData } from 'src/app/utils/interfaces/http.models';
-import { of, Observable } from 'rxjs';
-import { renderFlagCheckIfStmt } from '@angular/compiler/src/render3/view/template';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Api } from '../../../../utils/api'
 import { map } from 'rxjs/operators';

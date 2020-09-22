@@ -7,7 +7,7 @@ import { ShoppingItemModel } from 'src/app/containers/items/shopping-items/servi
 import { TemporaryItemModel } from 'src/app/containers/items/temporary-items/services/temporary-item.service.models';
 import { Api } from 'src/app/utils/api';
 import { HttpServiceModel, ResponseData } from 'src/app/utils/interfaces/http.models';
-import { ShoppingListModel } from './shopping-lists.service.models';
+import { IShoppingListModel, ShoppingListModel } from './shopping-lists.service.models';
 
 @Injectable({
   providedIn: 'root'
@@ -22,9 +22,9 @@ export class ShoppingListsService implements HttpServiceModel {
 
   get(id: string, deep?: number): Promise<ShoppingListModel> {
     return this.http
-      .get<ResponseData>(Api.SHOPPING_LISTS_END_POINT + `/${id}`)
+      .get<IShoppingListModel>(Api.SHOPPING_LISTS_END_POINT + `/${id}`)
       .pipe(
-        map((resp: { data }) => resp.data)
+        map((resp) => resp)
       ).toPromise();
   } 
 

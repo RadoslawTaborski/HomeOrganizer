@@ -1,18 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { IPermanentItemModel, PermanentItemTypes, State, PermanentItemAction, PermanentItemsFilters, PermanentItemModel, PermanentItemsFilterTypes } from './services/permanent-item.service.models'
-import { PermanentItemService } from './services/permanent-item.service'
 import { DataGridConfig, DataGridItemText, DataGridItemButton } from '../../../modules/shared/components/data-grid/data-grid-config';
 import { StateService } from 'src/app/root/services/state.service';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { SearchConfig, SearchControl, FieldTypes as SearchFieldTypes } from 'src/app/modules/shared/components/search/search-config';
-import { CategoryService } from '../services/category/category.service';
-import { SubcategoryService } from '../services/subcategory/subcategory.service';
 import { SubCategory, Category } from '../models/models';
 import { TranslateService } from '@ngx-translate/core';
 import { AddItemConfig, AddItemInput, AddItemSelect } from 'src/app/modules/shared/components/modal/add/add-config';
 import { DataProviderService } from '../../services/data-provider.service';
+import { OperationsService } from '../utils/operations.service';
 
 @Component({
   selector: 'app-permanent-items',
@@ -36,9 +34,10 @@ export class PermanentItemsComponent implements OnInit {
   isLoaded: boolean = false;
 
   constructor(
+    private operationsService: OperationsService,
     private dataProvider: DataProviderService,
+    private stateService: StateService,
     private translate: TranslateService,
-    public stateService: StateService,
     public router: Router) {
   }
 
@@ -50,11 +49,11 @@ export class PermanentItemsComponent implements OnInit {
   async ngOnInit() {
     await this.dataProvider.reloadSubCategories();
     await this.dataProvider.reloadStates();
-    
+
     await this.translate.get('containers.items.name').subscribe(async t => {
       this.searchConfig = new SearchConfig([
-        new SearchControl(SearchFieldTypes.SELECT, PermanentItemsFilterTypes.CATEGORY, this.translate.instant('containers.items.category'), null, await this.getCategories(), (t: Category) => t?.name, (t: Category) => t?.id),
-        new SearchControl(SearchFieldTypes.SELECT, PermanentItemsFilterTypes.SUBCATEGORY, this.translate.instant('containers.items.subcategory'), null, await this.getSubCategories(), (t: SubCategory) => t?.name, (t: SubCategory) => t?.id),
+        new SearchControl(SearchFieldTypes.SELECT, PermanentItemsFilterTypes.CATEGORY, this.translate.instant('containers.items.category'), null, await this.operationsService.getCategories(), (t: Category) => t?.name, (t: Category) => t?.id),
+        new SearchControl(SearchFieldTypes.SELECT, PermanentItemsFilterTypes.SUBCATEGORY, this.translate.instant('containers.items.subcategory'), null, await this.operationsService.getSubCategories(), (t: SubCategory) => t?.name, (t: SubCategory) => t?.id),
         new SearchControl(SearchFieldTypes.SELECT, PermanentItemsFilterTypes.STATE, this.translate.instant('containers.items.permanent-item.state'), null, await this.getStates(), (t: State) => this.translateState(t), (t: State) => t.id),
       ]);
 
@@ -68,7 +67,7 @@ export class PermanentItemsComponent implements OnInit {
 
       this.addConfig = new AddItemConfig([
         new AddItemInput(PermanentItemsFilterTypes.NAME, this.translate.instant('containers.items.name')),
-        new AddItemSelect(PermanentItemTypes.SUBCATEGORY, this.translate.instant('containers.items.subcategory'), null, await this.getSubCategories(), (t: SubCategory) => t?.name, (t: SubCategory) => t?.id),
+        new AddItemSelect(PermanentItemTypes.SUBCATEGORY, this.translate.instant('containers.items.subcategory'), null, await this.operationsService.getSubCategories(), (t: SubCategory) => t?.name, (t: SubCategory) => t?.id),
       ]);
 
       this.filters = new BehaviorSubject(new PermanentItemsFilters());
@@ -114,33 +113,6 @@ export class PermanentItemsComponent implements OnInit {
     return this.searchConfig?.controls;
   }
 
-  private async getCategories(subcategoryId?: string) {
-    await this.updateCategories(subcategoryId)
-
-    return this.category;
-  }
-
-  private async getSubCategories(categoryId?: string) {
-    await this.updateSubCategories(categoryId)
-    this.subcategory.unshift(null);
-
-    return this.subcategory;
-  }
-
-  private async updateCategories(subcategoryId?: string) {
-    if (subcategoryId) {
-      this.replace(this.category, this.dataProvider.categories.filter(c => c.id === this.subcategory.filter(t => t?.id === subcategoryId)[0].parent.id))
-    } else {
-      this.category.unshift(null);
-    }
-  }
-
-  private async updateSubCategories(categoryId?: string) {
-    if (categoryId) {
-      this.replace(this.subcategory, this.dataProvider.subcategories.filter(c => c.parent.id === categoryId))
-    }
-  }
-
   buttonStyleProvider(data: PermanentItemModel): string {
     switch (data.state) {
       case this.dataProvider.getCriticalState():
@@ -171,41 +143,25 @@ export class PermanentItemsComponent implements OnInit {
   }
 
   changeState(data: PermanentItemModel) {
-    console.log("change state")
+    console.log("change state") 
   }
 
   async updateFilters(value?) {
-    if (value.category && value.category !== "null") {
-      await this.getSubCategories(value.category);
-      await this.getCategories()
-    } else if (value.subcategory && value.subcategory !== "null") {
-      await this.getCategories(value.subcategory);
-    } else {
-      await this.getCategories()
-      await this.getSubCategories()
-    }
+    this.operationsService.updateFilters(this.category, this.subcategory, value);
     this.filters.next({ ...this.filters.value, ...value });
+  }
+
+  async fetchSubCategories() {
+    this.operationsService.fetchSubCategories(this.category, this.subcategory);
   }
 
   async fetch() {
     await this.dataProvider.getPermanentItems(this.filters.getValue()).then(v => {
-      debugger;
       this.items = v;
     })
   }
 
-  async fetchSubCategories() {
-    await this.dataProvider.reloadSubCategories();
-    
-    this.replace(this.category, this.dataProvider.categories)
-    this.replace(this.subcategory, this.dataProvider.subcategories)
-  }
-
-  private replace(reference, array) {
-    [].splice.apply(reference, [0, reference.length].concat(array));
-  }
-
-  addItem(data: any){
+  addItem(data: any) {
     console.log(data)
   }
 }

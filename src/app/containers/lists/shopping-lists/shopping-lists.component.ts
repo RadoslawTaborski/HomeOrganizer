@@ -10,6 +10,7 @@ import { debounceTime } from 'rxjs/operators';
 import { StateService } from 'src/app/root/services/state.service';
 import { ConfirmOption } from 'src/app/modules/shared/components/modal/confirm/modal-confirm.component';
 import { DataProviderService } from '../../services/data-provider.service';
+import { ShoppingItemModel } from '../../items/shopping-items/services/shopping-items.service.models';
 
 @Component({
   selector: 'app-shopping-lists',
@@ -43,15 +44,18 @@ export class ShoppingListsComponent implements OnInit {
     this.listActionSubscriber.unsubscribe();
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    await this.dataProvider.reloadSubCategories();
+    await this.dataProvider.reloadStates();
+    
     this.translate.get('containers.items.name').subscribe(async (t) => {
 
       this.dataGridConfig = new DataGridConfig([
         new DataGridItemText(ShoppingListsTypes.NAME, this.translate.instant('containers.lists.name'), null, "75%", true),
         new DataGridItemButton(ShoppingListsTypes.MORE, this.translate.instant('containers.lists.more'), () => this.translate.instant('containers.lists.more'), this.stateService.access, null, "25%", true),
         new DataGridItemButton(ShoppingListsTypes.ARCHIVE, this.translate.instant('containers.lists.delete'), () => this.translate.instant('containers.lists.delete'), this.stateService.access, null, "25%", true),
-        new DataGridItemText(ShoppingListsTypes.CREATED, this.translate.instant('containers.items.name'), null),
-        new DataGridItemText(ShoppingListsTypes.UPDATED, this.translate.instant('containers.items.name'), null,),
+        new DataGridItemText(ShoppingListsTypes.CREATED, this.translate.instant('containers.lists.created'), (t: ShoppingItemModel)=>t.createTime),
+        new DataGridItemText(ShoppingListsTypes.UPDATED, this.translate.instant('containers.lists.updated'), (t: ShoppingItemModel)=>t.updateTime),
       ]);
 
       this.addConfig = new AddItemConfig([

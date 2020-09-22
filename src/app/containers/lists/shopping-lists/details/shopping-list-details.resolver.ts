@@ -3,14 +3,15 @@ import { ActivatedRouteSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 import { IShoppingListModel, ShoppingListResolver } from '../services/shopping-lists.service.models'
 import { ShoppingListsService } from '../services/shopping-lists.service'
+import { DataProviderService } from 'src/app/containers/services/data-provider.service';
 
 @Injectable({ providedIn: 'root' })
 export class ShoppingListDetailsResolver implements ShoppingListResolver<IShoppingListModel> {
 
-    constructor(private service: ShoppingListsService) { }
+    constructor(private service: DataProviderService) { }
 
     resolve(route: ActivatedRouteSnapshot): Promise<IShoppingListModel> {
-        return this.service.get(route.params['id'])
+        return this.service.getShoppingList(route.params['id'])
     }
 
 }

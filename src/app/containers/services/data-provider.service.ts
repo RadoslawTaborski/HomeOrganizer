@@ -9,7 +9,7 @@ import { ResponseData } from 'src/app/utils/interfaces/http.models';
 import { ShoppingItemsService } from '../items/shopping-items/services/shopping-items.service';
 import { ShoppingItemModel } from '../items/shopping-items/services/shopping-items.service.models';
 import { ShoppingListsService } from '../lists/shopping-lists/services/shopping-lists.service';
-import { ShoppingListModel } from '../lists/shopping-lists/services/shopping-lists.service.models';
+import { IShoppingListModel, ShoppingListModel } from '../lists/shopping-lists/services/shopping-lists.service.models';
 import { TemporaryItemService } from '../items/temporary-items/services/temporary-item.service';
 import { ITemporaryItemModel, TemporaryItemModel } from '../items/temporary-items/services/temporary-item.service.models';
 
@@ -55,7 +55,6 @@ export class DataProviderService {
   }
 
   async getPermanentItems(filters?: { [key: string]: any; }) : Promise<ResponseData>{
-    this.states = [];
     let response = (await this.permanentItemService.fetch(filters));
     let data: any[] = []
     response.data.forEach(a => data.push(PermanentItemModel.createFromJson(a, this.states, this.subcategories)))
@@ -64,7 +63,6 @@ export class DataProviderService {
   }
 
   async getShoppingItems(filters?: { [key: string]: any; }) : Promise<ResponseData>{
-    this.states = [];
     let response = (await this.shoppingItemService.fetch(filters));
     let data: any[] = []
     response.data.forEach(a => data.push(ShoppingItemModel.createFromJson(a, this.states, this.subcategories)))
@@ -73,7 +71,6 @@ export class DataProviderService {
   }
 
   async getTemporeryItems(filters?: { [key: string]: any; }) : Promise<ResponseData>{
-    this.states = [];
     let response = (await this.temporaryItemService.fetch(filters));
     let data: any[] = []
     response.data.forEach(a => data.push(TemporaryItemModel.createFromJson(a, this.subcategories)))
@@ -83,12 +80,16 @@ export class DataProviderService {
 
   async getShoppingLists(filters?: { [key: string]: any; }) : Promise<ResponseData>{
     let temporaryItems: ITemporaryItemModel[] = (await this.getTemporeryItems()).data
-    this.states = [];
     let response = (await this.shoppingListsService.fetch(filters));
     let data: any[] = []
     response.data.forEach(a => data.push(ShoppingListModel.createFromJson(a, temporaryItems)))
-
     return {data: data, total:response.total, error:"", message:""};
+  }
+
+  async getShoppingList(id: string) : Promise<IShoppingListModel>{
+    let temporaryItems: ITemporaryItemModel[] = (await this.getTemporeryItems()).data
+    let response = (await this.shoppingListsService.get(id));
+    return ShoppingListModel.createFromJson(response, temporaryItems)
   }
 
   getCriticalState(): State {

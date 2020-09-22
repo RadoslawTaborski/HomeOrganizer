@@ -17,6 +17,7 @@ export class ShoppingListDetailsComponent {
       private route: ActivatedRoute,
       private location: Location) {
       this.data = route.data.pipe(map(({ item }) => item));
+      
   }
 
   back() {
