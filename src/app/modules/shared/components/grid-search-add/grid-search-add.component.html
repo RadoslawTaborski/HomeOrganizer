@@ -14,8 +14,8 @@
                 </div>
                 <div class="col">
                     <ngb-pagination [collectionSize]="items?.total" [maxSize]="5" size="sm"
-                        [pageSize]="filters.value.itemsPerPage" [rotate]="true"
-                        (pageChange)="updateFilters({currentPage: $event || 1})" [page]="filters.value.currentPage">
+                        [pageSize]="filters.value.pageSize" [rotate]="true"
+                        (pageChange)="updateFilters({pageNumber: $event || 1})" [page]="filters.value.pageNumber">
                     </ngb-pagination>
                 </div>
             </div>

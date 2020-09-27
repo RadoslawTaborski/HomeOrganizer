@@ -20,7 +20,6 @@ export class SearchControl implements SearchControlModel {
         public tag,
         public name,
         public display,
-        public value?,
         public options?,
         public displayProvider?,
         public identifierProvider?

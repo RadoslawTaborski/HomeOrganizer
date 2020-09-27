@@ -54,8 +54,8 @@ export interface ShoppingListAction {
 
 export class ShoppingListsFilters {
     constructor(
-        public currentPage = 1,
-        public itemsPerPage = 15) {
+        public pageNumber = 1,
+        public pageSize = 15) {
     }
 }
 

@@ -20,7 +20,7 @@
             [name]="control.name" ngModel>
 
         <select *ngSwitchCase="'SELECT'" class="form-control" [id]="'search-by-' + control.name" [name]="control.name"
-            [ngModel]="control.value">
+            [ngModel]="provideSelectIdentifier(control, control.options[0])">
             <option *ngFor="let opt of control.options" [value]="provideSelectIdentifier(control, opt)">
                 {{provideSelectText(control, opt)}}
             </option>

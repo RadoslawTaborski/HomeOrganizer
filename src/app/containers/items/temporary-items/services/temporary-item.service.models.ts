@@ -53,18 +53,15 @@ export interface TemporaryItemAction {
 }
 
 export enum TemporaryItemsFilterTypes {
-    NAME = 'name',
-    CATEGORY = 'category',
-    SUBCATEGORY = 'subcategory',
+    CATEGORY = 'categoryId',
+    SUBCATEGORY = 'subcategoryId',
 }
 
 export class TemporaryItemsFilters {
     constructor(
-        public name = '',
-        public category = '',
-        public subcategory = '',
-        public quantity = '',
-        public currentPage = 1,
-        public itemsPerPage = 15) {
+        public categoryId = '',
+        public subcategoryId = '',
+        public pageNumber = 1,
+        public pageSize = 15) {
     }
 }

@@ -56,19 +56,17 @@ export interface PermanentItemAction {
 }
 
 export enum PermanentItemsFilterTypes {
-    NAME = 'name',
-    CATEGORY = 'category',
-    SUBCATEGORY = 'subcategory',
-    STATE = 'state'
+    CATEGORY = 'categoryId',
+    SUBCATEGORY = 'subcategoryId',
+    STATE = 'stateId'
 }
 
 export class PermanentItemsFilters {
     constructor(
-        public name = '',
-        public category = '',
-        public subcategory = '',
-        public state = '',
-        public currentPage = 1,
-        public itemsPerPage = 15) {
+        public categoryId = '',
+        public subcategoryId = '',
+        public stateId = '',
+        public pageNumber = 1,
+        public pageSize = 15) {
     }
 }

@@ -52,9 +52,9 @@ export class PermanentItemsComponent implements OnInit {
 
     await this.translate.get('containers.items.name').subscribe(async t => {
       this.searchConfig = new SearchConfig([
-        new SearchControl(SearchFieldTypes.SELECT, PermanentItemsFilterTypes.CATEGORY, this.translate.instant('containers.items.category'), null, await this.operationsService.getCategories(), (t: Category) => t?.name, (t: Category) => t?.id),
-        new SearchControl(SearchFieldTypes.SELECT, PermanentItemsFilterTypes.SUBCATEGORY, this.translate.instant('containers.items.subcategory'), null, await this.operationsService.getSubCategories(), (t: SubCategory) => t?.name, (t: SubCategory) => t?.id),
-        new SearchControl(SearchFieldTypes.SELECT, PermanentItemsFilterTypes.STATE, this.translate.instant('containers.items.permanent-item.state'), null, await this.getStates(), (t: State) => this.translateState(t), (t: State) => t.id),
+        new SearchControl(SearchFieldTypes.SELECT, PermanentItemsFilterTypes.CATEGORY, this.translate.instant('containers.items.category'), await this.operationsService.getCategories(), (t: Category) => t?.name, (t: Category) => t?.id),
+        new SearchControl(SearchFieldTypes.SELECT, PermanentItemsFilterTypes.SUBCATEGORY, this.translate.instant('containers.items.subcategory'), await this.operationsService.getSubCategories(), (t: SubCategory) => t?.name, (t: SubCategory) => t?.id),
+        new SearchControl(SearchFieldTypes.SELECT, PermanentItemsFilterTypes.STATE, this.translate.instant('containers.items.permanent-item.state'), await this.getStates(), (t: State) => this.translateState(t), (t: State) => t.id),
       ]);
 
       this.dataGridConfig = new DataGridConfig([
@@ -66,7 +66,7 @@ export class PermanentItemsComponent implements OnInit {
       ]);
 
       this.addConfig = new AddItemConfig([
-        new AddItemInput(PermanentItemsFilterTypes.NAME, this.translate.instant('containers.items.name')),
+        new AddItemInput(PermanentItemTypes.NAME, this.translate.instant('containers.items.name')),
         new AddItemSelect(PermanentItemTypes.SUBCATEGORY, this.translate.instant('containers.items.subcategory'), null, await this.operationsService.getSubCategories(), (t: SubCategory) => t?.name, (t: SubCategory) => t?.id),
       ]);
 

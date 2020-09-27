@@ -49,8 +49,8 @@ export class ShoppingItemsComponent implements OnInit {
 
     await this.translate.get('containers.items.name').subscribe(async t => {
       this.searchConfig = new SearchConfig([
-        new SearchControl(SearchFieldTypes.SELECT, ShoppingItemsFilterTypes.CATEGORY, this.translate.instant('containers.items.category'), null, await this.operationsService.getCategories(), (t: Category) => t?.name, (t: Category) => t?.id),
-        new SearchControl(SearchFieldTypes.SELECT, ShoppingItemsFilterTypes.SUBCATEGORY, this.translate.instant('containers.items.subcategory'), null, await this.operationsService.getSubCategories(), (t: SubCategory) => t?.name, (t: SubCategory) => t?.id),
+        new SearchControl(SearchFieldTypes.SELECT, ShoppingItemsFilterTypes.CATEGORY, this.translate.instant('containers.items.category'), await this.operationsService.getCategories(), (t: Category) => t?.name, (t: Category) => t?.id),
+        new SearchControl(SearchFieldTypes.SELECT, ShoppingItemsFilterTypes.SUBCATEGORY, this.translate.instant('containers.items.subcategory'), await this.operationsService.getSubCategories(), (t: SubCategory) => t?.name, (t: SubCategory) => t?.id),
       ]);
 
       this.dataGridConfig = new DataGridConfig([

@@ -13,23 +13,23 @@ export class OperationsService {
 
   public async getCategories(subcategoryId?: string) : Promise<Category[]>{
     let result: Category[] = await this.updateCategories(subcategoryId)
-    result.unshift(null);
+    result.unshift(new Category({id:""}));
 
     return result;
   }
 
   public async getSubCategories(categoryId?: string): Promise<SubCategory[]> {
     let result: SubCategory[] = await this.updateSubCategories(categoryId)
-    result.unshift(null);
+    result.unshift(new SubCategory({id: ""}));
 
     return result;
   }
 
   public async updateFilters(categories: Category[], subcategories: SubCategory[], value?) {
-    if (value.category && value.category !== "null") {
+    if (value.category && value.category.id !== "") {
       this.replace(subcategories, await this.getSubCategories(value.category));
       this.replace(categories, await this.getCategories());
-    } else if (value.subcategory && value.subcategory !== "null") {
+    } else if (value.subcategory && value.subcategory.id !== "") {
       this.replace(categories, await this.getCategories(value.subcategory));
     } else {
       this.replace(categories, await this.getCategories());
