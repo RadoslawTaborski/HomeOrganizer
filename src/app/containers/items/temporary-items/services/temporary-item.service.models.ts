@@ -43,6 +43,20 @@ export class TemporaryItemModel implements ITemporaryItemModel {
             deleteTime: a.deleteTime,
         });
       }
+
+      static toJson(entity: TemporaryItemModel): string{
+        var tmp: any;
+        tmp.id = entity.id;
+        tmp.createTime = entity.createTime;
+        tmp.updateTime = entity.updateTime;
+        tmp.deleteTime = entity.deleteTime;
+        tmp.name = entity.name;
+        tmp.quantity = entity.quantity;
+        tmp.shoppingListId = entity.shoppingListId;
+        tmp.categoryId = entity.category.id;
+        tmp.bought = entity.bought;
+        return JSON.stringify(tmp)
+    }
 }
 
 export type TemporaryItemMethods = 'add' | 'remove' | 'update' | 'more';

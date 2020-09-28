@@ -37,6 +37,17 @@ export class SubCategory implements ICategory {
             deleteTime: a.deleteTime
         });
     }
+
+    static toJson(entity: SubCategory): string{
+        var tmp: any;
+        tmp.id = entity.id;
+        tmp.createTime = entity.createTime;
+        tmp.updateTime = entity.updateTime;
+        tmp.deleteTime = entity.deleteTime;
+        tmp.name = entity.name;
+        tmp.categoryId = entity.parent.id;
+        return JSON.stringify(tmp)
+    }
 }
 
 export class Category implements ICategory {
@@ -58,6 +69,16 @@ export class Category implements ICategory {
             updateTime: a.updateTime,
             deleteTime: a.deleteTime
         });
+    }
+
+    static toJson(entity: Category): string{
+        var tmp: any;
+        tmp.id = entity.id;
+        tmp.createTime = entity.createTime;
+        tmp.updateTime = entity.updateTime;
+        tmp.deleteTime = entity.deleteTime;
+        tmp.name = entity.name;
+        return JSON.stringify(tmp)
     }
 }
 
@@ -85,5 +106,15 @@ export class State implements IState {
             updateTime: a.updateTime,
             deleteTime: a.deleteTime
         });
+    }
+
+    static toJson(entity: State): string{
+        var tmp: any;
+        tmp.id = entity.id;
+        tmp.createTime = entity.createTime;
+        tmp.updateTime = entity.updateTime;
+        tmp.deleteTime = entity.deleteTime;
+        tmp.name = entity.name;
+        return JSON.stringify(tmp)
     }
 }

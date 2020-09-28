@@ -38,6 +38,8 @@
             "shoppingLists":"lists",
             "more":"more",
             "delete": "archive",
+            "description": "description",
+            "visible": "visible",
             "created": "created",
             "updated": "updated",
             "confirm": "Are you sure?"

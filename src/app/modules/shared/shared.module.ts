@@ -35,7 +35,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     CamelCaseToSignPipe,
     ModalConfirmComponent,
     AddComponent,
-    GridSearchAddComponent
+    GridSearchAddComponent,
   ]
 })
 export class SharedModule { }

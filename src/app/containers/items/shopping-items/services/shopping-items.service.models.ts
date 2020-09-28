@@ -32,19 +32,19 @@ export class ShoppingItemModel implements IShoppingItemModel {
         Object.assign(this, init);
     }
 
-    static createFromJson(a: any, states:State[], subcategories:SubCategory[]): ShoppingItemModel {
-        return new ShoppingItemModel ({
+    static createFromJson(a: any, states: State[], subcategories: SubCategory[]): ShoppingItemModel {
+        return new ShoppingItemModel({
             id: a.id,
             name: a.name,
             category: subcategories.filter(i => i.id === a.categoryId)[0],
             quantity: a.quantity,
             bought: a.bought,
-            state: states.filter(i=>i.id === a.stateId)[0],
+            state: states.filter(i => i.id === a.stateId)[0],
             createTime: a.createTime,
             updateTime: a.updateTime,
             deleteTime: a.deleteTime,
         });
-      }
+    }
 }
 
 export type ShoppingItemMethods = 'add' | 'remove' | 'update' | 'more';

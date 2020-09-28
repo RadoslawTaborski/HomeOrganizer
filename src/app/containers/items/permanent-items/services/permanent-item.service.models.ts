@@ -10,19 +10,19 @@ export class State implements IModel {
 
 
 export enum PermanentItemTypes {
-  NAME = 'name',
-  CATEGORY = 'category',
-  SUBCATEGORY = 'subcategory',
-  STATE = 'state',
-  ID = 'id',
-  DATE = "date"
+    NAME = 'name',
+    CATEGORY = 'category',
+    SUBCATEGORY = 'subcategory',
+    STATE = 'state',
+    ID = 'id',
+    DATE = "date"
 }
 
 export interface IPermanentItemModel extends IItemModel {
     state: State;
 }
 
-export class PermanentItemModel implements IPermanentItemModel{
+export class PermanentItemModel implements IPermanentItemModel {
     state: State;
     id: string;
     name: string;
@@ -31,27 +31,39 @@ export class PermanentItemModel implements IPermanentItemModel{
     updateTime: string;
     deleteTime: string;
 
-    public constructor(init?:Partial<PermanentItemModel>) {
+    public constructor(init?: Partial<PermanentItemModel>) {
         Object.assign(this, init);
     }
 
-    static createFromJson(a: any, states:State[], subcategories:SubCategory[]): PermanentItemModel {
-        return new PermanentItemModel ({
+    static createFromJson(a: any, states: State[], subcategories: SubCategory[]): PermanentItemModel {
+        return new PermanentItemModel({
             id: a.id,
             name: a.name,
             category: subcategories.filter(i => i.id === a.categoryId)[0],
-            state: states.filter(i=>i.id === a.stateId)[0],
+            state: states.filter(i => i.id === a.stateId)[0],
             createTime: a.createTime,
             updateTime: a.updateTime,
             deleteTime: a.deleteTime,
         });
-      }
+    }
+
+    static toJson(entity: PermanentItemModel) : string {
+        var tmp: any;
+        tmp.id = entity.id;
+        tmp.createTime = entity.createTime;
+        tmp.updateTime = entity.updateTime;
+        tmp.deleteTime = entity.deleteTime;
+        tmp.name = entity.name;
+        tmp.categoryId = entity.category.id;
+        tmp.stateId = entity.state.id;
+        return JSON.stringify(tmp)
+    }
 }
 
 export type PermanentItemMethods = 'add' | 'remove' | 'update' | 'more' | 'state';
 
 export interface PermanentItemAction {
-    type: PermanentItemMethods 
+    type: PermanentItemMethods
     data: PermanentItemModel
 }
 

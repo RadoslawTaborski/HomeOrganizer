@@ -37,6 +37,8 @@
             "shoppingLists":"listy",
             "more":"więcej",
             "delete": "archiwizuj",
+            "description": "opis",
+            "visible": "widoczny",
             "created": "utworzono",
             "updated": "zaktualizowano",
             "confirm": "Czy na pewno?"

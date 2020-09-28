@@ -3,18 +3,25 @@ import { Observable } from 'rxjs';
 import { IModel, SubCategory } from 'src/app/containers/items/models/models';
 import { ITemporaryItemModel, TemporaryItemModel } from 'src/app/containers/items/temporary-items/services/temporary-item.service.models';
 
+
+
+
 export enum ShoppingListsTypes {
-    NAME = 'name',
-    CREATED = 'created',
-    UPDATED = 'updated',
-    ID = 'id',
-    MORE = 'more',
-    ARCHIVE = 'remove'
+  NAME = 'name',
+  CREATED = 'created',
+  UPDATED = 'updated',
+  ID = 'id',
+  MORE = 'more',
+  ARCHIVE = 'remove',
+  DESCRIPTION = "description",
+  VISIBLE = "visible"
 }
 
 export interface IShoppingListModel extends IModel {
     id: string;
     name: string;
+    description: string;
+    visible: boolean;
     data: ITemporaryItemModel[];
     createTime: string;
     updateTime: string;
@@ -24,6 +31,8 @@ export interface IShoppingListModel extends IModel {
 export class ShoppingListModel implements IShoppingListModel {
     id: string;
     name: string;
+    description: string;
+    visible: boolean;
     data: ITemporaryItemModel[];
     createTime: string;
     updateTime: string;
@@ -37,11 +46,27 @@ export class ShoppingListModel implements IShoppingListModel {
         return new ShoppingListModel({
             id: a.id,
             name: a.name,
+            description: a.description,
+            visible: a.visible,
             data: data.filter(i => i.shoppingListId === a.id),
             createTime: a.createTime,
             updateTime: a.updateTime,
             deleteTime: a.deleteTime,
         });
+    }
+
+    static toJson(entity: TemporaryItemModel): string{
+        var tmp: any;
+        tmp.id = entity.id;
+        tmp.createTime = entity.createTime;
+        tmp.updateTime = entity.updateTime;
+        tmp.deleteTime = entity.deleteTime;
+        tmp.name = entity.name;
+        tmp.quantity = entity.quantity;
+        tmp.shoppingListId = entity.shoppingListId;
+        tmp.categoryId = entity.category.id;
+        tmp.bought = entity.bought;
+        return JSON.stringify(tmp)
     }
 }
 
