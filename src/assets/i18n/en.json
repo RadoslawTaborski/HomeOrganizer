@@ -13,6 +13,7 @@
             "category": "category1",
             "subcategory": "category2",
             "articles": "items",
+            "delete": "delete",
             "permanent-item": {
                 "state": "state",
                 "lastUpdate": "last update",
@@ -22,6 +23,7 @@
                 "lot": "lot"
             },
             "temporary-item": {
+                "bought": "bought",
                 "quantity": "quantity"
             },
             "shopping":{

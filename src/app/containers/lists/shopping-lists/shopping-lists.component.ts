@@ -51,7 +51,7 @@ export class ShoppingListsComponent implements OnInit {
     this.translate.get('containers.items.name').subscribe(async (t) => {
 
       this.dataGridConfig = new DataGridConfig([
-        new DataGridItemCheckbox(ShoppingListsTypes.VISIBLE, this.translate.instant('containers.lists.visible'), null, "10%", true),
+        new DataGridItemCheckbox(ShoppingListsTypes.VISIBLE, this.translate.instant('containers.lists.visible'), null, (t: ShoppingListModel)=>t.visible, "10%", true),
         new DataGridItemText(ShoppingListsTypes.NAME, this.translate.instant('containers.lists.name'), null, "65%", true),
         new DataGridItemButton(ShoppingListsTypes.MORE, this.translate.instant('containers.lists.more'), () => this.translate.instant('containers.lists.more'), this.stateService.access, null, "25%", true),
         new DataGridItemButton(ShoppingListsTypes.ARCHIVE, this.translate.instant('containers.lists.delete'), () => this.translate.instant('containers.lists.delete'), this.stateService.access, null, "25%", true),
@@ -61,7 +61,8 @@ export class ShoppingListsComponent implements OnInit {
       ]);
 
       this.addConfig = new AddItemConfig([
-        new AddItemInput(ShoppingListsTypes.NAME, this.translate.instant('containers.items.name')),
+        new AddItemInput(ShoppingListsTypes.NAME, this.translate.instant('containers.lists.name')),
+        new AddItemInput(ShoppingListsTypes.DESCRIPTION, this.translate.instant('containers.lists.description')),
       ]);
 
       this.filters = new BehaviorSubject(new ShoppingListsFilters());
@@ -85,18 +86,6 @@ export class ShoppingListsComponent implements OnInit {
     });
   }
 
-  more(data: ShoppingListModel) {
-    this.router.navigate(['shopping-lists/' + data.id]);
-  }
-
-  update(data: ShoppingListModel) {
-    console.log("update");
-  }
-
-  remove(data: ShoppingListModel) {
-    this.confirmModal.clickButton();
-  }
-
   removeAction(data: {result: ConfirmOption, details: string}){
     switch(data.result){
       case 'ok': console.log('removed', data); break;
@@ -104,18 +93,40 @@ export class ShoppingListsComponent implements OnInit {
     }   
   }
 
-  add(data: ShoppingListModel) {
-    console.log("add");
+  more(data: ShoppingListModel) {
+    this.router.navigate(['shopping-lists/' + data.id]);
   }
 
-  addItem(data: any){
-    console.log(data)
+  async update(data: ShoppingListModel) {
+    data.visible = !data.visible;
+    await this.dataProvider.updateShoppingList(data);
+    window.location.reload();
+  }
+
+  async remove(data: ShoppingListModel) {
+    await this.dataProvider.removeShoppingList(data);
+    window.location.reload();
+  }
+
+  async add(data: ShoppingListModel) {
+    await this.dataProvider.addShoppingList(data);
+    window.location.reload();
   }
 
   async fetch() {
     await this.dataProvider.getShoppingLists(this.filters.getValue()).then(v => {
       this.lists = v;
     })
+  }
+
+  async addItem(data: any) {
+    let item = new ShoppingListModel({
+      name: data.name,
+      description: data.description,
+      visible: true
+    })
+
+    await this.add(item);
   }
 
 }

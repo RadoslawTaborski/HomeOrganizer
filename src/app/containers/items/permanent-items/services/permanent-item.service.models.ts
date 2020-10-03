@@ -13,9 +13,10 @@ export enum PermanentItemTypes {
     NAME = 'name',
     CATEGORY = 'category',
     SUBCATEGORY = 'subcategory',
-    STATE = 'state',
+    STATE = 'update',
     ID = 'id',
-    DATE = "date"
+    DATE = "date",
+    ARCHIVE = "remove"
 }
 
 export interface IPermanentItemModel extends IItemModel {
@@ -48,14 +49,14 @@ export class PermanentItemModel implements IPermanentItemModel {
     }
 
     static toJson(entity: PermanentItemModel) : string {
-        var tmp: any;
-        tmp.id = entity.id;
+        var tmp: any = {};
+        tmp.id = parseInt(entity.id);
         tmp.createTime = entity.createTime;
         tmp.updateTime = entity.updateTime;
         tmp.deleteTime = entity.deleteTime;
         tmp.name = entity.name;
-        tmp.categoryId = entity.category.id;
-        tmp.stateId = entity.state.id;
+        tmp.categoryId = parseInt(entity.category.id);
+        tmp.stateId = parseInt(entity.state.id);
         return JSON.stringify(tmp)
     }
 }

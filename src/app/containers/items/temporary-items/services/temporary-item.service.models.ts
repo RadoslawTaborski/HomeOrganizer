@@ -1,12 +1,14 @@
 import { SubCategory, IItemModel } from "../../models/models";
 
+
 export enum TemporaryItemTypes {
-    BOUGHT = "bought",
-    NAME = 'name',
-    CATEGORY = 'category',
-    SUBCATEGORY = 'subcategory',
-    QUANTITY = 'quantity',
-    ID = 'id',
+  BOUGHT = "bought",
+  NAME = 'name',
+  CATEGORY = 'category',
+  SUBCATEGORY = 'subcategory',
+  QUANTITY = 'quantity',
+  ID = 'id',
+  ARCHIVE = "remove"
 }
 
 export interface ITemporaryItemModel extends IItemModel {
@@ -45,15 +47,15 @@ export class TemporaryItemModel implements ITemporaryItemModel {
       }
 
       static toJson(entity: TemporaryItemModel): string{
-        var tmp: any;
-        tmp.id = entity.id;
+        var tmp: any = {};
+        tmp.id = parseInt(entity.id);
         tmp.createTime = entity.createTime;
         tmp.updateTime = entity.updateTime;
         tmp.deleteTime = entity.deleteTime;
         tmp.name = entity.name;
         tmp.quantity = entity.quantity;
-        tmp.shoppingListId = entity.shoppingListId;
-        tmp.categoryId = entity.category.id;
+        tmp.shoppingListId = parseInt(entity.shoppingListId);
+        tmp.categoryId = parseInt(entity.category.id);
         tmp.bought = entity.bought;
         return JSON.stringify(tmp)
     }

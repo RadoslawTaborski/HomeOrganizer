@@ -9,6 +9,7 @@
                 <div *ngSwitchCase="'checkbox'" class="form-group form-inline">
                     <input class="form-control" type="checkbox" [(ngModel)]="model[item.key]"
                         [disabled]="castToInput(item).access ? !(castToInput(item).access | async) : false"
+                        [checked]="provideCheckboxValue(item, model)"
                         (input)="action('update', model)" (click)="$event.stopPropagation();">
                 </div>
 

@@ -1,15 +1,16 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ITemporaryItemModel, TemporaryItemTypes, TemporaryItemAction, TemporaryItemsFilters, TemporaryItemModel, TemporaryItemsFilterTypes } from './services/temporary-item.service.models'
 import { BehaviorSubject, Subject, Subscription } from 'rxjs';
-import { DataGridConfig, DataGridItemText } from 'src/app/modules/shared/components/data-grid/data-grid-config';
+import { DataGridConfig, DataGridItemButton, DataGridItemCheckbox, DataGridItemText } from 'src/app/modules/shared/components/data-grid/data-grid-config';
 import { AddItemConfig, AddItemInput, AddItemSelect } from 'src/app/modules/shared/components/modal/add/add-config';
 import { SearchConfig, SearchControl, FieldTypes as SearchFieldTypes } from 'src/app/modules/shared/components/search/search-config';
 import { Category, SubCategory } from '../models/models';
 import { DataProviderService } from '../../services/data-provider.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { debounceTime } from 'rxjs/operators';
 import { OperationsService } from '../utils/operations.service';
+import { StateService } from 'src/app/root/services/state.service';
 
 @Component({
   selector: 'app-temporary-items',
@@ -19,6 +20,7 @@ import { OperationsService } from '../utils/operations.service';
 export class TemporaryItemsComponent implements OnInit {
 
   @Input() items: { data: ITemporaryItemModel[], total: number };
+  shoppingListId: string
 
   dataGridConfig: DataGridConfig;
   searchConfig: SearchConfig;
@@ -37,7 +39,10 @@ export class TemporaryItemsComponent implements OnInit {
     private operationsService: OperationsService,
     private dataProvider: DataProviderService,
     private translate: TranslateService,
-    public router: Router) { }
+    public router: Router,
+    private activatedRoute: ActivatedRoute,
+    private stateService: StateService) {
+  }
 
   ngOnDestroy(): void {
     this.filtersSubscriber.unsubscribe();
@@ -45,6 +50,7 @@ export class TemporaryItemsComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.shoppingListId = this.activatedRoute.snapshot.paramMap.get('id');
     await this.dataProvider.reloadSubCategories();
     await this.dataProvider.reloadStates();
 
@@ -55,10 +61,12 @@ export class TemporaryItemsComponent implements OnInit {
       ]);
 
       this.dataGridConfig = new DataGridConfig([
-        new DataGridItemText(TemporaryItemTypes.NAME, this.translate.instant('containers.items.name'), null, "75%", true),
-        new DataGridItemText(TemporaryItemTypes.CATEGORY, this.translate.instant('containers.items.category'), (t: ITemporaryItemModel): string => t.category.parent.name),
+        new DataGridItemCheckbox(TemporaryItemTypes.BOUGHT, this.translate.instant('containers.items.temporary-item.bought'), null, (t: ITemporaryItemModel): boolean =>t.bought!=null, "10%", true),
+        new DataGridItemText(TemporaryItemTypes.NAME, this.translate.instant('containers.items.name'), null, "60%", true),
+        new DataGridItemText(TemporaryItemTypes.CATEGORY, this.translate.instant('containers.items.category'), (t: ITemporaryItemModel): string => { return t.category.parent.name}),
         new DataGridItemText(TemporaryItemTypes.SUBCATEGORY, this.translate.instant('containers.items.subcategory'), (t: ITemporaryItemModel): string => t.category.name),
         new DataGridItemText(TemporaryItemTypes.QUANTITY, this.translate.instant('containers.items.temporary-item.quantity'), null, "25%", true),
+        new DataGridItemButton(TemporaryItemTypes.ARCHIVE, this.translate.instant('containers.items.delete'), () => this.translate.instant('containers.items.delete'), this.stateService.access, null, "15%", true),
       ]);
 
       this.addConfig = new AddItemConfig([
@@ -96,16 +104,24 @@ export class TemporaryItemsComponent implements OnInit {
     console.log("more");
   }
 
-  update(data: TemporaryItemModel) {
-    console.log("update");
+  async update(data: TemporaryItemModel) {
+    if(data.bought){
+      data.bought = null;
+    } else {
+      data.bought = new Date().toISOString();
+    }
+    await this.dataProvider.updateTemporaryItem(data);
+    window.location.reload();
   }
 
-  remove(data: TemporaryItemModel) {
-    console.log("remove");
+  async remove(data: TemporaryItemModel) {
+    await this.dataProvider.removeTemporaryItem(data);
+    window.location.reload();
   }
 
-  add(data: TemporaryItemModel) {
-    console.log("add");
+  async add(data: TemporaryItemModel) {
+    await this.dataProvider.addTemporaryItem(data);
+    window.location.reload();
   }
 
   async updateFilters(value?) {
@@ -117,11 +133,14 @@ export class TemporaryItemsComponent implements OnInit {
     this.operationsService.fetchSubCategories(this.category, this.subcategory);
   }
 
-  private replace(reference, array) {
-    [].splice.apply(reference, [0, reference.length].concat(array));
-  }
+  async addItem(data: any) {
+    let item = new TemporaryItemModel({
+      name: data.name,
+      category: this.dataProvider.subcategories.filter(i => i.id == data.subcategory)[0],
+      quantity: data.quantity,
+      shoppingListId: this.shoppingListId
+    })
 
-  addItem(data: any){
-    console.log(data)
+    await this.add(item);
   }
 }

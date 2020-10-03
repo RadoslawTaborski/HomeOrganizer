@@ -13,31 +13,31 @@ export class ShoppingItemsService implements HttpServiceModel {
   constructor(private http: HttpClient) { }
 
   fetch(filters?: { [key: string]: any; }): Promise<ResponseData> {
-    return this.http.get<ResponseData>(Api.ITEMS_END_POINT, {params: filters}).toPromise();
+    return this.http.get<ResponseData>(Api.SHOPPING_ITEMS_END_POINT, {params: filters}).toPromise();
   }
 
   get(id: string, deep?: number): Promise<ShoppingItemsService> {
     return this.http
-      .get<ResponseData>(Api.ITEMS_END_POINT + `/${id}`)
+      .get<ResponseData>(Api.SHOPPING_ITEMS_END_POINT + `/${id}`)
       .pipe(
         map((resp: { data }) => resp.data)
       ).toPromise();
   } 
 
   add(item: any): Promise<ResponseData> {
-    return this.http.post(Api.ITEMS_END_POINT, item).pipe(
+    return this.http.post(Api.SHOPPING_ITEMS_END_POINT, item).pipe(
       map((resp: { data }) => resp.data)
     ).toPromise();
   }
 
   update(item: any): Promise<ResponseData> {
-    return this.http.put(Api.ITEMS_END_POINT, item).pipe(
+    return this.http.put(Api.SHOPPING_ITEMS_END_POINT, item).pipe(
       map((resp: { data }) => resp.data)
     ).toPromise();
   }
 
   remove(id: string): Promise<ResponseData> {
-    return this.http.delete(Api.ITEMS_END_POINT+`/${id}`).pipe(
+    return this.http.delete(Api.SHOPPING_ITEMS_END_POINT+`/${id}`).pipe(
       map((resp: { data }) => resp.data)
     ).toPromise();
   }

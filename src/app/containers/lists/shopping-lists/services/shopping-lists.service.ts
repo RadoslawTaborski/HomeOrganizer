@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -8,6 +8,10 @@ import { TemporaryItemModel } from 'src/app/containers/items/temporary-items/ser
 import { Api } from 'src/app/utils/api';
 import { HttpServiceModel, ResponseData } from 'src/app/utils/interfaces/http.models';
 import { IShoppingListModel, ShoppingListModel } from './shopping-lists.service.models';
+
+const httpOptions = {
+  headers: new HttpHeaders().append('Content-Type', 'application/json')
+};
 
 @Injectable({
   providedIn: 'root'
@@ -29,20 +33,20 @@ export class ShoppingListsService implements HttpServiceModel {
   } 
 
   add(item: any): Promise<ResponseData> {
-    return this.http.post(Api.SHOPPING_LISTS_END_POINT, item).pipe(
+    return this.http.post(Api.SHOPPING_LISTS_END_POINT, item, httpOptions).pipe(
       map((resp: { data }) => resp.data)
     ).toPromise();
   }
 
   update(item: any): Promise<ResponseData> {
-    return this.http.put(Api.SHOPPING_LISTS_END_POINT, item).pipe(
+    return this.http.put(Api.SHOPPING_LISTS_END_POINT, item, httpOptions).pipe(
       map((resp: { data }) => resp.data)
     ).toPromise();
   }
 
-  remove(id: string): Promise<ResponseData> {
+  remove(id: string): Promise<any> {
     return this.http.delete(Api.SHOPPING_LISTS_END_POINT+`/${id}`).pipe(
-      map((resp: { data }) => resp.data)
+      map((resp: { data }) => resp)
     ).toPromise();
   }
 }

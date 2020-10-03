@@ -8,6 +8,7 @@ export class Api {
     static STATES_END_POINT = Api.DATA_BASE_END_POINT + 'states';
     static PERMANENT_ITEMS_END_POINT = Api.DATA_BASE_END_POINT + 'permanentitems';
     static TEMPORARY_ITEMS_END_POINT = Api.DATA_BASE_END_POINT + 'temporaryitems';
+    static SHOPPING_ITEMS_END_POINT = Api.DATA_BASE_END_POINT + 'shoppingitems';
     static SHOPPING_LISTS_END_POINT = Api.DATA_BASE_END_POINT + 'shoppinglists';
 
     static EXPENSES_END_POINT = Api.DATA_BASE_END_POINT + 'expenses';

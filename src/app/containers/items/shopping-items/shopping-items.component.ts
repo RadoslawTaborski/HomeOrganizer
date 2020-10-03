@@ -7,8 +7,9 @@ import { DataGridConfig, DataGridItemCheckbox, DataGridItemText } from 'src/app/
 import { SearchConfig, SearchControl, FieldTypes as SearchFieldTypes } from 'src/app/modules/shared/components/search/search-config';
 import { DataProviderService } from '../../services/data-provider.service';
 import { Category, SubCategory } from '../models/models';
-import { State } from '../permanent-items/services/permanent-item.service.models';
+import { PermanentItemModel, State } from '../permanent-items/services/permanent-item.service.models';
 import { ShoppingItemsFilters, IShoppingItemModel, ShoppingItemAction, ShoppingItemModel, ShoppingItemTypes, ShoppingItemsFilterTypes } from '../shopping-items/services/shopping-items.service.models'
+import { TemporaryItemModel } from '../temporary-items/services/temporary-item.service.models';
 import { OperationsService } from '../utils/operations.service'
 
 @Component({
@@ -54,7 +55,7 @@ export class ShoppingItemsComponent implements OnInit {
       ]);
 
       this.dataGridConfig = new DataGridConfig([
-        new DataGridItemCheckbox(ShoppingItemTypes.BOUGHT, this.translate.instant('containers.items.shopping.bought'), null, "10%", true),
+        new DataGridItemCheckbox(ShoppingItemTypes.BOUGHT, this.translate.instant('containers.items.shopping.bought'), null, (t: IShoppingItemModel): boolean =>t.bought!=null, "10%", true),
         new DataGridItemText(ShoppingItemTypes.NAME, this.translate.instant('containers.items.name'), null, "65%", true),
         new DataGridItemText(ShoppingItemTypes.STATE, this.translate.instant('containers.items.shopping.state'), (t: IShoppingItemModel): string => this.translateState(t), "25%", true),
         new DataGridItemText(ShoppingItemTypes.CATEGORY, this.translate.instant('containers.items.category'), (t: IShoppingItemModel): string => t.category.parent.name),
@@ -119,13 +120,23 @@ export class ShoppingItemsComponent implements OnInit {
         return "background-color: green; width: 40px; height: 40px;"
     }
   }
-
+  
   more(data: ShoppingItemModel) {
     console.log("more");
   }
 
-  update(data: ShoppingItemModel) {
-    console.log("update");
+  async update(data: ShoppingItemModel) {
+    if(data.shoppingListId){
+      let temporaryItem = data as TemporaryItemModel
+      temporaryItem.bought = new Date().toISOString();
+      await this.dataProvider.updateTemporaryItem(temporaryItem);
+    } else {
+      let permanentItem = data as PermanentItemModel
+      permanentItem.state = this.dataProvider.states.filter(i=>i.id=="4")[0]
+      await this.dataProvider.updatePermanentItem(permanentItem);
+    }
+
+    window.location.reload();
   }
 
   remove(data: ShoppingItemModel) {
@@ -134,10 +145,6 @@ export class ShoppingItemsComponent implements OnInit {
 
   add(data: ShoppingItemModel) {
     console.log("add");
-  }
-
-  changeState(data: ShoppingItemModel) {
-    console.log("change state")
   }
 
   async updateFilters(value?) {

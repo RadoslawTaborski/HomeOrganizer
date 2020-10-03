@@ -16,7 +16,6 @@ export class ModalBase implements ModalModel {
     constructor(private modalService) { }
 
     checkAndSend(form) {
-        debugger;
         if (form.valid) {
             this.openedModal.close(form.value);
         } else {

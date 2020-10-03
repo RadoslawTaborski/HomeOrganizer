@@ -13,6 +13,7 @@
             "category": "kategoria1",
             "subcategory": "kategoria2",
             "articles": "artykuły",
+            "delete": "usuń",
             "permanent-item": {
                 "state": "stan",
                 "lastUpdate": "ostatnia zmiana",
@@ -22,9 +23,11 @@
                 "lot": "dużo"
             },
             "temporary-item": {
+                "bought": "kupione",
                 "quantity": "ilość"
             },
             "shopping":{
+                "bought": "kupione",
                 "state": "stan",
                 "critical": "pilnie potrzeba",
                 "little": "brakuje",

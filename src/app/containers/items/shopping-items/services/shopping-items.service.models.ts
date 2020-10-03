@@ -15,14 +15,20 @@ export interface IShoppingItemModel extends IItemModel {
     state?: State;
     quantity?: string;
     bought?: string;
+    shoppingListId?: string;
+    visible?: boolean;
+    archieved?: string;
 }
 
 export class ShoppingItemModel implements IShoppingItemModel {
     state?: State;
     quantity?: string;
     bought?: string;
+    shoppingListId?: string;
     id: string;
     name: string;
+    visible?: boolean;
+    archieved?: string;
     category: SubCategory;
     createTime: string;
     updateTime: string;
@@ -37,9 +43,12 @@ export class ShoppingItemModel implements IShoppingItemModel {
             id: a.id,
             name: a.name,
             category: subcategories.filter(i => i.id === a.categoryId)[0],
+            shoppingListId: a.shoppingListId,
             quantity: a.quantity,
             bought: a.bought,
             state: states.filter(i => i.id === a.stateId)[0],
+            visible: a.visible,
+            archieved: a.archieved,
             createTime: a.createTime,
             updateTime: a.updateTime,
             deleteTime: a.deleteTime,

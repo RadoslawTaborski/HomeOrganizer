@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { IPermanentItemModel, PermanentItemTypes, State, PermanentItemAction, PermanentItemsFilters, PermanentItemModel, PermanentItemsFilterTypes } from './services/permanent-item.service.models'
 import { DataGridConfig, DataGridItemText, DataGridItemButton } from '../../../modules/shared/components/data-grid/data-grid-config';
 import { StateService } from 'src/app/root/services/state.service';
@@ -11,6 +11,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AddItemConfig, AddItemInput, AddItemSelect } from 'src/app/modules/shared/components/modal/add/add-config';
 import { DataProviderService } from '../../services/data-provider.service';
 import { OperationsService } from '../utils/operations.service';
+import { ConfirmOption } from 'src/app/modules/shared/components/modal/confirm/modal-confirm.component';
 
 @Component({
   selector: 'app-permanent-items',
@@ -32,6 +33,9 @@ export class PermanentItemsComponent implements OnInit {
   subcategory: SubCategory[] = [];
   category: Category[] = [];
   isLoaded: boolean = false;
+
+  @ViewChild('confirmModal') confirmModal;
+  toRemove: PermanentItemModel;
 
   constructor(
     private operationsService: OperationsService,
@@ -58,11 +62,12 @@ export class PermanentItemsComponent implements OnInit {
       ]);
 
       this.dataGridConfig = new DataGridConfig([
-        new DataGridItemText(PermanentItemTypes.NAME, this.translate.instant('containers.items.name'), null, "50%", true),
+        new DataGridItemText(PermanentItemTypes.NAME, this.translate.instant('containers.items.name'), null, "45%", true),
         new DataGridItemText(PermanentItemTypes.CATEGORY, this.translate.instant('containers.items.category'), (t: IPermanentItemModel): string => t.category.parent.name),
         new DataGridItemText(PermanentItemTypes.SUBCATEGORY, this.translate.instant('containers.items.subcategory'), (t: IPermanentItemModel): string => t.category.name),
-        new DataGridItemButton(PermanentItemTypes.STATE, this.translate.instant('containers.items.permanent-item.state'), () => "", this.stateService.access, (t: IPermanentItemModel) => this.buttonStyleProvider(t), "25%", true),
+        new DataGridItemButton(PermanentItemTypes.STATE, this.translate.instant('containers.items.permanent-item.state'), () => "", this.stateService.access, (t: IPermanentItemModel) => this.buttonStyleProvider(t), "15%", true),
         new DataGridItemText(PermanentItemTypes.DATE, this.translate.instant('containers.items.permanent-item.lastUpdate'), null, "25%", true),
+        new DataGridItemButton(PermanentItemTypes.ARCHIVE, this.translate.instant('containers.items.delete'), () => this.translate.instant('containers.items.delete'), this.stateService.access, null, "15%", true),
       ]);
 
       this.addConfig = new AddItemConfig([
@@ -80,7 +85,6 @@ export class PermanentItemsComponent implements OnInit {
       this.itemActionSubscriber = this.itemAction
         .subscribe((action) => {
           switch (action.type) {
-            case 'state': this.changeState(action.data); break;
             case 'add': this.add(action.data); break;
             case 'remove': this.remove(action.data); break;
             case 'update': this.update(action.data); break;
@@ -130,20 +134,38 @@ export class PermanentItemsComponent implements OnInit {
     console.log("more");
   }
 
-  update(data: PermanentItemModel) {
-    console.log("update");
+  async update(data: PermanentItemModel) {
+    await this.changeState(data);
   }
 
   remove(data: PermanentItemModel) {
-    console.log("remove");
+    this.toRemove = data;
+    this.confirmModal.clickButton();
   }
 
-  add(data: PermanentItemModel) {
-    console.log("add");
+  async removeAction(data: {result: ConfirmOption, details: string, object: PermanentItemModel}){
+    switch(data.result){
+      case 'ok': 
+        await this.dataProvider.removePermanentItem(data.object);
+        window.location.reload();
+       break;
+      case 'dissmised': console.log('nok', data); break;
+    }   
   }
 
-  changeState(data: PermanentItemModel) {
-    console.log("change state") 
+  async add(data: PermanentItemModel) {
+    await this.dataProvider.addPermanentItem(data);
+    window.location.reload();
+  }
+
+  async changeState(data: PermanentItemModel) {
+    let states = this.getStates();
+    let stateId = states.indexOf(data.state);
+    let max = states.length;
+    let newStateId = stateId-1>=0?stateId-1:max-1;
+    data.state = states[newStateId]
+    await this.dataProvider.updatePermanentItem(data);
+    window.location.reload();
   }
 
   async updateFilters(value?) {
@@ -161,7 +183,13 @@ export class PermanentItemsComponent implements OnInit {
     })
   }
 
-  addItem(data: any) {
-    console.log(data)
+  async addItem(data: any) {
+    let item = new PermanentItemModel({
+      name: data.name,
+      category: this.dataProvider.subcategories.filter(i => i.id == data.subcategory)[0],
+      state: this.dataProvider.states.filter(i => i.id == "3")[0]
+    })
+
+    await this.add(item);
   }
 }

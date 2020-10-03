@@ -11,7 +11,8 @@ export class ModalConfirmComponent extends ModalBase {
     @Input() question: string;
     @Input() btnText: string;
     @Input() displayButton: boolean;
-    @Output() outputAction = new EventEmitter<{ result: ConfirmOption, details: string }>();
+    @Input() object: any
+    @Output() outputAction = new EventEmitter<{ result: ConfirmOption, details: string, object: any }>();
 
     @ViewChild('openBtn') openBtn: ElementRef;
 
@@ -21,9 +22,9 @@ export class ModalConfirmComponent extends ModalBase {
 
     go(result: string) {
         if (result.startsWith('Closed')) {
-            this.outputAction.emit({ result: 'ok', details: result });
+            this.outputAction.emit({ result: 'ok', details: result, object: this.object });
         } else {
-            this.outputAction.emit({ result: 'dissmised', details: result });
+            this.outputAction.emit({ result: 'dissmised', details: result, object: null });
         }
 
     }

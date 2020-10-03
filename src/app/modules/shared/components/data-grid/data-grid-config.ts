@@ -12,6 +12,7 @@ export interface DataGridItemTextModel extends DataGridItemModel {
 
 export interface DataGridItemCheckboxModel extends DataGridItemModel {
     textProvider?: Function;
+    valueProvider?: Function;
 }
 
 export interface DataGridItemButtonModel extends DataGridItemModel {
@@ -50,6 +51,7 @@ export class DataGridItemCheckbox implements DataGridItemCheckboxModel {
         public key,
         public display,
         public textProvider?,
+        public valueProvider?,
         public width?,
         public alwaysVisible = false,
         public type = FieldTypes.CHECKBOX) { }

@@ -55,17 +55,16 @@ export class ShoppingListModel implements IShoppingListModel {
         });
     }
 
-    static toJson(entity: TemporaryItemModel): string{
-        var tmp: any;
+    static toJson(entity: ShoppingListModel): string{
+        var tmp: any = {};
         tmp.id = entity.id;
         tmp.createTime = entity.createTime;
         tmp.updateTime = entity.updateTime;
         tmp.deleteTime = entity.deleteTime;
         tmp.name = entity.name;
-        tmp.quantity = entity.quantity;
-        tmp.shoppingListId = entity.shoppingListId;
-        tmp.categoryId = entity.category.id;
-        tmp.bought = entity.bought;
+        tmp.description = entity.description;
+        tmp.visible = entity.visible
+        
         return JSON.stringify(tmp)
     }
 }

@@ -3,4 +3,5 @@
         [badgeItemName]="'containers.items.articles'|translate" [filterOn]="true" [searchConfig]="updateSearchConfig()"
         [filters]="filters" (updFilters)="updateFilters($event)" [addOn]="true" [addConfig]="addConfig" (addAction)="addItem($event)">
     </app-grid-search-add>
+    <modal-confirm #confirmModal [object]="toRemove" [question]="'containers.lists.confirm'|translate" [displayButton]="false" (outputAction)="removeAction($event)"></modal-confirm>
 </div>

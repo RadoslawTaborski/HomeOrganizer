@@ -92,6 +92,42 @@ export class DataProviderService {
     return ShoppingListModel.createFromJson(response, temporaryItems)
   }
 
+  async addShoppingList(list: ShoppingListModel): Promise<ResponseData>{
+    return await this.shoppingListsService.add(ShoppingListModel.toJson(list));
+  }
+
+  async removeShoppingList(list: ShoppingListModel): Promise<ResponseData>{
+    return await this.shoppingListsService.remove(list.id);
+  }
+
+  async updateShoppingList(list: ShoppingListModel): Promise<ResponseData>{
+    return await this.shoppingListsService.update(ShoppingListModel.toJson(list));
+  }
+
+  async addPermanentItem(item: PermanentItemModel): Promise<ResponseData>{
+    return await this.permanentItemService.add(PermanentItemModel.toJson(item));
+  }
+
+  async removePermanentItem(item: PermanentItemModel): Promise<ResponseData>{
+    return await this.permanentItemService.remove(item.id);
+  }
+
+  async updatePermanentItem(item: PermanentItemModel): Promise<ResponseData>{
+    return await this.permanentItemService.update(PermanentItemModel.toJson(item));
+  }
+
+  async addTemporaryItem(item: TemporaryItemModel): Promise<ResponseData>{
+    return await this.temporaryItemService.add(TemporaryItemModel.toJson(item));
+  }
+
+  async removeTemporaryItem(item: TemporaryItemModel): Promise<ResponseData>{
+    return await this.temporaryItemService.remove(item.id);
+  }
+
+  async updateTemporaryItem(item: TemporaryItemModel): Promise<ResponseData>{
+    return await this.temporaryItemService.update(TemporaryItemModel.toJson(item));
+  }
+
   getCriticalState(): State {
     return this.states.filter(i=>i.name === "CRITICAL")[0];
   }
