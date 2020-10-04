@@ -10,6 +10,7 @@ import { StateService } from 'src/app/root/services/state.service';
 import { ConfirmOption } from 'src/app/modules/shared/components/modal/confirm/modal-confirm.component';
 import { DataProviderService } from '../../services/data-provider.service';
 import { DateService } from '../../../modules/shared/utils/date/date.service'
+import { AddOption } from 'src/app/modules/shared/components/modal/add/add.component';
 
 @Component({
   selector: 'app-shopping-lists',
@@ -29,6 +30,7 @@ export class ShoppingListsComponent implements OnInit {
   filtersSubscriber: Subscription;
 
   isLoaded: boolean = false;
+  toRemove: ShoppingListModel;
 
   @ViewChild('confirmModal') confirmModal;
 
@@ -86,13 +88,6 @@ export class ShoppingListsComponent implements OnInit {
     });
   }
 
-  removeAction(data: {result: ConfirmOption, details: string}){
-    switch(data.result){
-      case 'ok': console.log('removed', data); break;
-      case 'dissmised': console.log('nok', data); break;
-    }   
-  }
-
   more(data: ShoppingListModel) {
     this.router.navigate(['shopping-lists/' + data.id]);
   }
@@ -103,9 +98,19 @@ export class ShoppingListsComponent implements OnInit {
     window.location.reload();
   }
 
-  async remove(data: ShoppingListModel) {
-    await this.dataProvider.removeShoppingList(data);
-    window.location.reload();
+  remove(data: ShoppingListModel) {
+    this.toRemove = data;
+    this.confirmModal.clickButton();
+  }
+
+  async removeAction(data: { result: ConfirmOption, details: string, object: ShoppingListModel }) {
+    switch (data.result) {
+      case 'ok':
+        await this.dataProvider.removeShoppingList(data.object);
+        window.location.reload();
+        break;
+      case 'dissmised': console.log('nok', data); break;
+    }
   }
 
   async add(data: ShoppingListModel) {
@@ -119,14 +124,20 @@ export class ShoppingListsComponent implements OnInit {
     })
   }
 
-  async addItem(data: any) {
-    let item = new ShoppingListModel({
-      name: data.name,
-      description: data.description,
-      visible: true
-    })
+  async addItem(data: { result: AddOption, details: any}) {
+    switch (data.result) {
+      case 'ok':
+        let item = new ShoppingListModel({
+          name: data.details.name,
+          description: data.details.description,
+          visible: true
+        })
+    
+        await this.add(item);
 
-    await this.add(item);
+        break;
+      case 'dissmised': console.log('nok', data); break;
+    }
   }
 
 }

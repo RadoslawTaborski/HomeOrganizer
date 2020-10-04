@@ -14,7 +14,7 @@ import { AddItemConfig, AddItemModel, AddItemSelect } from "../add/add-config"
 export class AddComponent extends ModalBase implements OnInit {
 
   @Input() config: AddItemConfig;
-  @Output() addAction = new EventEmitter();
+  @Output() addAction = new EventEmitter<{ result: AddOption, details: string }>();
 
   constructor(modalService: NgbModal) {
     super(modalService);
@@ -24,7 +24,11 @@ export class AddComponent extends ModalBase implements OnInit {
   }
 
   go(result: any) {
-    this.addAction.emit(result);
+    if (typeof result !== "string") {
+      this.addAction.emit({ result: 'ok', details: result });
+    } else {
+      this.addAction.emit({ result: 'dissmised', details: result });
+    }
   }
 
   onClickSubmit(data) {
@@ -44,3 +48,5 @@ export class AddComponent extends ModalBase implements OnInit {
   }
 
 }
+
+export type AddOption = 'ok' | 'dissmised';

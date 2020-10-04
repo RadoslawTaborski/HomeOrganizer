@@ -11,6 +11,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { debounceTime } from 'rxjs/operators';
 import { OperationsService } from '../utils/operations.service';
 import { StateService } from 'src/app/root/services/state.service';
+import { AddOption } from 'src/app/modules/shared/components/modal/add/add.component';
 
 @Component({
   selector: 'app-temporary-items',
@@ -133,14 +134,20 @@ export class TemporaryItemsComponent implements OnInit {
     this.operationsService.fetchSubCategories(this.category, this.subcategory);
   }
 
-  async addItem(data: any) {
-    let item = new TemporaryItemModel({
-      name: data.name,
-      category: this.dataProvider.subcategories.filter(i => i.id == data.subcategory)[0],
-      quantity: data.quantity,
-      shoppingListId: this.shoppingListId
-    })
+  async addItem(data: { result: AddOption, details: any}) {
+    switch (data.result) {
+      case 'ok':
+        let item = new TemporaryItemModel({
+          name: data.details.name,
+          category: this.dataProvider.subcategories.filter(i => i.id == data.details.subcategory)[0],
+          quantity: data.details.quantity,
+          shoppingListId: this.shoppingListId
+        })
+    
+        await this.add(item);
 
-    await this.add(item);
+        break;
+      case 'dissmised': console.log('nok', data); break;
+    }
   }
 }

@@ -3,7 +3,7 @@
         <div class="card card-body">
             <div class="row">
                 <div *ngIf="addOn || filterOn" class="col">
-                    <button *ngIf="filterOn" type="button" class="btn btn-primary btn-lg" (click)="openFilter()">
+                    <button *ngIf="filterOn" type="button" class="btn btn-primary" (click)="openFilter()">
                         <i class="fa fa-arrow-right" aria-hidden="true"></i>
                     </button>
                     <app-add *ngIf="addOn" [config]="addConfig" (addAction)="addItem($event)"></app-add>

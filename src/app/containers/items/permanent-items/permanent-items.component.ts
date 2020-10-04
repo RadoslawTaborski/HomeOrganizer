@@ -12,6 +12,7 @@ import { AddItemConfig, AddItemInput, AddItemSelect } from 'src/app/modules/shar
 import { DataProviderService } from '../../services/data-provider.service';
 import { OperationsService } from '../utils/operations.service';
 import { ConfirmOption } from 'src/app/modules/shared/components/modal/confirm/modal-confirm.component';
+import { AddOption } from 'src/app/modules/shared/components/modal/add/add.component';
 
 @Component({
   selector: 'app-permanent-items',
@@ -143,14 +144,14 @@ export class PermanentItemsComponent implements OnInit {
     this.confirmModal.clickButton();
   }
 
-  async removeAction(data: {result: ConfirmOption, details: string, object: PermanentItemModel}){
-    switch(data.result){
-      case 'ok': 
+  async removeAction(data: { result: ConfirmOption, details: string, object: PermanentItemModel }) {
+    switch (data.result) {
+      case 'ok':
         await this.dataProvider.removePermanentItem(data.object);
         window.location.reload();
-       break;
+        break;
       case 'dissmised': console.log('nok', data); break;
-    }   
+    }
   }
 
   async add(data: PermanentItemModel) {
@@ -162,7 +163,7 @@ export class PermanentItemsComponent implements OnInit {
     let states = this.getStates();
     let stateId = states.indexOf(data.state);
     let max = states.length;
-    let newStateId = stateId-1>=0?stateId-1:max-1;
+    let newStateId = stateId - 1 >= 0 ? stateId - 1 : max - 1;
     data.state = states[newStateId]
     await this.dataProvider.updatePermanentItem(data);
     window.location.reload();
@@ -183,13 +184,19 @@ export class PermanentItemsComponent implements OnInit {
     })
   }
 
-  async addItem(data: any) {
-    let item = new PermanentItemModel({
-      name: data.name,
-      category: this.dataProvider.subcategories.filter(i => i.id == data.subcategory)[0],
-      state: this.dataProvider.states.filter(i => i.id == "3")[0]
-    })
+  async addItem(data: { result: AddOption, details: any}) {
+    switch (data.result) {
+      case 'ok':
+        let item = new PermanentItemModel({
+          name: data.details.name,
+          category: this.dataProvider.subcategories.filter(i => i.id == data.details.subcategory)[0],
+          state: this.dataProvider.states.filter(i => i.id == "3")[0]
+        })
+    
+        await this.add(item);
 
-    await this.add(item);
+        break;
+      case 'dissmised': console.log('nok', data); break;
+    }
   }
 }
