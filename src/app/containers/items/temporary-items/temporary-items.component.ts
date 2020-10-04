@@ -112,7 +112,6 @@ export class TemporaryItemsComponent implements OnInit {
       data.bought = new Date().toISOString();
     }
     await this.dataProvider.updateTemporaryItem(data);
-    window.location.reload();
   }
 
   async remove(data: TemporaryItemModel) {

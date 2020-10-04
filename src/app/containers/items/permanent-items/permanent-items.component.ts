@@ -166,7 +166,6 @@ export class PermanentItemsComponent implements OnInit {
     let newStateId = stateId - 1 >= 0 ? stateId - 1 : max - 1;
     data.state = states[newStateId]
     await this.dataProvider.updatePermanentItem(data);
-    window.location.reload();
   }
 
   async updateFilters(value?) {
@@ -180,6 +179,7 @@ export class PermanentItemsComponent implements OnInit {
 
   async fetch() {
     await this.dataProvider.getPermanentItems(this.filters.getValue()).then(v => {
+      v.data.sort(i => i.categoryId)
       this.items = v;
     })
   }

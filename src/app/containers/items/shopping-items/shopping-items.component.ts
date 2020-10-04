@@ -135,8 +135,6 @@ export class ShoppingItemsComponent implements OnInit {
       permanentItem.state = this.dataProvider.states.filter(i=>i.id=="4")[0]
       await this.dataProvider.updatePermanentItem(permanentItem);
     }
-
-    window.location.reload();
   }
 
   remove(data: ShoppingItemModel) {
@@ -158,7 +156,7 @@ export class ShoppingItemsComponent implements OnInit {
 
   async fetch() {
     await this.dataProvider.getShoppingItems(this.filters.getValue()).then(v => {
-      v.data.sort(i => i.sta)
+      v.data.sort(i => i.categoryId)
       this.items = v;
     })
   }
