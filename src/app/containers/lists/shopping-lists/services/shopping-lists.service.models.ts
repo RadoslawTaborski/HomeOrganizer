@@ -79,7 +79,7 @@ export interface ShoppingListAction {
 export class ShoppingListsFilters {
     constructor(
         public pageNumber = 1,
-        public pageSize = 15) {
+        public pageSize = 25) {
     }
 }
 

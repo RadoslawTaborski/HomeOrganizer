@@ -80,6 +80,6 @@ export class PermanentItemsFilters {
         public subcategoryId = '',
         public stateId = '',
         public pageNumber = 1,
-        public pageSize = 15) {
+        public pageSize = 25) {
     }
 }

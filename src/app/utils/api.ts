@@ -1,5 +1,7 @@
+import { environment } from '../../environments/environment';
+
 export class Api {
-    private static DATA_BASE_END_POINT = 'https://localhost:5001/api/';
+    private static DATA_BASE_END_POINT = environment.apiEndpoint;
 
     // Data end-points
     static ITEMS_END_POINT = Api.DATA_BASE_END_POINT + 'items';
