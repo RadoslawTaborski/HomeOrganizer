@@ -13,6 +13,7 @@ import { DataProviderService } from '../../services/data-provider.service';
 import { OperationsService } from '../utils/operations.service';
 import { ConfirmOption } from 'src/app/modules/shared/components/modal/confirm/modal-confirm.component';
 import { AddOption } from 'src/app/modules/shared/components/modal/add/add.component';
+import { DateService } from 'src/app/modules/shared/utils/date/date.service';
 
 @Component({
   selector: 'app-permanent-items',
@@ -43,6 +44,7 @@ export class PermanentItemsComponent implements OnInit {
     private dataProvider: DataProviderService,
     private stateService: StateService,
     private translate: TranslateService,
+    public dateService: DateService,
     public router: Router) {
   }
 
@@ -63,12 +65,45 @@ export class PermanentItemsComponent implements OnInit {
       ]);
 
       this.dataGridConfig = new DataGridConfig([
-        new DataGridItemText(PermanentItemTypes.NAME, this.translate.instant('containers.items.name'), null, "45%", true),
-        new DataGridItemText(PermanentItemTypes.CATEGORY, this.translate.instant('containers.items.category'), (t: IPermanentItemModel): string => t.category.parent.name),
-        new DataGridItemText(PermanentItemTypes.SUBCATEGORY, this.translate.instant('containers.items.subcategory'), (t: IPermanentItemModel): string => t.category.name),
-        new DataGridItemButton(PermanentItemTypes.STATE, this.translate.instant('containers.items.permanent-item.state'), () => "", this.stateService.access, (t: IPermanentItemModel) => this.buttonStyleProvider(t), "15%", true),
-        new DataGridItemText(PermanentItemTypes.DATE, this.translate.instant('containers.items.permanent-item.lastUpdate'), null, "25%", true),
-        new DataGridItemButton(PermanentItemTypes.ARCHIVE, this.translate.instant('containers.items.delete'), () => this.translate.instant('containers.items.delete'), this.stateService.access, null, "15%", true),
+        new DataGridItemText.Builder()
+          .setKey(PermanentItemTypes.NAME)
+          .setDisplay(this.translate.instant('containers.items.name'))
+          .setColumnClass("absorbing-column")
+          .setVisible(true)
+          .build(),
+        new DataGridItemText.Builder()
+          .setKey(PermanentItemTypes.CATEGORY)
+          .setDisplay(this.translate.instant('containers.items.category'))
+          .setTextProvider((t: IPermanentItemModel): string => t.category.parent.name)
+          .build(),
+        new DataGridItemText.Builder()
+          .setKey(PermanentItemTypes.SUBCATEGORY)
+          .setDisplay(this.translate.instant('containers.items.subcategory'))
+          .setTextProvider((t: IPermanentItemModel): string => t.category.name)
+          .build(),
+        new DataGridItemText.Builder()
+          .setKey(PermanentItemTypes.DATE)
+          .setDisplay(this.translate.instant('containers.items.permanent-item.lastUpdate'))
+          .setTextProvider((t: IPermanentItemModel): string => this.dateService.isoToLocal(t.updateTime))
+          .build(),
+          new DataGridItemButton.Builder()
+          .setKey(PermanentItemTypes.STATE)
+          .setDisplay(this.translate.instant('containers.items.permanent-item.state'))
+          .setTextProvider(() => "")
+          .setAccess(this.stateService.access)
+          .setStyleProvider((t: IPermanentItemModel) => this.stateButtonStyleProvider(t))
+          .setColumnClass("fitwidth")
+          .setVisible(true)
+          .build(),
+        new DataGridItemButton.Builder()
+          .setKey(PermanentItemTypes.ARCHIVE)
+          .setDisplay(this.translate.instant('containers.items.delete'))
+          .setIconProvider(()=>"<i class=\"fas fa-window-close\"></i>")
+          .setClassProvider((t: IPermanentItemModel) => "btn btn-danger")
+          .setAccess(this.stateService.access)
+          .setColumnClass("fitwidth")
+          .setVisible(true)
+          .build(),
       ]);
 
       this.addConfig = new AddItemConfig([
@@ -118,7 +153,7 @@ export class PermanentItemsComponent implements OnInit {
     return this.searchConfig?.controls;
   }
 
-  buttonStyleProvider(data: PermanentItemModel): string {
+  stateButtonStyleProvider(data: PermanentItemModel): string {
     switch (data.state) {
       case this.dataProvider.getCriticalState():
         return "background-color: darkred; width: 40px; height: 40px;"
@@ -183,7 +218,7 @@ export class PermanentItemsComponent implements OnInit {
     })
   }
 
-  async addItem(data: { result: AddOption, details: any}) {
+  async addItem(data: { result: AddOption, details: any }) {
     switch (data.result) {
       case 'ok':
         let item = new PermanentItemModel({
@@ -191,7 +226,7 @@ export class PermanentItemsComponent implements OnInit {
           category: this.dataProvider.subcategories.filter(i => i.id == data.details.subcategory)[0],
           state: this.dataProvider.states.filter(i => i.id == "3")[0]
         })
-    
+
         await this.add(item);
 
         break;

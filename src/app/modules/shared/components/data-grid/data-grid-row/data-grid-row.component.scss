@@ -1,0 +1,31 @@
+table {
+    table-layout: auto;
+    border: none;
+    width: 100%;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+}
+
+td {
+    border: none;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+}
+
+th{
+    border: none;
+}
+
+td.fitwidth {
+    width: 1px;
+    white-space: nowrap;
+}
+
+td.exactValue {
+    width: var(--value);
+    white-space: nowrap;
+}
+
+table .absorbing-column {
+    max-width:100%;
+}

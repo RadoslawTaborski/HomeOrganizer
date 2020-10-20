@@ -62,12 +62,46 @@ export class TemporaryItemsComponent implements OnInit {
       ]);
 
       this.dataGridConfig = new DataGridConfig([
-        new DataGridItemCheckbox(TemporaryItemTypes.BOUGHT, this.translate.instant('containers.items.temporary-item.bought'), null, (t: ITemporaryItemModel): boolean =>t.bought!=null, "10%", true),
-        new DataGridItemText(TemporaryItemTypes.NAME, this.translate.instant('containers.items.name'), null, "60%", true),
-        new DataGridItemText(TemporaryItemTypes.CATEGORY, this.translate.instant('containers.items.category'), (t: ITemporaryItemModel): string => { return t.category.parent.name}),
-        new DataGridItemText(TemporaryItemTypes.SUBCATEGORY, this.translate.instant('containers.items.subcategory'), (t: ITemporaryItemModel): string => t.category.name),
-        new DataGridItemText(TemporaryItemTypes.QUANTITY, this.translate.instant('containers.items.temporary-item.quantity'), null, "25%", true),
-        new DataGridItemButton(TemporaryItemTypes.ARCHIVE, this.translate.instant('containers.items.delete'), () => this.translate.instant('containers.items.delete'), this.stateService.access, null, "15%", true),
+        new DataGridItemCheckbox.Builder()
+        .setKey(TemporaryItemTypes.BOUGHT)
+        .setDisplay(this.translate.instant('containers.items.temporary-item.bought'))
+        .setValueProvider((t: ITemporaryItemModel): boolean =>t.bought!=null)
+        .setColumnClass("exactValue")
+        .setColumnStyle("--value: 40px;")
+        .setVisible(true)
+        .build(),
+        new DataGridItemText.Builder()
+        .setKey(TemporaryItemTypes.NAME)
+        .setDisplay(this.translate.instant('containers.items.name'))
+        .setColumnClass("absorbing-column")
+        .setVisible(true)
+        .build(),
+        new DataGridItemText.Builder()
+        .setKey(TemporaryItemTypes.CATEGORY)
+        .setDisplay(this.translate.instant('containers.items.category'))
+        .setTextProvider((t: ITemporaryItemModel): string => { return t.category.parent.name})
+        .build(),
+        new DataGridItemText.Builder()
+        .setKey(TemporaryItemTypes.SUBCATEGORY)
+        .setDisplay(this.translate.instant('containers.items.subcategory'))
+        .setTextProvider((t: ITemporaryItemModel): string => t.category.name)
+        .build(),
+        new DataGridItemText.Builder()
+        .setKey(TemporaryItemTypes.QUANTITY)
+        .setDisplay(this.translate.instant('containers.items.temporary-item.quantity'))
+        .setColumnClass("exactValue")
+        .setColumnStyle("--value: 20%;")
+        .setVisible(true)
+        .build(),
+        new DataGridItemButton.Builder()
+        .setKey(TemporaryItemTypes.ARCHIVE)
+        .setDisplay(this.translate.instant('containers.items.delete'))
+        .setIconProvider(()=>"<i class=\"fas fa-window-close\"></i>")
+        .setClassProvider((t: ITemporaryItemModel) => "btn btn-danger")
+        .setAccess(this.stateService.access)
+        .setColumnClass("fitwidth")
+        .setVisible(true)
+        .build(),
       ]);
 
       this.addConfig = new AddItemConfig([

@@ -55,11 +55,38 @@ export class ShoppingItemsComponent implements OnInit {
       ]);
 
       this.dataGridConfig = new DataGridConfig([
-        new DataGridItemCheckbox(ShoppingItemTypes.BOUGHT, this.translate.instant('containers.items.shopping.bought'), null, (t: IShoppingItemModel): boolean =>t.bought!=null, "10%", true),
-        new DataGridItemText(ShoppingItemTypes.NAME, this.translate.instant('containers.items.name'), null, "65%", true),
-        new DataGridItemText(ShoppingItemTypes.STATE, this.translate.instant('containers.items.shopping.state'), (t: IShoppingItemModel): string => this.translateState(t), "25%", true),
-        new DataGridItemText(ShoppingItemTypes.CATEGORY, this.translate.instant('containers.items.category'), (t: IShoppingItemModel): string => t.category.parent.name),
-        new DataGridItemText(ShoppingItemTypes.SUBCATEGORY, this.translate.instant('containers.items.subcategory'), (t: IShoppingItemModel): string => t.category.name),
+        new DataGridItemCheckbox.Builder()
+        .setKey(ShoppingItemTypes.BOUGHT)
+        .setDisplay(this.translate.instant('containers.items.shopping.bought'))
+        .setValueProvider((t: IShoppingItemModel): boolean =>t.bought!=null)
+        .setColumnClass("exactValue")
+        .setColumnStyle("--value: 40px;")
+        .setVisible(true)
+        .build(),
+        new DataGridItemText.Builder()
+        .setKey(ShoppingItemTypes.NAME)
+        .setDisplay(this.translate.instant('containers.items.name'))
+        .setColumnClass("absorbing-column")
+        .setVisible(true)
+        .build(),
+        new DataGridItemText.Builder()
+        .setKey(ShoppingItemTypes.STATE)
+        .setDisplay(this.translate.instant('containers.items.shopping.state'))
+        .setTextProvider((t: IShoppingItemModel): string => this.translateState(t))
+        .setColumnClass("exactValue")
+        .setColumnStyle("--value: 25%;")
+        .setVisible(true)
+        .build(),
+        new DataGridItemText.Builder()
+        .setKey(ShoppingItemTypes.CATEGORY)
+        .setDisplay(this.translate.instant('containers.items.category'))
+        .setTextProvider((t: IShoppingItemModel): string => t.category.parent.name)
+        .build(),
+        new DataGridItemText.Builder()
+        .setKey(ShoppingItemTypes.SUBCATEGORY)
+        .setDisplay(this.translate.instant('containers.items.subcategory'))
+        .setTextProvider((t: IShoppingItemModel): string => t.category.name)
+        .build(),
       ]);
 
       this.filters = new BehaviorSubject(new ShoppingItemsFilters());

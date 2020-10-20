@@ -19,6 +19,14 @@ export class DataGridRowComponent {
         this.itemAction.next({ type, data });
     }
 
+    provideColumnClass(item: DataGridItemModel): string {
+        return item.columnClass ? item.columnClass : ""
+    }
+
+    provideColumnStyle(item: DataGridItemModel): string {
+        return item.columnStyle ? item.columnStyle : ""
+    }
+
     castToButton(item: DataGridItemModel): DataGridItemButtonModel{
         return item as DataGridItemButtonModel;
     }
@@ -43,8 +51,25 @@ export class DataGridRowComponent {
         return this.castToText(item)?.textProvider(model)
     }
 
+    provideButtonInner(item: DataGridItemModel, model: any): string {
+        let result = this.provideButtonIcon(item, model);
+        result += this.provideButtonText(item,model);
+        return result;
+    }
+
     provideButtonText(item: DataGridItemModel, model: any): string {
-        return this.castToButton(item).displayProvider(model)
+        var provider = this.castToButton(item).displayProvider
+        return provider ? provider(model) : ""
+    }
+
+    provideButtonIcon(item: DataGridItemModel, model: any): string {
+        var provider = this.castToButton(item).iconProvider
+        return provider ? provider(model) : ""
+    }
+
+    provideButtonClass(item: DataGridItemModel, model: any): string {
+        var provider = this.castToButton(item).classProvider
+        return provider ? provider(model) : "btn btn-secondary"
     }
 
     provideCheckboxValue(item: DataGridItemModel, model: any): boolean {

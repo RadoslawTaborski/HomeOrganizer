@@ -1,7 +1,7 @@
 <div class="card-header" attr.id="heading{{index}}" data-toggle="collapse" attr.data-target="#body{{index}}">
-    <table style="width: 100%;" data-toggle="collapse" attr.href="#body{{index}}">
+    <table class="table" data-toggle="collapse" attr.href="#body{{index}}">
         <tr style="width: 100%;">
-            <td [ngSwitch]="item.type" *ngFor="let item of getVisibleAttributes(true)" attr.style="width: {{item.width}};">
+            <td [ngSwitch]="item.type" *ngFor="let item of getVisibleAttributes(true)" [class]="provideColumnClass(item)" [style]="provideColumnStyle(item)">
                 <div *ngSwitchCase="'img'">
                     <img src={{castToImg(item).src}} height="70">
                 </div>
@@ -21,8 +21,8 @@
 
                 <div *ngSwitchCase="'button'" class="form-group form-inline">
                     <button [disabled]="castToButton(item).access ? !(castToButton(item).access | async) : false"
-                        class="btn btn-secondary" [style]="provideButtonStyle(item,model)"
-                        (click)="action(castToButton(item).key, model); $event.stopPropagation()">{{provideButtonText(item, model)}}</button>
+                        [class]="provideButtonClass(item, model)" [style]="provideButtonStyle(item,model)"
+                        (click)="action(castToButton(item).key, model); $event.stopPropagation()" [innerHTML]="provideButtonInner(item, model)"></button>
                 </div>
 
                 <div *ngSwitchDefault>

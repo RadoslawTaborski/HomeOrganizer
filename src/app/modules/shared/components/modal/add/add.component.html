@@ -2,7 +2,7 @@
     <div class="modal-header">
         <h4 class="modal-title">{{'modules.shared.components.add.title'|translate}}</h4>
         <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-            <span aria-hidden="true">&times;</span>
+            <i class="fas fa-window-close" style="color:firebrick;"></i>
         </button>
     </div>
     <form #searchForm="ngForm" id="search-form" class="card card-body" (ngSubmit) = "onClickSubmit(searchForm.value)">  

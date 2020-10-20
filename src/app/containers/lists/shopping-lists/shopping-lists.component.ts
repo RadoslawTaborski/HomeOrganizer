@@ -53,13 +53,53 @@ export class ShoppingListsComponent implements OnInit {
     this.translate.get('containers.items.name').subscribe(async (t) => {
 
       this.dataGridConfig = new DataGridConfig([
-        new DataGridItemCheckbox(ShoppingListsTypes.VISIBLE, this.translate.instant('containers.lists.visible'), null, (t: ShoppingListModel)=>t.visible, "10%", true),
-        new DataGridItemText(ShoppingListsTypes.NAME, this.translate.instant('containers.lists.name'), null, "65%", true),
-        new DataGridItemButton(ShoppingListsTypes.MORE, this.translate.instant('containers.lists.more'), () => this.translate.instant('containers.lists.more'), this.stateService.access, null, "25%", true),
-        new DataGridItemButton(ShoppingListsTypes.ARCHIVE, this.translate.instant('containers.lists.delete'), () => this.translate.instant('containers.lists.delete'), this.stateService.access, null, "25%", true),
-        new DataGridItemText(ShoppingListsTypes.DESCRIPTION, this.translate.instant('containers.lists.description'), (t: ShoppingListModel)=>t.description),
-        new DataGridItemText(ShoppingListsTypes.CREATED, this.translate.instant('containers.lists.created'), (t: ShoppingListModel)=>this.dateService.isoToLocal(t.createTime)),
-        new DataGridItemText(ShoppingListsTypes.UPDATED, this.translate.instant('containers.lists.updated'), (t: ShoppingListModel)=>this.dateService.isoToLocal(t.updateTime)),
+        new DataGridItemCheckbox.Builder()
+        .setKey(ShoppingListsTypes.VISIBLE)
+        .setDisplay(this.translate.instant('containers.lists.visible'))
+        .setValueProvider((t: ShoppingListModel)=>t.visible)
+        .setColumnClass("exactValue")
+        .setColumnStyle("--value: 40px;")
+        .setVisible(true)
+        .build(),
+        new DataGridItemText.Builder()
+        .setKey(ShoppingListsTypes.NAME)
+        .setDisplay(this.translate.instant('containers.lists.name'))
+        .setColumnClass("absorbing-column")
+        .setVisible(true)
+        .build(),
+        new DataGridItemButton.Builder()
+        .setKey(ShoppingListsTypes.MORE)
+        .setDisplay(this.translate.instant('containers.lists.more'))
+        .setIconProvider(()=>"<i class=\"fas fa-info\"></i>")
+        .setClassProvider((t: ShoppingListModel) => "btn btn-primary")
+        .setAccess(this.stateService.access)
+        .setColumnClass("fitwidth")
+        .setVisible(true)
+        .build(),
+        new DataGridItemButton.Builder()
+        .setKey(ShoppingListsTypes.ARCHIVE)
+        .setDisplay(this.translate.instant('containers.lists.delete'))
+        .setIconProvider(()=>"<i class=\"fas fa-window-close\"></i>")
+        .setClassProvider((t: ShoppingListModel) => "btn btn-danger")
+        .setAccess(this.stateService.access)
+        .setColumnClass("fitwidth")
+        .setVisible(true)
+        .build(),
+        new DataGridItemText.Builder()
+        .setKey(ShoppingListsTypes.DESCRIPTION)
+        .setDisplay(this.translate.instant('containers.lists.description'))
+        .setTextProvider((t: ShoppingListModel)=>t.description)
+        .build(),
+        new DataGridItemText.Builder()
+        .setKey(ShoppingListsTypes.CREATED)
+        .setDisplay(this.translate.instant('containers.lists.created'))
+        .setTextProvider((t: ShoppingListModel)=>this.dateService.isoToLocal(t.createTime))
+        .build(),
+        new DataGridItemText.Builder()
+        .setKey(ShoppingListsTypes.UPDATED)
+        .setDisplay(this.translate.instant('containers.lists.updated'))
+        .setTextProvider((t: ShoppingListModel)=>this.dateService.isoToLocal(t.updateTime))
+        .build(),
       ]);
 
       this.addConfig = new AddItemConfig([
