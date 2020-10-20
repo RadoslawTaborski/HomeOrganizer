@@ -21,11 +21,14 @@ export enum PermanentItemTypes {
 
 export interface IPermanentItemModel extends IItemModel {
     state: State;
+    counter: number;
 }
 
 export class PermanentItemModel implements IPermanentItemModel {
     state: State;
+    counter: number = 0;
     id: string;
+    groupId: string;
     name: string;
     category: SubCategory;
     createTime: string;
@@ -39,7 +42,9 @@ export class PermanentItemModel implements IPermanentItemModel {
     static createFromJson(a: any, states: State[], subcategories: SubCategory[]): PermanentItemModel {
         return new PermanentItemModel({
             id: a.id,
+            groupId: a.groupId,
             name: a.name,
+            counter: a.counter,
             category: subcategories.filter(i => i.id === a.categoryId)[0],
             state: states.filter(i => i.id === a.stateId)[0],
             createTime: a.createTime,
@@ -50,13 +55,15 @@ export class PermanentItemModel implements IPermanentItemModel {
 
     static toJson(entity: PermanentItemModel) : string {
         var tmp: any = {};
-        tmp.id = parseInt(entity.id);
+        tmp.id = entity.id;
+        tmp.groupId = entity.groupId;
+        tmp.counter = entity.counter;
         tmp.createTime = entity.createTime;
         tmp.updateTime = entity.updateTime;
         tmp.deleteTime = entity.deleteTime;
         tmp.name = entity.name;
-        tmp.categoryId = parseInt(entity.category.id);
-        tmp.stateId = parseInt(entity.state.id);
+        tmp.categoryId = entity.category.id;
+        tmp.stateId = entity.state.id;
         return JSON.stringify(tmp)
     }
 }

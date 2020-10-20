@@ -6,6 +6,7 @@ export interface IModel {
 
 export interface IItemModel extends IModel {
     id: string;
+    groupId: string;
     name: string;
     category: SubCategory;
 }
@@ -17,6 +18,7 @@ export interface ICategory extends IModel {
 
 export class SubCategory implements ICategory {
     id: string;
+    groupId: string;
     name: string;
     parent: Category;
     createTime: string;
@@ -30,6 +32,7 @@ export class SubCategory implements ICategory {
     static createFromJson(a: any, categories: Category[]): SubCategory {
         return new SubCategory({
             id: a.id,
+            groupId: a.groupId,
             name: a.name,
             parent: categories.filter(i => i.id === a.categoryId)[0],
             createTime: a.createTime,
@@ -40,12 +43,13 @@ export class SubCategory implements ICategory {
 
     static toJson(entity: SubCategory): string{
         var tmp: any = {};
-        tmp.id = parseInt(entity.id);
+        tmp.id = entity.id;
+        tmp.groupId = entity.groupId;
         tmp.createTime = entity.createTime;
         tmp.updateTime = entity.updateTime;
         tmp.deleteTime = entity.deleteTime;
         tmp.name = entity.name;
-        tmp.categoryId = parseInt(entity.parent.id);
+        tmp.categoryId = entity.parent.id;
         return JSON.stringify(tmp)
     }
 }
@@ -53,6 +57,7 @@ export class SubCategory implements ICategory {
 export class Category implements ICategory {
     id: string;
     name: string;
+    groupId: string;
     createTime: string;
     updateTime: string;
     deleteTime: string;
@@ -65,6 +70,7 @@ export class Category implements ICategory {
         return new Category({
             id: a.id,
             name: a.name,
+            groupId : a.groupId,
             createTime: a.createTime,
             updateTime: a.updateTime,
             deleteTime: a.deleteTime
@@ -73,7 +79,8 @@ export class Category implements ICategory {
 
     static toJson(entity: Category): string{
         var tmp: any = {};
-        tmp.id = parseInt(entity.id);
+        tmp.id = entity.id;
+        tmp.groupId = entity.groupId;
         tmp.createTime = entity.createTime;
         tmp.updateTime = entity.updateTime;
         tmp.deleteTime = entity.deleteTime;
@@ -110,7 +117,7 @@ export class State implements IState {
 
     static toJson(entity: State): string{
         var tmp: any = {};
-        tmp.id = parseInt(entity.id);
+        tmp.id = entity.id;
         tmp.createTime = entity.createTime;
         tmp.updateTime = entity.updateTime;
         tmp.deleteTime = entity.deleteTime;

@@ -19,6 +19,7 @@ export enum ShoppingListsTypes {
 
 export interface IShoppingListModel extends IModel {
     id: string;
+    groupId: string;
     name: string;
     description: string;
     visible: boolean;
@@ -31,6 +32,7 @@ export interface IShoppingListModel extends IModel {
 export class ShoppingListModel implements IShoppingListModel {
     id: string;
     name: string;
+    groupId: string;
     description: string;
     visible: boolean;
     data: ITemporaryItemModel[];
@@ -45,6 +47,7 @@ export class ShoppingListModel implements IShoppingListModel {
     static createFromJson(a: any, data: ITemporaryItemModel[]): ShoppingListModel {
         return new ShoppingListModel({
             id: a.id,
+            groupId: a.groupId,
             name: a.name,
             description: a.description,
             visible: a.visible,
@@ -58,6 +61,7 @@ export class ShoppingListModel implements IShoppingListModel {
     static toJson(entity: ShoppingListModel): string{
         var tmp: any = {};
         tmp.id = entity.id;
+        tmp.groupId = entity.groupId;
         tmp.createTime = entity.createTime;
         tmp.updateTime = entity.updateTime;
         tmp.deleteTime = entity.deleteTime;

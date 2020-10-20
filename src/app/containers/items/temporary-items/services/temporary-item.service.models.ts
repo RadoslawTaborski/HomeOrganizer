@@ -21,6 +21,7 @@ export class TemporaryItemModel implements ITemporaryItemModel {
     quantity: string;
     shoppingListId: string;
     id: string;
+    groupId: string;
     name: string;
     category: SubCategory;
     bought: string;
@@ -35,6 +36,7 @@ export class TemporaryItemModel implements ITemporaryItemModel {
     static createFromJson(a: any, subcategories:SubCategory[]): TemporaryItemModel {
         return new TemporaryItemModel ({
             id: a.id,
+            groupId: a.groupId,
             name: a.name,
             shoppingListId: a.shoppingListId,
             category: subcategories.filter(i => i.id === a.categoryId)[0],
@@ -48,14 +50,15 @@ export class TemporaryItemModel implements ITemporaryItemModel {
 
       static toJson(entity: TemporaryItemModel): string{
         var tmp: any = {};
-        tmp.id = parseInt(entity.id);
+        tmp.id = entity.id;
+        tmp.groupId = entity.groupId;
         tmp.createTime = entity.createTime;
         tmp.updateTime = entity.updateTime;
         tmp.deleteTime = entity.deleteTime;
         tmp.name = entity.name;
         tmp.quantity = entity.quantity;
-        tmp.shoppingListId = parseInt(entity.shoppingListId);
-        tmp.categoryId = parseInt(entity.category.id);
+        tmp.shoppingListId = entity.shoppingListId;
+        tmp.categoryId = entity.category.id;
         tmp.bought = entity.bought;
         return JSON.stringify(tmp)
     }

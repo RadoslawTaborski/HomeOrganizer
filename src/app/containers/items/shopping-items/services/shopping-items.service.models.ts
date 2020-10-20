@@ -15,6 +15,7 @@ export interface IShoppingItemModel extends IItemModel {
     state?: State;
     quantity?: string;
     bought?: string;
+    counter: number;
     shoppingListId?: string;
     visible?: boolean;
     archieved?: string;
@@ -24,7 +25,9 @@ export class ShoppingItemModel implements IShoppingItemModel {
     state?: State;
     quantity?: string;
     bought?: string;
+    counter: number;
     shoppingListId?: string;
+    groupId: string;
     id: string;
     name: string;
     visible?: boolean;
@@ -46,6 +49,8 @@ export class ShoppingItemModel implements IShoppingItemModel {
             shoppingListId: a.shoppingListId,
             quantity: a.quantity,
             bought: a.bought,
+            groupId: a.groupId,
+            counter: a.counter,
             state: states.filter(i => i.id === a.stateId)[0],
             visible: a.visible,
             archieved: a.archieved,

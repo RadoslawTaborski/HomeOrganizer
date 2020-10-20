@@ -21,6 +21,7 @@ export class DataProviderService {
   categories: Category[] = [];
   subcategories: SubCategory[] = [];
   states: State[] = [];
+  group = "1";
 
   constructor(
     private categoryService: CategoryService,
@@ -32,7 +33,16 @@ export class DataProviderService {
     private shoppingListsService: ShoppingListsService
   ) { }
 
+  private extendsFilters(groupId: string, filters: { [key: string]: any; }): any{
+    if(!filters){
+      filters = {};
+    }
+    filters["groupId"] = groupId;
+    return filters;
+  }
+
   async reloadCategories(filters?: { [key: string]: any; }){
+    filters = this.extendsFilters(this.group, filters);
     let tmp: any[]
     this.categories = [];
     tmp = (await this.categoryService.fetch(filters)).data;
@@ -40,9 +50,10 @@ export class DataProviderService {
   }
 
   async reloadSubCategories(filters?: { [key: string]: any; }){
-    await this.reloadCategories();
+    await this.reloadCategories(filters);
     let tmp: any[]
     this.subcategories = [];
+    filters = this.extendsFilters(this.group, filters);
     tmp = (await this.subcategoryService.fetch(filters)).data;
     tmp.forEach(a => this.subcategories.push(SubCategory.createFromJson(a, this.categories)))
   } 
@@ -55,6 +66,7 @@ export class DataProviderService {
   }
 
   async getPermanentItems(filters?: { [key: string]: any; }) : Promise<ResponseData>{
+    filters = this.extendsFilters(this.group, filters);
     let response = (await this.permanentItemService.fetch(filters));
     let data: any[] = []
     response.data.forEach(a => data.push(PermanentItemModel.createFromJson(a, this.states, this.subcategories)))
@@ -63,6 +75,7 @@ export class DataProviderService {
   }
 
   async getShoppingItems(filters?: { [key: string]: any; }) : Promise<ResponseData>{
+    filters = this.extendsFilters(this.group, filters);
     let response = (await this.shoppingItemService.fetch(filters));
     let data: any[] = []
     response.data.forEach(a => data.push(ShoppingItemModel.createFromJson(a, this.states, this.subcategories)))
@@ -71,6 +84,7 @@ export class DataProviderService {
   }
 
   async getTemporeryItems(filters?: { [key: string]: any; }) : Promise<ResponseData>{
+    filters = this.extendsFilters(this.group, filters);
     let response = (await this.temporaryItemService.fetch(filters));
     let data: any[] = []
     response.data.forEach(a => data.push(TemporaryItemModel.createFromJson(a, this.subcategories)))
@@ -79,6 +93,7 @@ export class DataProviderService {
   }
 
   async getShoppingLists(filters?: { [key: string]: any; }) : Promise<ResponseData>{
+    filters = this.extendsFilters(this.group, filters);
     let temporaryItems: ITemporaryItemModel[] = (await this.getTemporeryItems()).data
     let response = (await this.shoppingListsService.fetch(filters));
     let data: any[] = []

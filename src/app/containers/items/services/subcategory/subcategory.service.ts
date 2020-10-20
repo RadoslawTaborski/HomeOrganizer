@@ -13,7 +13,7 @@ export class SubcategoryService implements HttpServiceModel {
   constructor(private http: HttpClient) { }
 
   fetch(filters?: { [key: string]: any; }): Promise<ResponseData> {
-    return this.http.get<ResponseData>(Api.SUBCATEGORIES_END_POINT).toPromise();
+    return this.http.get<ResponseData>(Api.SUBCATEGORIES_END_POINT, {params: filters}).toPromise();
   }
 
   get(id: string, deep?: number): Promise<SubCategory> {

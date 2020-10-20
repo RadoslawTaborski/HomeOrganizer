@@ -179,7 +179,6 @@ export class PermanentItemsComponent implements OnInit {
 
   async fetch() {
     await this.dataProvider.getPermanentItems(this.filters.getValue()).then(v => {
-      v.data.sort(i => i.categoryId)
       this.items = v;
     })
   }

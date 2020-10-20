@@ -133,6 +133,7 @@ export class ShoppingItemsComponent implements OnInit {
     } else {
       let permanentItem = data as PermanentItemModel
       permanentItem.state = this.dataProvider.states.filter(i=>i.id=="4")[0]
+      permanentItem.counter = permanentItem.counter+1;
       await this.dataProvider.updatePermanentItem(permanentItem);
     }
   }

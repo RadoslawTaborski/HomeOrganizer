@@ -18,7 +18,7 @@ export class CategoryService implements HttpServiceModel {
   constructor(private http: HttpClient) { }
 
   fetch(filters?: { [key: string]: any; }): Promise<ResponseData> {
-    return this.http.get<ResponseData>(Api.CATEGORIES_END_POINT).toPromise();
+    return this.http.get<ResponseData>(Api.CATEGORIES_END_POINT, {params: filters}).toPromise();
   }
 
   get(id: string, deep?: number): Promise<Category> {
