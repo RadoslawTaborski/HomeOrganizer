@@ -5,7 +5,7 @@
             <i class="fas fa-window-close" style="color:firebrick;"></i>
         </button>
     </div>
-    <form #searchForm="ngForm" id="search-form" class="card card-body" (ngSubmit) = "onClickSubmit(searchForm.value)">  
+    <form #searchForm="ngForm" autocomplete="off" id="search-form" class="card card-body" (ngSubmit) = "onClickSubmit(searchForm.value)">  
         <div class="form-group" *ngFor="let control of config.data" [ngSwitch]="control.type" class="modal-body">
     
             <label [for]="control.key">
