@@ -174,7 +174,8 @@ export class TemporaryItemsComponent implements OnInit {
           name: data.details.name,
           category: this.dataProvider.subcategories.filter(i => i.id == data.details.subcategory)[0],
           quantity: data.details.quantity,
-          shoppingListId: this.shoppingListId
+          shoppingListId: this.shoppingListId,
+          groupId: this.dataProvider.group
         })
     
         await this.add(item);

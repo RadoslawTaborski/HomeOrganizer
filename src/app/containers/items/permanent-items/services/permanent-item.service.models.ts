@@ -87,6 +87,7 @@ export class PermanentItemsFilters {
         public subcategoryId = '',
         public stateId = '',
         public pageNumber = 1,
-        public pageSize = 25) {
+        public pageSize = 25,
+        public orderBy = "counter desc, categoryId asc") {
     }
 }

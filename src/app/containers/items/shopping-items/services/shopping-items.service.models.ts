@@ -78,6 +78,7 @@ export class ShoppingItemsFilters {
         public categoryId = '',
         public subcategoryId = '',
         public pageNumber = 1,
-        public pageSize = 25) {
+        public pageSize = 25,
+        public orderBy = "categoryId asc") {
     }
 }

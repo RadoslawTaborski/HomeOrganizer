@@ -170,7 +170,8 @@ export class ShoppingListsComponent implements OnInit {
         let item = new ShoppingListModel({
           name: data.details.name,
           description: data.details.description,
-          visible: true
+          visible: true,
+          groupId: this.dataProvider.group
         })
     
         await this.add(item);

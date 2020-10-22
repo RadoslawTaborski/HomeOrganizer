@@ -54,6 +54,7 @@ export class DataProviderService {
     let tmp: any[]
     this.subcategories = [];
     filters = this.extendsFilters(this.group, filters);
+    filters["orderBy"]="categoryId asc"
     tmp = (await this.subcategoryService.fetch(filters)).data;
     tmp.forEach(a => this.subcategories.push(SubCategory.createFromJson(a, this.categories)))
   } 

@@ -224,7 +224,8 @@ export class PermanentItemsComponent implements OnInit {
         let item = new PermanentItemModel({
           name: data.details.name,
           category: this.dataProvider.subcategories.filter(i => i.id == data.details.subcategory)[0],
-          state: this.dataProvider.states.filter(i => i.id == "3")[0]
+          state: this.dataProvider.states.filter(i => i.id == "3")[0],
+          groupId: this.dataProvider.group
         })
 
         await this.add(item);
