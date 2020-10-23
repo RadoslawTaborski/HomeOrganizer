@@ -4,7 +4,6 @@ import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 import { DataGridConfig, DataGridItemButton, DataGridItemCheckbox, DataGridItemText } from 'src/app/modules/shared/components/data-grid/data-grid-config';
 import { AddItemConfig, AddItemInput, AddItemSelect } from 'src/app/modules/shared/components/modal/add/add-config';
 import { SearchConfig, SearchControl, FieldTypes as SearchFieldTypes } from 'src/app/modules/shared/components/search/search-config';
-import { Category, SubCategory } from '../models/models';
 import { DataProviderService } from '../../services/data-provider.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -12,6 +11,8 @@ import { debounceTime } from 'rxjs/operators';
 import { OperationsService } from '../utils/operations.service';
 import { StateService } from 'src/app/root/services/state.service';
 import { AddOption } from 'src/app/modules/shared/components/modal/add/add.component';
+import { Category } from '../../settings/categories/services/categories.service.models';
+import { SubCategory } from '../../settings/subcategories/services/subcategories.service.models';
 
 @Component({
   selector: 'app-temporary-items',

@@ -1,12 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IPermanentItemModel, PermanentItemTypes, State, PermanentItemAction, PermanentItemsFilters, PermanentItemModel, PermanentItemsFilterTypes } from './services/permanent-item.service.models'
+import { IPermanentItemModel, PermanentItemTypes, PermanentItemAction, PermanentItemsFilters, PermanentItemModel, PermanentItemsFilterTypes } from './services/permanent-item.service.models'
 import { DataGridConfig, DataGridItemText, DataGridItemButton } from '../../../modules/shared/components/data-grid/data-grid-config';
 import { StateService } from 'src/app/root/services/state.service';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { SearchConfig, SearchControl, FieldTypes as SearchFieldTypes } from 'src/app/modules/shared/components/search/search-config';
-import { SubCategory, Category } from '../models/models';
 import { TranslateService } from '@ngx-translate/core';
 import { AddItemConfig, AddItemInput, AddItemSelect } from 'src/app/modules/shared/components/modal/add/add-config';
 import { DataProviderService } from '../../services/data-provider.service';
@@ -14,6 +13,9 @@ import { OperationsService } from '../utils/operations.service';
 import { ConfirmOption } from 'src/app/modules/shared/components/modal/confirm/modal-confirm.component';
 import { AddOption } from 'src/app/modules/shared/components/modal/add/add.component';
 import { DateService } from 'src/app/modules/shared/utils/date/date.service';
+import { SubCategory } from '../../settings/subcategories/services/subcategories.service.models';
+import { Category } from '../../settings/categories/services/categories.service.models';
+import { State } from '../../settings/states/services/states.service.models';
 
 @Component({
   selector: 'app-permanent-items',

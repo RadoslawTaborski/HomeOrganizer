@@ -1,7 +1,7 @@
 import { ActivatedRouteSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
-import { IModel, SubCategory } from 'src/app/containers/items/models/models';
 import { ITemporaryItemModel, TemporaryItemModel } from 'src/app/containers/items/temporary-items/services/temporary-item.service.models';
+import { IModel } from 'src/app/containers/models/models';
 
 
 

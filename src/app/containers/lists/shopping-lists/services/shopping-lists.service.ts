@@ -1,10 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { SubcategoryService } from 'src/app/containers/items/services/subcategory/subcategory.service';
-import { ShoppingItemModel } from 'src/app/containers/items/shopping-items/services/shopping-items.service.models';
-import { TemporaryItemModel } from 'src/app/containers/items/temporary-items/services/temporary-item.service.models';
 import { Api } from 'src/app/utils/api';
 import { HttpServiceModel, ResponseData } from 'src/app/utils/interfaces/http.models';
 import { IShoppingListModel, ShoppingListModel } from './shopping-lists.service.models';

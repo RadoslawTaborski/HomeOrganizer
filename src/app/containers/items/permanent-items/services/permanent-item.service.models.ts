@@ -1,13 +1,7 @@
-import { SubCategory, IItemModel, IModel } from "../../models/models";
-
-export class State implements IModel {
-    id: string;
-    name: string;
-    createTime: string;
-    updateTime: string;
-    deleteTime: string;
-}
-
+import { IModel } from 'src/app/containers/models/models';
+import { State } from 'src/app/containers/settings/states/services/states.service.models';
+import { SubCategory } from 'src/app/containers/settings/subcategories/services/subcategories.service.models';
+import { IItemModel } from "../../models/models";
 
 export enum PermanentItemTypes {
     NAME = 'name',

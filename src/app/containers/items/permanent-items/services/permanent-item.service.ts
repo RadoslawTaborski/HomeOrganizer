@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpServiceModel, ResponseData } from 'src/app/utils/interfaces/http.models';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { PermanentItemModel, State } from './permanent-item.service.models'
+import { PermanentItemModel } from './permanent-item.service.models'
 import { Api } from 'src/app/utils/api';
 import { map } from 'rxjs/operators';
 

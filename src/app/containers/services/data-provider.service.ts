@@ -1,10 +1,6 @@
 import { Injectable } from '@angular/core';
-import { StateService } from '../items/services/state/state.service';
-import { Category, State, SubCategory } from '../items/models/models';
-import { CategoryService } from '../items/services/category/category.service';
 import { PermanentItemService } from '../items/permanent-items/services/permanent-item.service';
 import { PermanentItemModel } from '../items/permanent-items/services/permanent-item.service.models';
-import { SubcategoryService } from '../items/services/subcategory/subcategory.service';
 import { ResponseData } from 'src/app/utils/interfaces/http.models';
 import { ShoppingItemsService } from '../items/shopping-items/services/shopping-items.service';
 import { ShoppingItemModel } from '../items/shopping-items/services/shopping-items.service.models';
@@ -12,6 +8,12 @@ import { ShoppingListsService } from '../lists/shopping-lists/services/shopping-
 import { IShoppingListModel, ShoppingListModel } from '../lists/shopping-lists/services/shopping-lists.service.models';
 import { TemporaryItemService } from '../items/temporary-items/services/temporary-item.service';
 import { ITemporaryItemModel, TemporaryItemModel } from '../items/temporary-items/services/temporary-item.service.models';
+import { Category } from '../settings/categories/services/categories.service.models';
+import { SubCategory } from '../settings/subcategories/services/subcategories.service.models';
+import { State } from '../settings/states/services/states.service.models';
+import { CategoriesService } from '../settings/categories/services/categories.service';
+import { SubcategoriesService } from '../settings/subcategories/services/subcategories.service';
+import { StatesService } from '../settings/states/services/states.service';
 
 @Injectable({
   providedIn: 'root'
@@ -24,9 +26,9 @@ export class DataProviderService {
   group = "1";
 
   constructor(
-    private categoryService: CategoryService,
-    private subcategoryService: SubcategoryService,
-    private stateService: StateService,
+    private categoryService: CategoriesService,
+    private subcategoryService: SubcategoriesService,
+    private stateService: StatesService,
     private permanentItemService: PermanentItemService,
     private shoppingItemService: ShoppingItemsService,
     private temporaryItemService: TemporaryItemService,

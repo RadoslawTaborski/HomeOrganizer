@@ -6,8 +6,10 @@ import { debounceTime } from 'rxjs/operators';
 import { DataGridConfig, DataGridItemCheckbox, DataGridItemText } from 'src/app/modules/shared/components/data-grid/data-grid-config';
 import { SearchConfig, SearchControl, FieldTypes as SearchFieldTypes } from 'src/app/modules/shared/components/search/search-config';
 import { DataProviderService } from '../../services/data-provider.service';
-import { Category, SubCategory } from '../models/models';
-import { PermanentItemModel, State } from '../permanent-items/services/permanent-item.service.models';
+import { Category } from '../../settings/categories/services/categories.service.models';
+import { State } from '../../settings/states/services/states.service.models';
+import { SubCategory } from '../../settings/subcategories/services/subcategories.service.models';
+import { PermanentItemModel } from '../permanent-items/services/permanent-item.service.models';
 import { ShoppingItemsFilters, IShoppingItemModel, ShoppingItemAction, ShoppingItemModel, ShoppingItemTypes, ShoppingItemsFilterTypes } from '../shopping-items/services/shopping-items.service.models'
 import { TemporaryItemModel } from '../temporary-items/services/temporary-item.service.models';
 import { OperationsService } from '../utils/operations.service'

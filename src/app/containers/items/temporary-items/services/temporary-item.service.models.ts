@@ -1,4 +1,5 @@
-import { SubCategory, IItemModel } from "../../models/models";
+import { SubCategory } from 'src/app/containers/settings/subcategories/services/subcategories.service.models';
+import { IItemModel } from "../../models/models";
 
 
 export enum TemporaryItemTypes {

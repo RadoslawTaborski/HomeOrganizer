@@ -1,5 +1,6 @@
-import { SubCategory, IItemModel } from "../../models/models";
-import { State } from '../../permanent-items/services/permanent-item.service.models';
+import { State } from 'src/app/containers/settings/states/services/states.service.models';
+import { SubCategory } from 'src/app/containers/settings/subcategories/services/subcategories.service.models';
+import { IItemModel } from "../../models/models";
 
 export enum ShoppingItemTypes {
     BOUGHT = 'bought',
