@@ -4,7 +4,13 @@
             "shopping": "General list",
             "shopping-lists": "Shopping lists",
             "permanent": "Permanent list",
-            "temporary": "Temporary list"
+            "temporary": "Temporary list",
+            "expenses": "Expenses",
+            "saldo": "Balance",
+            "settings": "Settings",
+            "categories": "Categories",
+            "subcategories": "Subcategories",
+            "saldosettings": "Expenses settings"
         }
     },
     "containers": {
@@ -45,6 +51,25 @@
             "created": "created",
             "updated": "updated",
             "confirm": "Are you sure?"
+        },
+        "settings":{
+            "categories":{
+
+            },
+            "subcategories":{
+
+            },
+            "saldo-settings":{
+
+            }
+        },
+        "finances": {
+            "expenses":{
+
+            },
+            "saldo":{
+
+            }
         }
     },
     "modules": {

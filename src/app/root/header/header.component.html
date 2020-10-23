@@ -18,6 +18,20 @@
           <li class="nav-item">
             <a class="nav-link" routerLink="/permanent/" data-toggle="collapse" data-target=".navbar-collapse.show">{{'root.header.permanent'|translate}}</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/finances/expenses/" data-toggle="collapse" data-target=".navbar-collapse.show">{{'root.header.expenses'|translate}}</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/finances/saldo/" data-toggle="collapse" data-target=".navbar-collapse.show">{{'root.header.saldo'|translate}}</a>
+          </li>
+          <li class="nav-item dropdown show">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">{{'root.header.settings'|translate}}<span class="caret"></span></a>
+            <div class="dropdown-menu show" aria-labelledby="download">
+              <a class="dropdown-item" routerLink="/settings/categories/" data-toggle="collapse" data-target=".navbar-collapse.show">{{'root.header.categories'|translate}}</a>
+              <a class="dropdown-item" routerLink="/settings/subcategories/" data-toggle="collapse" data-target=".navbar-collapse.show">{{'root.header.subcategories'|translate}}</a>
+              <a class="dropdown-item" routerLink="/finances/expenses-settings/" data-toggle="collapse" data-target=".navbar-collapse.show">{{'root.header.saldosettings'|translate}}</a>
+            </div>
+        </li>
         </ul>
       </div>
     </ng-container>

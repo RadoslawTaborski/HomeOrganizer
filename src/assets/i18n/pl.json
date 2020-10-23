@@ -4,7 +4,13 @@
             "shopping": "Lista zbiorcza",
             "shopping-lists": "Listy zakupów",
             "permanent": "Lista permanentna",
-            "temporary": "Lista tymczasowa"
+            "temporary": "Lista tymczasowa",
+            "expenses": "Wydatki",
+            "saldo": "Saldo",
+            "settings": "Ustawienia",
+            "categories": "Kategorie",
+            "subcategories": "Podkategorie",
+            "saldosettings": "Ustawienia wydatków"
         }
     },
     "containers": {
@@ -45,6 +51,25 @@
             "created": "utworzono",
             "updated": "zaktualizowano",
             "confirm": "Czy na pewno?"
+        },
+        "settings":{
+            "categories":{
+
+            },
+            "subcategories":{
+
+            },
+            "saldo-settings":{
+
+            }
+        },
+        "finances": {
+            "expenses":{
+
+            },
+            "saldo":{
+                
+            }
         }
     },
     "modules": {
