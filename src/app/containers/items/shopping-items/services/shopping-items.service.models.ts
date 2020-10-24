@@ -80,6 +80,6 @@ export class ShoppingItemsFilters {
         public subcategoryId = '',
         public pageNumber = 1,
         public pageSize = 25,
-        public orderBy = "categoryId asc") {
+        public orderBy = "categoryId asc, name asc") {
     }
 }

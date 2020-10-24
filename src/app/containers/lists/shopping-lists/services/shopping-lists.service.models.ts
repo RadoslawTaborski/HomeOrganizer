@@ -51,7 +51,7 @@ export class ShoppingListModel implements IShoppingListModel {
             name: a.name,
             description: a.description,
             visible: a.visible,
-            data: data.filter(i => i.shoppingListId === a.id),
+            data: data,
             createTime: a.createTime,
             updateTime: a.updateTime,
             deleteTime: a.deleteTime,

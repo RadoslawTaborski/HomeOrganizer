@@ -22,6 +22,17 @@
                 </div>
             </div>
             <app-datagrid [data]='items?.data' [config]='dataGridConfig' [itemAction]="action"></app-datagrid>
+            <br>
+            <div class="row">
+                <div class="col">
+                </div>
+                <div class="col">
+                    <ngb-pagination class="float-right" [collectionSize]="items?.total" [maxSize]="5" size="sm"
+                        [pageSize]="filters.value.pageSize" [rotate]="true"
+                        (pageChange)="updateFilters({pageNumber: $event || 1})" [page]="filters.value.pageNumber">
+                    </ngb-pagination>
+                </div>
+            </div>
         </div>
     </div>
     <div style="position: absolute;">
