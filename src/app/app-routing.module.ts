@@ -10,7 +10,6 @@ import { ShoppingListDetailsComponent } from './containers/lists/shopping-lists/
 import { ShoppingListDetailsResolver } from './containers/lists/shopping-lists/details/shopping-list-details.resolver';
 import { ShoppingListsComponent } from './containers/lists/shopping-lists/shopping-lists.component';
 import { CategoriesComponent } from './containers/settings/categories/categories.component';
-import { StatesComponent } from './containers/settings/states/states.component';
 import { SubcategoriesComponent } from './containers/settings/subcategories/subcategories.component';
 
 const routes: Routes = [
@@ -23,7 +22,6 @@ const routes: Routes = [
   { path: 'finances/expenses-settings', component: ExpensesSettingsComponent },
   { path: 'settings/categories', component: CategoriesComponent },
   { path: 'settings/subcategories', component: SubcategoriesComponent },
-  { path: 'settings/states', component: StatesComponent },
   { path: 'shopping-lists/:id', component: ShoppingListDetailsComponent, resolve: { item: ShoppingListDetailsResolver} },
   { path: '**', redirectTo: 'shopping' }
 ];

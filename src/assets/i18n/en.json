@@ -54,21 +54,29 @@
         },
         "settings":{
             "categories":{
-
+                "name": "name",
+                "categories": "categories"
             },
             "subcategories":{
-
+                "name": "name",
+                "parent": "category",
+                "categories": "categories",
+                "category": "category"
             },
             "saldo-settings":{
-
+                "name": "name",
+                "posts": "posts"
             }
         },
         "finances": {
             "expenses":{
-
+                "name": "name",
+                "expenses": "expenses"
             },
             "saldo":{
-
+                "person1": "person1",
+                "person2": "person2",
+                "posts":"posts"
             }
         }
     },

@@ -54,18 +54,19 @@
         },
         "settings":{
             "categories":{
-
+                "name": "nazwa"
             },
             "subcategories":{
-
+                "name": "nazwa",
+                "parent": "kategoria"
             },
             "saldo-settings":{
-
+                "name": "nazwa"
             }
         },
         "finances": {
             "expenses":{
-
+                "name": "nazwa"
             },
             "saldo":{
                 

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { DataProviderService } from '../../services/data-provider.service';
-import { Category } from '../../settings/categories/services/categories.service.models';
-import { SubCategory } from '../../settings/subcategories/services/subcategories.service.models';
+import { DataProviderService } from './data-provider.service';
+import { Category } from '../settings/categories/services/categories.service.models';
+import { SubCategory } from '../settings/subcategories/services/subcategories.service.models';
 
 @Injectable({
   providedIn: 'root'

@@ -1,4 +1,4 @@
-import { IModel } from 'src/app/containers/models/models';
+import { Action, IModel, Methods } from 'src/app/containers/models/models';
 
 export interface IState extends IModel {
     id: string;
@@ -34,5 +34,26 @@ export class State implements IState {
         tmp.deleteTime = entity.deleteTime;
         tmp.name = entity.name;
         return JSON.stringify(tmp)
+    }
+}
+
+export enum StateTypes {
+    NAME = 'name',
+    ID = 'id',
+}
+
+export interface StateAction extends Action {
+    type: Methods
+    data: State
+}
+
+export enum SteteFilterTypes {
+}
+
+export class StateFilters {
+    constructor(
+        public pageNumber = 1,
+        public pageSize = 25,
+        public orderBy = "categoryId asc, id asc") {
     }
 }

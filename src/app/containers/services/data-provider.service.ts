@@ -19,7 +19,6 @@ import { StatesService } from '../settings/states/services/states.service';
   providedIn: 'root'
 })
 export class DataProviderService {
-
   categories: Category[] = [];
   subcategories: SubCategory[] = [];
   states: State[] = [];
@@ -43,29 +42,37 @@ export class DataProviderService {
     return filters;
   }
 
-  async reloadCategories(filters?: { [key: string]: any; }){
+  async reloadCategories(filters?: { [key: string]: any; }): Promise<ResponseData>{
     filters = this.extendsFilters(this.group, filters);
-    let tmp: any[]
-    this.categories = [];
-    tmp = (await this.categoryService.fetch(filters)).data;
-    tmp.forEach(a => this.categories.push(Category.createFromJson(a)))
+    let response = (await this.categoryService.fetch(filters));
+    let data: any[] = []
+    response.data.forEach(a => data.push(Category.createFromJson(a)))
+
+    this.categories = data;
+
+    return {data: data, total:response.total, error:"", message:""};
   }
 
-  async reloadSubCategories(filters?: { [key: string]: any; }){
-    await this.reloadCategories(filters);
-    let tmp: any[]
-    this.subcategories = [];
+  async reloadSubCategories(filters?: { [key: string]: any; }): Promise<ResponseData>{
     filters = this.extendsFilters(this.group, filters);
     filters["orderBy"]="categoryId asc"
-    tmp = (await this.subcategoryService.fetch(filters)).data;
-    tmp.forEach(a => this.subcategories.push(SubCategory.createFromJson(a, this.categories)))
+    let response = (await this.subcategoryService.fetch(filters));
+    let data: any[] = []
+    response.data.forEach(a => data.push(SubCategory.createFromJson(a, this.categories)))
+
+    this.subcategories = data;
+
+    return {data: data, total:response.total, error:"", message:""};
   } 
 
-  async reloadStates(filters?: { [key: string]: any; }){
-    let tmp: any[]
-    this.states = [];
-    tmp = (await this.stateService.fetch(filters)).data;
-    tmp.forEach(a => this.states.push(State.createFromJson(a)))
+  async reloadStates(filters?: { [key: string]: any; }): Promise<ResponseData>{
+    let response = (await this.stateService.fetch(filters));
+    let data: any[] = []
+    response.data.forEach(a => data.push(State.createFromJson(a)))
+
+    this.states = data;
+
+    return {data: data, total:response.total, error:"", message:""};
   }
 
   async getPermanentItems(filters?: { [key: string]: any; }) : Promise<ResponseData>{
@@ -144,6 +151,11 @@ export class DataProviderService {
   async updateTemporaryItem(item: TemporaryItemModel): Promise<ResponseData>{
     return await this.temporaryItemService.update(TemporaryItemModel.toJson(item));
   }
+
+  async addSubcategories(data: SubCategory): Promise<ResponseData> {
+    return await this.subcategoryService.add(SubCategory.toJson(data));
+  }
+
 
   getCriticalState(): State {
     return this.states.filter(i=>i.name === "CRITICAL")[0];

@@ -1,3 +1,4 @@
+import { Action, Filter, Methods } from 'src/app/containers/models/models';
 import { ICategory } from '../../models/models';
 
 export class Category implements ICategory {
@@ -32,5 +33,25 @@ export class Category implements ICategory {
         tmp.deleteTime = entity.deleteTime;
         tmp.name = entity.name;
         return JSON.stringify(tmp)
+    }
+}
+
+export enum CategoryTypes {
+    NAME = 'name',
+    ID = 'id'
+}
+
+export interface CategoryAction extends Action {
+    data: Category
+}
+
+export enum CartegoriesFilterTypes {
+}
+
+export class CategoriesFilters implements Filter {
+    constructor(
+        public pageNumber = 1,
+        public pageSize = 25,
+        public orderBy = "id asc") {
     }
 }

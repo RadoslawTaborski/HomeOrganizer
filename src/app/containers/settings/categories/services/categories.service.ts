@@ -30,13 +30,13 @@ export class CategoriesService implements HttpServiceModel {
   } 
 
   add(item: any): Promise<ResponseData> {
-    return this.http.post(Api.CATEGORIES_END_POINT, item).pipe(
+    return this.http.post(Api.CATEGORIES_END_POINT, item, httpOptions).pipe(
       map((resp: { data }) => resp.data)
     ).toPromise();
   }
 
   update(item: any): Promise<ResponseData> {
-    return this.http.put(Api.CATEGORIES_END_POINT, item).pipe(
+    return this.http.put(Api.CATEGORIES_END_POINT, item, httpOptions).pipe(
       map((resp: { data }) => resp.data)
     ).toPromise();
   }

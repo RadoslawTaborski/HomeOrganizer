@@ -9,7 +9,7 @@ import { SearchConfig, SearchControl, FieldTypes as SearchFieldTypes } from 'src
 import { TranslateService } from '@ngx-translate/core';
 import { AddItemConfig, AddItemInput, AddItemSelect } from 'src/app/modules/shared/components/modal/add/add-config';
 import { DataProviderService } from '../../services/data-provider.service';
-import { OperationsService } from '../utils/operations.service';
+import { OperationsService } from '../../services/operations.service';
 import { ConfirmOption } from 'src/app/modules/shared/components/modal/confirm/modal-confirm.component';
 import { AddOption } from 'src/app/modules/shared/components/modal/add/add.component';
 import { DateService } from 'src/app/modules/shared/utils/date/date.service';
@@ -56,6 +56,7 @@ export class PermanentItemsComponent implements OnInit {
   }
 
   async ngOnInit() {
+    await this.dataProvider.reloadCategories();
     await this.dataProvider.reloadSubCategories();
     await this.dataProvider.reloadStates();
 

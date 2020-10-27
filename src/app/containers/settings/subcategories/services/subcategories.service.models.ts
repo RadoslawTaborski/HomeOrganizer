@@ -1,3 +1,4 @@
+import { Action, Methods } from 'src/app/containers/models/models';
 import { Category } from '../../categories/services/categories.service.models';
 import { ICategory } from '../../models/models';
 
@@ -36,5 +37,29 @@ export class SubCategory implements ICategory {
         tmp.name = entity.name;
         tmp.categoryId = entity.parent.id;
         return JSON.stringify(tmp)
+    }
+}
+
+export enum SubcategoryTypes {
+    NAME = 'name',
+    ID = 'id',
+    PARENT = 'parent'
+}
+
+export interface SubcategoryAction extends Action {
+    type: Methods
+    data: SubCategory
+}
+
+export enum SubcartegoriesFilterTypes {
+    CATEGORY = 'categoryId',
+}
+
+export class SubcategoriesFilters {
+    constructor(
+        public categoryId = '',
+        public pageNumber = 1,
+        public pageSize = 25,
+        public orderBy = "categoryId asc, id asc") {
     }
 }

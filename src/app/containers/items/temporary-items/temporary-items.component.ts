@@ -8,7 +8,7 @@ import { DataProviderService } from '../../services/data-provider.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { debounceTime } from 'rxjs/operators';
-import { OperationsService } from '../utils/operations.service';
+import { OperationsService } from '../../services/operations.service';
 import { StateService } from 'src/app/root/services/state.service';
 import { AddOption } from 'src/app/modules/shared/components/modal/add/add.component';
 import { Category } from '../../settings/categories/services/categories.service.models';
@@ -53,6 +53,7 @@ export class TemporaryItemsComponent implements OnInit {
 
   async ngOnInit() {
     this.shoppingListId = this.activatedRoute.snapshot.paramMap.get('id');
+    await this.dataProvider.reloadCategories();
     await this.dataProvider.reloadSubCategories();
     await this.dataProvider.reloadStates();
 

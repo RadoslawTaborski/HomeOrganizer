@@ -12,7 +12,8 @@ import { HeaderComponent } from './root/header/header.component';
 import { FooterComponent } from './root/footer/footer.component'
 import { ParametersService } from './root/services/parameters.service';
 import { StateService } from './root/services/state.service';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms'; 
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap'; 
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -25,6 +26,7 @@ export function createTranslateLoader(http: HttpClient) {
     FooterComponent
   ],
   imports: [
+    FormsModule,
     BrowserModule,
     AppRoutingModule,
     ContainersModule,

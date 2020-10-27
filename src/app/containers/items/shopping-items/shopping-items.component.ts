@@ -12,7 +12,7 @@ import { SubCategory } from '../../settings/subcategories/services/subcategories
 import { PermanentItemModel } from '../permanent-items/services/permanent-item.service.models';
 import { ShoppingItemsFilters, IShoppingItemModel, ShoppingItemAction, ShoppingItemModel, ShoppingItemTypes, ShoppingItemsFilterTypes } from '../shopping-items/services/shopping-items.service.models'
 import { TemporaryItemModel } from '../temporary-items/services/temporary-item.service.models';
-import { OperationsService } from '../utils/operations.service'
+import { OperationsService } from '../../services/operations.service'
 
 @Component({
   selector: 'app-shopping-items',
@@ -47,6 +47,7 @@ export class ShoppingItemsComponent implements OnInit {
   }
 
   async ngOnInit() {
+    await this.dataProvider.reloadCategories();
     await this.dataProvider.reloadSubCategories();
     await this.dataProvider.reloadStates();
 
