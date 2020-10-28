@@ -2,12 +2,14 @@ import { Action, IModel, Methods } from 'src/app/containers/models/models';
 
 export interface IState extends IModel {
     id: string;
+    level: string;
     name: string;
 }
 
 export class State implements IState {
     id: string;
     name: string;
+    level: string;
     createTime: string;
     updateTime: string;
     deleteTime: string;
@@ -18,8 +20,9 @@ export class State implements IState {
 
     static createFromJson(a: any): State {
         return new State({
-            id: a.id,
+            id: a.uuid,
             name: a.name,
+            level: a.level,
             createTime: a.createTime,
             updateTime: a.updateTime,
             deleteTime: a.deleteTime
@@ -28,7 +31,8 @@ export class State implements IState {
 
     static toJson(entity: State): string{
         var tmp: any = {};
-        tmp.id = entity.id;
+        tmp.uuid = entity.id;
+        tmp.level = entity.level;
         tmp.createTime = entity.createTime;
         tmp.updateTime = entity.updateTime;
         tmp.deleteTime = entity.deleteTime;
@@ -54,6 +58,6 @@ export class StateFilters {
     constructor(
         public pageNumber = 1,
         public pageSize = 25,
-        public orderBy = "categoryId asc, id asc") {
+        public orderBy = "categoryUuid asc, uuid asc") {
     }
 }

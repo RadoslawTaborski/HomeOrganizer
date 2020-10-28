@@ -17,10 +17,10 @@ export class SubCategory implements ICategory {
 
     static createFromJson(a: any, categories: Category[]): SubCategory {
         return new SubCategory({
-            id: a.id,
-            groupId: a.groupId,
+            id: a.uuid,
+            groupId: a.groupUuid,
             name: a.name,
-            parent: categories.filter(i => i.id === a.categoryId)[0],
+            parent: categories.filter(i => i.id === a.categoryUuid)[0],
             createTime: a.createTime,
             updateTime: a.updateTime,
             deleteTime: a.deleteTime
@@ -29,13 +29,13 @@ export class SubCategory implements ICategory {
 
     static toJson(entity: SubCategory): string{
         var tmp: any = {};
-        tmp.id = entity.id;
-        tmp.groupId = entity.groupId;
+        tmp.uuid = entity.id;
+        tmp.groupUuid = entity.groupId;
         tmp.createTime = entity.createTime;
         tmp.updateTime = entity.updateTime;
         tmp.deleteTime = entity.deleteTime;
         tmp.name = entity.name;
-        tmp.categoryId = entity.parent.id;
+        tmp.categoryUuid = entity.parent.id;
         return JSON.stringify(tmp)
     }
 }
@@ -52,7 +52,7 @@ export interface SubcategoryAction extends Action {
 }
 
 export enum SubcartegoriesFilterTypes {
-    CATEGORY = 'categoryId',
+    CATEGORY = 'categoryUuid',
 }
 
 export class SubcategoriesFilters {
@@ -60,6 +60,6 @@ export class SubcategoriesFilters {
         public categoryId = '',
         public pageNumber = 1,
         public pageSize = 25,
-        public orderBy = "categoryId asc, id asc") {
+        public orderBy = "categoryUuid asc, uuid asc") {
     }
 }

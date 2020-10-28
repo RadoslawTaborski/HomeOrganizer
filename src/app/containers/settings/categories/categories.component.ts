@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { DataGridConfig, DataGridItemText } from 'src/app/modules/shared/components/data-grid/data-grid-config';
-import { AddItemConfig } from 'src/app/modules/shared/components/modal/add/add-config';
+import { AddItemConfig, AddItemInput } from 'src/app/modules/shared/components/modal/add/add-config';
 import { AddOption } from 'src/app/modules/shared/components/modal/add/add.component';
 import { ConfirmOption } from 'src/app/modules/shared/components/modal/confirm/modal-confirm.component';
 import { SearchConfig } from 'src/app/modules/shared/components/search/search-config';
@@ -90,7 +90,8 @@ export class CategoriesComponent implements OnInit {
   async addItem(data: { result: AddOption, details: any }) {
     switch (data.result) {
       case 'ok':
-        this.add(data.details);
+        let obj = this.createFrom(data.details);
+        this.add(obj);
         break;
       case 'dissmised': console.log('nok', data); break;
     }
@@ -102,7 +103,7 @@ export class CategoriesComponent implements OnInit {
   }
 
   async add(data: Category) {
-    console.log("add")
+    await this.dataProvider.addCategories(data);
     window.location.reload();
   }
 
@@ -121,15 +122,13 @@ export class CategoriesComponent implements OnInit {
   }
 
   createFrom(data: any) : Category {
-    console.log("createFrom")
-    return null;
+    return new Category({
+      name: data.name,
+      groupId: this.dataProvider.group
+    })
   }
 
   async configuration(){
-    this.searchConfig = new SearchConfig([
-
-    ]);
-
     this.dataGridConfig = new DataGridConfig([
       new DataGridItemText.Builder()
       .setKey(CategoryTypes.NAME)
@@ -140,7 +139,7 @@ export class CategoriesComponent implements OnInit {
     ]);
 
     this.addConfig = new AddItemConfig([
-
+      new AddItemInput(CategoryTypes.NAME, this.translate.instant('containers.settings.categories.name')),
     ]);
   }
 }

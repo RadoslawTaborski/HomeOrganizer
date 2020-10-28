@@ -15,9 +15,9 @@ export class Category implements ICategory {
 
     static createFromJson(a: any): Category {
         return new Category({
-            id: a.id,
+            id: a.uuid,
             name: a.name,
-            groupId : a.groupId,
+            groupId : a.groupUuid,
             createTime: a.createTime,
             updateTime: a.updateTime,
             deleteTime: a.deleteTime
@@ -26,8 +26,8 @@ export class Category implements ICategory {
 
     static toJson(entity: Category): string{
         var tmp: any = {};
-        tmp.id = entity.id;
-        tmp.groupId = entity.groupId;
+        tmp.uuid = entity.id;
+        tmp.groupUuid = entity.groupId;
         tmp.createTime = entity.createTime;
         tmp.updateTime = entity.updateTime;
         tmp.deleteTime = entity.deleteTime;
@@ -52,6 +52,6 @@ export class CategoriesFilters implements Filter {
     constructor(
         public pageNumber = 1,
         public pageSize = 25,
-        public orderBy = "id asc") {
+        public orderBy = "uuid asc") {
     }
 }

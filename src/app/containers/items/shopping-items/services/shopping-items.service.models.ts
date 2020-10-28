@@ -44,15 +44,15 @@ export class ShoppingItemModel implements IShoppingItemModel {
 
     static createFromJson(a: any, states: State[], subcategories: SubCategory[]): ShoppingItemModel {
         return new ShoppingItemModel({
-            id: a.id,
+            id: a.uuid,
             name: a.name,
-            category: subcategories.filter(i => i.id === a.categoryId)[0],
-            shoppingListId: a.shoppingListId,
+            category: subcategories.filter(i => i.id === a.categoryUuid)[0],
+            shoppingListId: a.shoppingListUuid,
             quantity: a.quantity,
             bought: a.bought,
-            groupId: a.groupId,
+            groupId: a.groupUuid,
             counter: a.counter,
-            state: states.filter(i => i.id === a.stateId)[0],
+            state: states.filter(i => i.id === a.stateUuid)[0],
             visible: a.visible,
             archieved: a.archieved,
             createTime: a.createTime,
@@ -70,16 +70,16 @@ export interface ShoppingItemAction {
 }
 
 export enum ShoppingItemsFilterTypes {
-    CATEGORY = 'categoryId',
-    SUBCATEGORY = 'subcategoryId',
+    CATEGORY = 'categoryUuid',
+    SUBCATEGORY = 'subcategoryUuid',
 }
 
 export class ShoppingItemsFilters {
     constructor(
-        public categoryId = '',
-        public subcategoryId = '',
+        public categoryUuid = '',
+        public subcategoryUuid = '',
         public pageNumber = 1,
         public pageSize = 25,
-        public orderBy = "categoryId asc, name asc") {
+        public orderBy = "categoryUuid asc, name asc") {
     }
 }

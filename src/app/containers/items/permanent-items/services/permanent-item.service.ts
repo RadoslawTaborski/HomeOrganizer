@@ -41,6 +41,7 @@ export class PermanentItemService implements HttpServiceModel {
   }
 
   remove(id: string): Promise<any> {
+    debugger;
     return this.http.delete(Api.PERMANENT_ITEMS_END_POINT+`/${id}`).pipe(
       map((resp: { data }) => resp)
     ).toPromise();

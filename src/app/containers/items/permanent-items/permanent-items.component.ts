@@ -64,7 +64,7 @@ export class PermanentItemsComponent implements OnInit {
       this.searchConfig = new SearchConfig([
         new SearchControl(SearchFieldTypes.SELECT, PermanentItemsFilterTypes.CATEGORY, this.translate.instant('containers.items.category'), await this.operationsService.getCategories(), (t: Category) => t?.name, (t: Category) => t?.id),
         new SearchControl(SearchFieldTypes.SELECT, PermanentItemsFilterTypes.SUBCATEGORY, this.translate.instant('containers.items.subcategory'), await this.operationsService.getSubCategories(), (t: SubCategory) => t?.name, (t: SubCategory) => t?.id),
-        new SearchControl(SearchFieldTypes.SELECT, PermanentItemsFilterTypes.STATE, this.translate.instant('containers.items.permanent-item.state'), await this.getStates(), (t: State) => this.translateState(t), (t: State) => t.id),
+        new SearchControl(SearchFieldTypes.SELECT, PermanentItemsFilterTypes.STATE, this.translate.instant('containers.items.permanent-item.state'), await this.getStates(), (t: State) => this.translateState(t), (t: State) => t.level),
       ]);
 
       this.dataGridConfig = new DataGridConfig([
@@ -227,7 +227,7 @@ export class PermanentItemsComponent implements OnInit {
         let item = new PermanentItemModel({
           name: data.details.name,
           category: this.dataProvider.subcategories.filter(i => i.id == data.details.subcategory)[0],
-          state: this.dataProvider.states.filter(i => i.id == "3")[0],
+          state: this.dataProvider.states.filter(i => i.level == "3")[0],
           groupId: this.dataProvider.group
         })
 

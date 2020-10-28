@@ -22,7 +22,7 @@ export class DataProviderService {
   categories: Category[] = [];
   subcategories: SubCategory[] = [];
   states: State[] = [];
-  group = "1";
+  group = "07fd7024-9218-eb11-886e-2025641e9574";
 
   constructor(
     private categoryService: CategoriesService,
@@ -38,7 +38,7 @@ export class DataProviderService {
     if(!filters){
       filters = {};
     }
-    filters["groupId"] = groupId;
+    filters["groupUuid"] = groupId;
     return filters;
   }
 
@@ -55,7 +55,7 @@ export class DataProviderService {
 
   async reloadSubCategories(filters?: { [key: string]: any; }): Promise<ResponseData>{
     filters = this.extendsFilters(this.group, filters);
-    filters["orderBy"]="categoryId asc"
+    filters["orderBy"]="categoryUuid asc"
     let response = (await this.subcategoryService.fetch(filters));
     let data: any[] = []
     response.data.forEach(a => data.push(SubCategory.createFromJson(a, this.categories)))
@@ -133,6 +133,7 @@ export class DataProviderService {
   }
 
   async removePermanentItem(item: PermanentItemModel): Promise<ResponseData>{
+    debugger;
     return await this.permanentItemService.remove(item.id);
   }
 
@@ -156,6 +157,9 @@ export class DataProviderService {
     return await this.subcategoryService.add(SubCategory.toJson(data));
   }
 
+  async addCategories(data: Category): Promise<ResponseData> {
+    return await this.categoryService.add(Category.toJson(data));
+  }
 
   getCriticalState(): State {
     return this.states.filter(i=>i.name === "CRITICAL")[0];

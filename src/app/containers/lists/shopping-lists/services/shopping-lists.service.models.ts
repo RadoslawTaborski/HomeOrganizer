@@ -3,9 +3,6 @@ import { Observable } from 'rxjs';
 import { ITemporaryItemModel, TemporaryItemModel } from 'src/app/containers/items/temporary-items/services/temporary-item.service.models';
 import { IModel } from 'src/app/containers/models/models';
 
-
-
-
 export enum ShoppingListsTypes {
   NAME = 'name',
   CREATED = 'created',
@@ -46,8 +43,8 @@ export class ShoppingListModel implements IShoppingListModel {
 
     static createFromJson(a: any, data: ITemporaryItemModel[]): ShoppingListModel {
         return new ShoppingListModel({
-            id: a.id,
-            groupId: a.groupId,
+            id: a.uuid,
+            groupId: a.groupUuid,
             name: a.name,
             description: a.description,
             visible: a.visible,
@@ -60,8 +57,8 @@ export class ShoppingListModel implements IShoppingListModel {
 
     static toJson(entity: ShoppingListModel): string{
         var tmp: any = {};
-        tmp.id = entity.id;
-        tmp.groupId = entity.groupId;
+        tmp.uuid = entity.id;
+        tmp.groupUuid = entity.groupId;
         tmp.createTime = entity.createTime;
         tmp.updateTime = entity.updateTime;
         tmp.deleteTime = entity.deleteTime;

@@ -36,11 +36,11 @@ export class TemporaryItemModel implements ITemporaryItemModel {
 
     static createFromJson(a: any, subcategories:SubCategory[]): TemporaryItemModel {
         return new TemporaryItemModel ({
-            id: a.id,
-            groupId: a.groupId,
+            id: a.uuid,
+            groupId: a.groupUuid,
             name: a.name,
-            shoppingListId: a.shoppingListId,
-            category: subcategories.filter(i => i.id === a.categoryId)[0],
+            shoppingListId: a.shoppingListUuid,
+            category: subcategories.filter(i => i.id === a.categoryUuid)[0],
             quantity: a.quantity,
             bought: a.bought,
             createTime: a.createTime,
@@ -51,15 +51,15 @@ export class TemporaryItemModel implements ITemporaryItemModel {
 
       static toJson(entity: TemporaryItemModel): string{
         var tmp: any = {};
-        tmp.id = entity.id;
-        tmp.groupId = entity.groupId;
+        tmp.uuid = entity.id;
+        tmp.groupUuid = entity.groupId;
         tmp.createTime = entity.createTime;
         tmp.updateTime = entity.updateTime;
         tmp.deleteTime = entity.deleteTime;
         tmp.name = entity.name;
         tmp.quantity = entity.quantity;
-        tmp.shoppingListId = entity.shoppingListId;
-        tmp.categoryId = entity.category.id;
+        tmp.shoppingListUuid = entity.shoppingListId;
+        tmp.categoryUuid = entity.category.id;
         tmp.bought = entity.bought;
         return JSON.stringify(tmp)
     }
@@ -73,16 +73,16 @@ export interface TemporaryItemAction {
 }
 
 export enum TemporaryItemsFilterTypes {
-    CATEGORY = 'categoryId',
-    SUBCATEGORY = 'subcategoryId',
+    CATEGORY = 'categoryUuid',
+    SUBCATEGORY = 'subcategoryUuid',
 }
 
 export class TemporaryItemsFilters {
     constructor(
-        public categoryId = '',
-        public subcategoryId = '',
+        public categoryUuid = '',
+        public subcategoryUuid = '',
         public pageNumber = 1,
         public pageSize = 25,
-        public orderBy = "categoryId asc, name asc") {
+        public orderBy = "categoryUuid asc, name asc") {
     }
 }

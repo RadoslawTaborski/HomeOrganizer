@@ -35,12 +35,12 @@ export class PermanentItemModel implements IPermanentItemModel {
 
     static createFromJson(a: any, states: State[], subcategories: SubCategory[]): PermanentItemModel {
         return new PermanentItemModel({
-            id: a.id,
-            groupId: a.groupId,
+            id: a.uuid,
+            groupId: a.groupUuid,
             name: a.name,
             counter: a.counter,
-            category: subcategories.filter(i => i.id === a.categoryId)[0],
-            state: states.filter(i => i.id === a.stateId)[0],
+            category: subcategories.filter(i => i.id === a.categoryUuid)[0],
+            state: states.filter(i => i.id === a.stateUuid)[0],
             createTime: a.createTime,
             updateTime: a.updateTime,
             deleteTime: a.deleteTime,
@@ -49,15 +49,15 @@ export class PermanentItemModel implements IPermanentItemModel {
 
     static toJson(entity: PermanentItemModel) : string {
         var tmp: any = {};
-        tmp.id = entity.id;
-        tmp.groupId = entity.groupId;
+        tmp.uuid = entity.id;
+        tmp.groupUuid = entity.groupId;
         tmp.counter = entity.counter;
         tmp.createTime = entity.createTime;
         tmp.updateTime = entity.updateTime;
         tmp.deleteTime = entity.deleteTime;
         tmp.name = entity.name;
-        tmp.categoryId = entity.category.id;
-        tmp.stateId = entity.state.id;
+        tmp.categoryUuid = entity.category.id;
+        tmp.stateUuid = entity.state.id;
         return JSON.stringify(tmp)
     }
 }
@@ -70,18 +70,18 @@ export interface PermanentItemAction {
 }
 
 export enum PermanentItemsFilterTypes {
-    CATEGORY = 'categoryId',
-    SUBCATEGORY = 'subcategoryId',
-    STATE = 'stateId'
+    CATEGORY = 'categoryUuid',
+    SUBCATEGORY = 'subcategoryUuid',
+    STATE = 'stateLevel'
 }
 
 export class PermanentItemsFilters {
     constructor(
-        public categoryId = '',
-        public subcategoryId = '',
-        public stateId = '',
+        public categoryUuid = '',
+        public subcategoryUuid = '',
+        public stateLevel = '',
         public pageNumber = 1,
         public pageSize = 25,
-        public orderBy = "counter desc, categoryId asc, stateId asc, name asc") {
+        public orderBy = "counter desc, categoryUuid asc, stateUuid asc, name asc") {
     }
 }
