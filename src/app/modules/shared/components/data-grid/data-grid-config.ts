@@ -1,4 +1,3 @@
-import { style } from '@angular/animations';
 import { BehaviorSubject } from 'rxjs';
 
 export interface DataGridItemModel {

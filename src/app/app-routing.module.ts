@@ -5,7 +5,6 @@ import { ExpensesComponent } from './containers/finances/expenses/expenses.compo
 import { SaldoComponent } from './containers/finances/saldo/saldo.component';
 import { PermanentItemsComponent } from './containers/items/permanent-items/permanent-items.component';
 import { ShoppingItemsComponent } from './containers/items/shopping-items/shopping-items.component';
-import { TemporaryItemsComponent } from './containers/items/temporary-items/temporary-items.component';
 import { ShoppingListDetailsComponent } from './containers/lists/shopping-lists/details/shopping-list-details.component';
 import { ShoppingListDetailsResolver } from './containers/lists/shopping-lists/details/shopping-list-details.resolver';
 import { ShoppingListsComponent } from './containers/lists/shopping-lists/shopping-lists.component';

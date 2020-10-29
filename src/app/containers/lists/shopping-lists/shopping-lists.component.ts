@@ -50,70 +50,76 @@ export class ShoppingListsComponent implements OnInit {
     await this.dataProvider.reloadCategories();
     await this.dataProvider.reloadSubCategories();
     await this.dataProvider.reloadStates();
-    
+
     this.translate.get('containers.items.name').subscribe(async (t) => {
 
       this.dataGridConfig = new DataGridConfig([
         new DataGridItemCheckbox.Builder()
-        .setKey(ShoppingListsTypes.VISIBLE)
-        .setDisplay(this.translate.instant('containers.lists.visible'))
-        .setValueProvider((t: ShoppingListModel)=>t.visible)
-        .setColumnClass("exactValue")
-        .setColumnStyle("--value: 40px;")
-        .setVisible(true)
-        .build(),
+          .setKey(ShoppingListsTypes.VISIBLE)
+          .setDisplay(this.translate.instant('containers.lists.visible'))
+          .setValueProvider((t: ShoppingListModel) => t.visible)
+          .setColumnClass("exactValue")
+          .setColumnStyle("--value: 40px;")
+          .setVisible(true)
+          .build(),
         new DataGridItemText.Builder()
-        .setKey(ShoppingListsTypes.NAME)
-        .setDisplay(this.translate.instant('containers.lists.name'))
-        .setColumnClass("absorbing-column")
-        .setVisible(true)
-        .build(),
+          .setKey(ShoppingListsTypes.NAME)
+          .setDisplay(this.translate.instant('containers.lists.name'))
+          .setColumnClass("absorbing-column")
+          .setVisible(true)
+          .build(),
         new DataGridItemButton.Builder()
-        .setKey(ShoppingListsTypes.MORE)
-        .setDisplay(this.translate.instant('containers.lists.more'))
-        .setIconProvider(()=>"<i class=\"fas fa-info\"></i>")
-        .setClassProvider((t: ShoppingListModel) => "btn btn-primary")
-        .setAccess(this.stateService.access)
-        .setColumnClass("fitwidth")
-        .setVisible(true)
-        .build(),
+          .setKey(ShoppingListsTypes.MORE)
+          .setDisplay(this.translate.instant('containers.lists.more'))
+          .setIconProvider(() => "<i class=\"fas fa-info\"></i>")
+          .setClassProvider((t: ShoppingListModel) => "btn btn-primary")
+          .setAccess(this.stateService.access)
+          .setColumnClass("fitwidth")
+          .setVisible(true)
+          .build(),
         new DataGridItemButton.Builder()
-        .setKey(ShoppingListsTypes.ARCHIVE)
-        .setDisplay(this.translate.instant('containers.lists.delete'))
-        .setIconProvider(()=>"<i class=\"fas fa-window-close\"></i>")
-        .setClassProvider((t: ShoppingListModel) => "btn btn-danger")
-        .setAccess(this.stateService.access)
-        .setColumnClass("fitwidth")
-        .setVisible(true)
-        .build(),
+          .setKey(ShoppingListsTypes.ARCHIVE)
+          .setDisplay(this.translate.instant('containers.lists.delete'))
+          .setIconProvider(() => "<i class=\"fas fa-window-close\"></i>")
+          .setClassProvider((t: ShoppingListModel) => "btn btn-danger")
+          .setAccess(this.stateService.access)
+          .setColumnClass("fitwidth")
+          .setVisible(true)
+          .build(),
         new DataGridItemText.Builder()
-        .setKey(ShoppingListsTypes.DESCRIPTION)
-        .setDisplay(this.translate.instant('containers.lists.description'))
-        .setTextProvider((t: ShoppingListModel)=>t.description)
-        .build(),
+          .setKey(ShoppingListsTypes.DESCRIPTION)
+          .setDisplay(this.translate.instant('containers.lists.description'))
+          .setTextProvider((t: ShoppingListModel) => t.description)
+          .build(),
         new DataGridItemText.Builder()
-        .setKey(ShoppingListsTypes.CREATED)
-        .setDisplay(this.translate.instant('containers.lists.created'))
-        .setTextProvider((t: ShoppingListModel)=>this.dateService.isoToLocal(t.createTime))
-        .build(),
+          .setKey(ShoppingListsTypes.CREATED)
+          .setDisplay(this.translate.instant('containers.lists.created'))
+          .setTextProvider((t: ShoppingListModel) => this.dateService.isoToLocal(t.createTime))
+          .build(),
         new DataGridItemText.Builder()
-        .setKey(ShoppingListsTypes.UPDATED)
-        .setDisplay(this.translate.instant('containers.lists.updated'))
-        .setTextProvider((t: ShoppingListModel)=>this.dateService.isoToLocal(t.updateTime))
-        .build(),
+          .setKey(ShoppingListsTypes.UPDATED)
+          .setDisplay(this.translate.instant('containers.lists.updated'))
+          .setTextProvider((t: ShoppingListModel) => this.dateService.isoToLocal(t.updateTime))
+          .build(),
       ]);
 
       this.addConfig = new AddItemConfig([
-        new AddItemInput(ShoppingListsTypes.NAME, this.translate.instant('containers.lists.name')),
-        new AddItemInput(ShoppingListsTypes.DESCRIPTION, this.translate.instant('containers.lists.description')),
+        new AddItemInput.Builder()
+          .setKey(ShoppingListsTypes.NAME)
+          .setDisplay(this.translate.instant('containers.lists.name'))
+          .build(),
+        new AddItemInput.Builder()
+          .setKey(ShoppingListsTypes.DESCRIPTION)
+          .setDisplay(this.translate.instant('containers.lists.description'))
+          .build(),
       ]);
 
       this.filters = new BehaviorSubject(new ShoppingListsFilters());
       this.listAction = new Subject();
 
       this.filtersSubscriber = this.filters
-      .pipe(debounceTime(500))
-      .subscribe(() => this.fetch());
+        .pipe(debounceTime(500))
+        .subscribe(() => this.fetch());
 
       this.listActionSubscriber = this.listAction
         .subscribe((action) => {
@@ -165,7 +171,7 @@ export class ShoppingListsComponent implements OnInit {
     })
   }
 
-  async addItem(data: { result: AddOption, details: any}) {
+  async addItem(data: { result: AddOption, details: any }) {
     switch (data.result) {
       case 'ok':
         let item = new ShoppingListModel({
@@ -174,7 +180,7 @@ export class ShoppingListsComponent implements OnInit {
           visible: true,
           groupId: this.dataProvider.group
         })
-    
+
         await this.add(item);
 
         break;

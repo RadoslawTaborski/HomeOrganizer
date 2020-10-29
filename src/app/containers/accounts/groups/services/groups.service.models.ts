@@ -1,38 +1,34 @@
 import { Action, Filter, IModel, Methods } from 'src/app/containers/models/models';
 
-export interface IExpense extends IModel{
+export interface IGroup extends IModel {
     id: string;
     name: string;
-    groupId: string;
 }
 
-export class Expense implements IExpense {
+export class Group implements IGroup {
     id: string;
     name: string;
-    groupId: string;
     createTime: string;
     updateTime: string;
     deleteTime: string;
 
-    public constructor(init?: Partial<Expense>) {
+    public constructor(init?: Partial<Group>) {
         Object.assign(this, init);
     }
 
-    static createFromJson(a: any): Expense {
-        return new Expense({
+    static createFromJson(a: any): Group {
+        return new Group({
             id: a.uuid,
             name: a.name,
-            groupId : a.groupUuid,
             createTime: a.createTime,
             updateTime: a.updateTime,
             deleteTime: a.deleteTime
         });
     }
 
-    static toJson(entity: Expense): string{
+    static toJson(entity: Group): string{
         var tmp: any = {};
         tmp.uuid = entity.id;
-        tmp.groupUuid = entity.groupId;
         tmp.createTime = entity.createTime;
         tmp.updateTime = entity.updateTime;
         tmp.deleteTime = entity.deleteTime;
@@ -41,22 +37,23 @@ export class Expense implements IExpense {
     }
 }
 
-export enum ExpenseTypes {
-    NAME = 'name',
+export enum GroupTypes {
+    NAME = 'username',
+    EMAIL = 'email',
     ID = 'id'
 }
 
-export interface ExpenseAction extends Action {
-    data: Expense
+export interface GroupAction extends Action {
+    data: Group
 }
 
-export enum ExpensesFilterTypes {
+export enum GroupsFilterTypes {
 }
 
-export class ExpensesFilters implements Filter {
+export class GroupsFilters implements Filter {
     constructor(
         public pageNumber = 1,
         public pageSize = 25,
-        public orderBy = "createTime desc") {
+        public orderBy = "username desc") {
     }
 }

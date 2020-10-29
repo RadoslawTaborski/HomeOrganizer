@@ -3,7 +3,7 @@ import { ITemporaryItemModel, TemporaryItemTypes, TemporaryItemAction, Temporary
 import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 import { DataGridConfig, DataGridItemButton, DataGridItemCheckbox, DataGridItemText } from 'src/app/modules/shared/components/data-grid/data-grid-config';
 import { AddItemConfig, AddItemInput, AddItemSelect } from 'src/app/modules/shared/components/modal/add/add-config';
-import { SearchConfig, SearchControl, FieldTypes as SearchFieldTypes } from 'src/app/modules/shared/components/search/search-config';
+import { SearchConfig, SearchSelect, FieldTypes as SearchFieldTypes } from 'src/app/modules/shared/components/search/search-config';
 import { DataProviderService } from '../../services/data-provider.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -59,57 +59,81 @@ export class TemporaryItemsComponent implements OnInit {
 
     this.translate.get('containers.items.name').subscribe(async (t) => {
       this.searchConfig = new SearchConfig([
-        new SearchControl(SearchFieldTypes.SELECT, TemporaryItemsFilterTypes.CATEGORY, this.translate.instant('containers.items.category'), await this.operationsService.getCategories(), (t: Category) => t?.name, (t: Category) => t?.id),
-        new SearchControl(SearchFieldTypes.SELECT, TemporaryItemsFilterTypes.SUBCATEGORY, this.translate.instant('containers.items.subcategory'), await this.operationsService.getSubCategories(), (t: SubCategory) => t?.name, (t: SubCategory) => t?.id),
+        new SearchSelect.Builder()
+        .setKey(TemporaryItemsFilterTypes.CATEGORY)
+        .setDisplay(this.translate.instant('containers.items.category'))
+        .setOptions(await this.operationsService.getCategories())
+        .setDisplayProvider((t: Category) => t?.name)
+        .setIdentifierProvider((t: Category) => t?.id)
+        .build(),
+      new SearchSelect.Builder()
+        .setKey(TemporaryItemsFilterTypes.SUBCATEGORY)
+        .setDisplay(this.translate.instant('containers.items.subcategory'))
+        .setOptions(await this.operationsService.getSubCategories())
+        .setDisplayProvider((t: SubCategory) => t?.name)
+        .setIdentifierProvider((t: SubCategory) => t?.id)
+        .build()
       ]);
 
       this.dataGridConfig = new DataGridConfig([
         new DataGridItemCheckbox.Builder()
-        .setKey(TemporaryItemTypes.BOUGHT)
-        .setDisplay(this.translate.instant('containers.items.temporary-item.bought'))
-        .setValueProvider((t: ITemporaryItemModel): boolean =>t.bought!=null)
-        .setColumnClass("exactValue")
-        .setColumnStyle("--value: 40px;")
-        .setVisible(true)
-        .build(),
+          .setKey(TemporaryItemTypes.BOUGHT)
+          .setDisplay(this.translate.instant('containers.items.temporary-item.bought'))
+          .setValueProvider((t: ITemporaryItemModel): boolean => t.bought != null)
+          .setColumnClass("exactValue")
+          .setColumnStyle("--value: 40px;")
+          .setVisible(true)
+          .build(),
         new DataGridItemText.Builder()
-        .setKey(TemporaryItemTypes.NAME)
-        .setDisplay(this.translate.instant('containers.items.name'))
-        .setColumnClass("absorbing-column")
-        .setVisible(true)
-        .build(),
+          .setKey(TemporaryItemTypes.NAME)
+          .setDisplay(this.translate.instant('containers.items.name'))
+          .setColumnClass("absorbing-column")
+          .setVisible(true)
+          .build(),
         new DataGridItemText.Builder()
-        .setKey(TemporaryItemTypes.CATEGORY)
-        .setDisplay(this.translate.instant('containers.items.category'))
-        .setTextProvider((t: ITemporaryItemModel): string => { return t.category.parent.name})
-        .build(),
+          .setKey(TemporaryItemTypes.CATEGORY)
+          .setDisplay(this.translate.instant('containers.items.category'))
+          .setTextProvider((t: ITemporaryItemModel): string => { return t.category.parent.name })
+          .build(),
         new DataGridItemText.Builder()
-        .setKey(TemporaryItemTypes.SUBCATEGORY)
-        .setDisplay(this.translate.instant('containers.items.subcategory'))
-        .setTextProvider((t: ITemporaryItemModel): string => t.category.name)
-        .build(),
+          .setKey(TemporaryItemTypes.SUBCATEGORY)
+          .setDisplay(this.translate.instant('containers.items.subcategory'))
+          .setTextProvider((t: ITemporaryItemModel): string => t.category.name)
+          .build(),
         new DataGridItemText.Builder()
-        .setKey(TemporaryItemTypes.QUANTITY)
-        .setDisplay(this.translate.instant('containers.items.temporary-item.quantity'))
-        .setColumnClass("exactValue")
-        .setColumnStyle("--value: 20%;")
-        .setVisible(true)
-        .build(),
+          .setKey(TemporaryItemTypes.QUANTITY)
+          .setDisplay(this.translate.instant('containers.items.temporary-item.quantity'))
+          .setColumnClass("exactValue")
+          .setColumnStyle("--value: 20%;")
+          .setVisible(true)
+          .build(),
         new DataGridItemButton.Builder()
-        .setKey(TemporaryItemTypes.ARCHIVE)
-        .setDisplay(this.translate.instant('containers.items.delete'))
-        .setIconProvider(()=>"<i class=\"fas fa-window-close\"></i>")
-        .setClassProvider((t: ITemporaryItemModel) => "btn btn-danger")
-        .setAccess(this.stateService.access)
-        .setColumnClass("fitwidth")
-        .setVisible(true)
-        .build(),
+          .setKey(TemporaryItemTypes.ARCHIVE)
+          .setDisplay(this.translate.instant('containers.items.delete'))
+          .setIconProvider(() => "<i class=\"fas fa-window-close\"></i>")
+          .setClassProvider((t: ITemporaryItemModel) => "btn btn-danger")
+          .setAccess(this.stateService.access)
+          .setColumnClass("fitwidth")
+          .setVisible(true)
+          .build(),
       ]);
 
       this.addConfig = new AddItemConfig([
-        new AddItemInput(TemporaryItemTypes.NAME, this.translate.instant('containers.items.name')),
-        new AddItemInput(TemporaryItemTypes.QUANTITY, this.translate.instant('containers.items.temporary-item.quantity')),
-        new AddItemSelect(TemporaryItemTypes.SUBCATEGORY, this.translate.instant('containers.items.subcategory'), null, await this.operationsService.getSubCategories(), (t: SubCategory) => t?.name, (t: SubCategory) => t?.id),
+        new AddItemInput.Builder()
+          .setKey(TemporaryItemTypes.NAME)
+          .setDisplay(this.translate.instant('containers.items.name'))
+          .build(),
+        new AddItemInput.Builder()
+          .setKey(TemporaryItemTypes.QUANTITY)
+          .setDisplay(this.translate.instant('containers.items.temporary-item.quantity'))
+          .build(),
+        new AddItemSelect.Builder()
+          .setKey(TemporaryItemTypes.SUBCATEGORY)
+          .setDisplay(this.translate.instant('containers.items.subcategory'))
+          .setOptions(await this.operationsService.getSubCategories())
+          .setDisplayProvider((t: SubCategory) => t?.name)
+          .setIdentifierProvider((t: SubCategory) => t?.id)
+          .build()
       ]);
 
       this.filters = new BehaviorSubject(new TemporaryItemsFilters());
@@ -142,7 +166,7 @@ export class TemporaryItemsComponent implements OnInit {
   }
 
   async update(data: TemporaryItemModel) {
-    if(data.bought){
+    if (data.bought) {
       data.bought = null;
     } else {
       data.bought = new Date().toISOString();
@@ -169,7 +193,7 @@ export class TemporaryItemsComponent implements OnInit {
     this.operationsService.fetchSubCategories(this.category, this.subcategory);
   }
 
-  async addItem(data: { result: AddOption, details: any}) {
+  async addItem(data: { result: AddOption, details: any }) {
     switch (data.result) {
       case 'ok':
         let item = new TemporaryItemModel({
@@ -179,7 +203,7 @@ export class TemporaryItemsComponent implements OnInit {
           shoppingListId: this.shoppingListId,
           groupId: this.dataProvider.group
         })
-    
+
         await this.add(item);
 
         break;

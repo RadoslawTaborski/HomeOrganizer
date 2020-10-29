@@ -54,22 +54,29 @@
         },
         "settings":{
             "categories":{
-                "name": "nazwa"
+                "name": "nazwa",
+                "categories": "kategorie"
             },
             "subcategories":{
                 "name": "nazwa",
-                "parent": "kategoria"
+                "parent": "kategoria",
+                "categories": "kategorie",
+                "category": "kategoria"
             },
             "saldo-settings":{
-                "name": "nazwa"
+                "name": "nazwa",
+                "posts": "rekord"
             }
         },
         "finances": {
             "expenses":{
-                "name": "nazwa"
+                "name": "nazwa",
+                "expenses": "wydatki"
             },
             "saldo":{
-                
+                "person1": "osoba1",
+                "person2": "osoba2",
+                "posts":"rekord"
             }
         }
     },

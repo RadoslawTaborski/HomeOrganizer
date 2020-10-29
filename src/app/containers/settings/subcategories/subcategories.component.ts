@@ -6,7 +6,7 @@ import { DataGridConfig, DataGridItemText } from 'src/app/modules/shared/compone
 import { AddItemConfig, AddItemInput, AddItemSelect } from 'src/app/modules/shared/components/modal/add/add-config';
 import { AddOption } from 'src/app/modules/shared/components/modal/add/add.component';
 import { ConfirmOption } from 'src/app/modules/shared/components/modal/confirm/modal-confirm.component';
-import { SearchConfig, SearchControl, FieldTypes as SearchFieldTypes } from 'src/app/modules/shared/components/search/search-config';
+import { SearchConfig, SearchSelect, FieldTypes as SearchFieldTypes } from 'src/app/modules/shared/components/search/search-config';
 import { DataProviderService } from '../../services/data-provider.service';
 import { OperationsService } from '../../services/operations.service';
 import { Category } from '../categories/services/categories.service.models';
@@ -104,7 +104,7 @@ export class SubcategoriesComponent implements OnInit {
     }
   }
 
-  async removeItem(data: SubCategory){
+  async removeItem(data: SubCategory) {
     console.log("remove");
     window.location.reload();
   }
@@ -128,7 +128,7 @@ export class SubcategoriesComponent implements OnInit {
     console.log("update");
   }
 
-  createFrom(data: any) : SubCategory {
+  createFrom(data: any): SubCategory {
     return new SubCategory({
       name: data.name,
       parent: this.dataProvider.categories.filter(i => i.id == data.parent)[0],
@@ -136,31 +136,46 @@ export class SubcategoriesComponent implements OnInit {
     })
   }
 
-  async configuration(){
+  async configuration() {
     this.searchConfig = new SearchConfig([
-      new SearchControl(SearchFieldTypes.SELECT, SubcategoriesFilterTypes.CATEGORY, this.translate.instant('containers.settings.subcategories.category'), await this.operationsService.getCategories(), (t: Category) => t?.name, (t: Category) => t?.id),
+      new SearchSelect.Builder()
+        .setKey(SubcategoriesFilterTypes.CATEGORY)
+        .setDisplay(this.translate.instant('containers.settings.subcategories.category'))
+        .setOptions(await this.operationsService.getCategories())
+        .setDisplayProvider((t: Category) => t?.name)
+        .setIdentifierProvider((t: Category) => t?.id)
+        .build()
     ]);
 
     this.dataGridConfig = new DataGridConfig([
       new DataGridItemText.Builder()
-      .setKey(SubcategoryTypes.NAME)
-      .setDisplay(this.translate.instant('containers.settings.categories.name'))
-      .setTextProvider((t: SubCategory): string => t.name)
-      .setVisible(true)
-      .setColumnClass("absorbing-column")
-      .build(),
+        .setKey(SubcategoryTypes.NAME)
+        .setDisplay(this.translate.instant('containers.settings.categories.name'))
+        .setTextProvider((t: SubCategory): string => t.name)
+        .setVisible(true)
+        .setColumnClass("absorbing-column")
+        .build(),
       new DataGridItemText.Builder()
-      .setKey(SubcategoryTypes.PARENT)
-      .setDisplay(this.translate.instant('containers.settings.categories.parent'))
-      .setTextProvider((t: SubCategory): string => t.parent.name)
-      .setColumnClass("fitwidth")
-      .setVisible(true)
-      .build(),
+        .setKey(SubcategoryTypes.PARENT)
+        .setDisplay(this.translate.instant('containers.settings.categories.parent'))
+        .setTextProvider((t: SubCategory): string => t.parent.name)
+        .setColumnClass("fitwidth")
+        .setVisible(true)
+        .build(),
     ]);
 
     this.addConfig = new AddItemConfig([
-      new AddItemInput(SubcategoryTypes.NAME, this.translate.instant('containers.settings.subcategories.name')),
-      new AddItemSelect(SubcategoryTypes.PARENT, this.translate.instant('containers.settings.subcategories.parent'), null, await this.operationsService.getCategories(), (t: Category) => t?.name, (t: SubCategory) => t?.id),
+      new AddItemInput.Builder()
+        .setKey(SubcategoryTypes.NAME)
+        .setDisplay(this.translate.instant('containers.settings.subcategories.name'))
+        .build(),
+      new AddItemSelect.Builder()
+        .setKey(SubcategoryTypes.PARENT)
+        .setDisplay(this.translate.instant('containers.settings.subcategories.parent'))
+        .setOptions(await this.operationsService.getCategories())
+        .setDisplayProvider((t: Category) => t?.name)
+        .setIdentifierProvider((t: Category) => t?.id)
+        .build()
     ]);
   }
 }

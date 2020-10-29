@@ -14,11 +14,16 @@ import { State } from '../settings/states/services/states.service.models';
 import { CategoriesService } from '../settings/categories/services/categories.service';
 import { SubcategoriesService } from '../settings/subcategories/services/subcategories.service';
 import { StatesService } from '../settings/states/services/states.service';
+import { UsersService } from '../accounts/users/services/users.service';
+import { User } from '../accounts/users/services/users.service.models';
+import { Expense, IExpense } from '../finances/expenses/services/expenses.service.models';
+import { ExpensesService } from '../finances/expenses/services/expenses.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataProviderService {
+  users: User[] = [];
   categories: Category[] = [];
   subcategories: SubCategory[] = [];
   states: State[] = [];
@@ -31,7 +36,9 @@ export class DataProviderService {
     private permanentItemService: PermanentItemService,
     private shoppingItemService: ShoppingItemsService,
     private temporaryItemService: TemporaryItemService,
-    private shoppingListsService: ShoppingListsService
+    private shoppingListsService: ShoppingListsService,
+    private usersService: UsersService,
+    private expensesService: ExpensesService
   ) { }
 
   private extendsFilters(groupId: string, filters: { [key: string]: any; }): any{
@@ -40,6 +47,17 @@ export class DataProviderService {
     }
     filters["groupUuid"] = groupId;
     return filters;
+  }
+
+  async reloadUsers(filters?: { [key: string]: any; }): Promise<ResponseData>{
+    filters = this.extendsFilters(this.group, filters);
+    let response = (await this.usersService.fetch(filters));
+    let data: any[] = []
+    response.data.forEach(a => data.push(User.createFromJson(a)))
+
+    this.users = data;
+
+    return {data: data, total:response.total, error:"", message:""};
   }
 
   async reloadCategories(filters?: { [key: string]: any; }): Promise<ResponseData>{
@@ -114,6 +132,15 @@ export class DataProviderService {
     let temporaryItems: ITemporaryItemModel[] = (await this.getTemporeryItems({"shoppingListId": `${id}`})).data
     let response = (await this.shoppingListsService.get(id));
     return ShoppingListModel.createFromJson(response, temporaryItems)
+  }
+
+  async getExpenses(filters?: { [key: string]: any; }) : Promise<ResponseData> {
+    filters = this.extendsFilters(this.group, filters);
+    let response = (await this.expensesService.fetch(filters));
+    let data: any[] = []
+    response.data.forEach(a => data.push(Expense.createFromJson(a)))
+
+    return {data: data, total:response.total, error:"", message:""};
   }
 
   async addShoppingList(list: ShoppingListModel): Promise<ResponseData>{

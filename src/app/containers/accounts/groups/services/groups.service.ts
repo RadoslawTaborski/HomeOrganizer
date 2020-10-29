@@ -3,7 +3,7 @@ import { HttpServiceModel, ResponseData } from 'src/app/utils/interfaces/http.mo
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Api } from '../../../../utils/api'
 import { map } from 'rxjs/operators';
-import { Expense } from './expenses.service.models';
+import { Group } from './groups.service.models';
 
 const httpOptions = {
   headers: new HttpHeaders()
@@ -13,7 +13,7 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class ExpensesService implements HttpServiceModel {
+export class GroupService implements HttpServiceModel {
 
   constructor(private http: HttpClient) { }
 
@@ -21,7 +21,7 @@ export class ExpensesService implements HttpServiceModel {
     return this.http.get<ResponseData>(Api.EXPENSES_END_POINT, {params: filters}).toPromise();
   }
 
-  get(id: string, deep?: number): Promise<Expense> {
+  get(id: string, deep?: number): Promise<Group> {
     return this.http
       .get<ResponseData>(Api.EXPENSES_END_POINT + `/${id}`)
       .pipe(

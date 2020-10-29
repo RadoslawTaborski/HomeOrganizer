@@ -1,27 +1,30 @@
 import { Action, Filter, IModel, Methods } from 'src/app/containers/models/models';
 
-export interface IExpense extends IModel{
+export interface IUser extends IModel {
     id: string;
-    name: string;
+    username: string;
+    email: string;
     groupId: string;
 }
 
-export class Expense implements IExpense {
+export class User implements IUser {
     id: string;
-    name: string;
+    username: string;
+    email: string;
     groupId: string;
     createTime: string;
     updateTime: string;
     deleteTime: string;
 
-    public constructor(init?: Partial<Expense>) {
+    public constructor(init?: Partial<User>) {
         Object.assign(this, init);
     }
 
-    static createFromJson(a: any): Expense {
-        return new Expense({
+    static createFromJson(a: any): User {
+        return new User({
             id: a.uuid,
-            name: a.name,
+            username: a.username,
+            email: a.email,
             groupId : a.groupUuid,
             createTime: a.createTime,
             updateTime: a.updateTime,
@@ -29,34 +32,37 @@ export class Expense implements IExpense {
         });
     }
 
-    static toJson(entity: Expense): string{
+    static toJson(entity: User): string{
         var tmp: any = {};
         tmp.uuid = entity.id;
         tmp.groupUuid = entity.groupId;
         tmp.createTime = entity.createTime;
         tmp.updateTime = entity.updateTime;
         tmp.deleteTime = entity.deleteTime;
-        tmp.name = entity.name;
+        tmp.username = entity.username;
+        tmp.email = entity.email;
         return JSON.stringify(tmp)
     }
 }
 
-export enum ExpenseTypes {
-    NAME = 'name',
+export enum UserTypes {
+    NAME = 'username',
+    EMAIL = 'email',
     ID = 'id'
 }
 
-export interface ExpenseAction extends Action {
-    data: Expense
+export interface UserAction extends Action {
+    data: User
 }
 
-export enum ExpensesFilterTypes {
+export enum UsersFilterTypes {
 }
 
-export class ExpensesFilters implements Filter {
+export class UsersFilters implements Filter {
     constructor(
         public pageNumber = 1,
         public pageSize = 25,
-        public orderBy = "createTime desc") {
+        
+        public orderBy = "username desc") {
     }
 }

@@ -97,7 +97,7 @@ export class CategoriesComponent implements OnInit {
     }
   }
 
-  async removeItem(data: Category){
+  async removeItem(data: Category) {
     console.log("remove");
     window.location.reload();
   }
@@ -121,25 +121,28 @@ export class CategoriesComponent implements OnInit {
     console.log("update");
   }
 
-  createFrom(data: any) : Category {
+  createFrom(data: any): Category {
     return new Category({
       name: data.name,
       groupId: this.dataProvider.group
     })
   }
 
-  async configuration(){
+  async configuration() {
     this.dataGridConfig = new DataGridConfig([
       new DataGridItemText.Builder()
-      .setKey(CategoryTypes.NAME)
-      .setDisplay(this.translate.instant('containers.settings.categories.name'))
-      .setTextProvider((t: Category): string => t.name)
-      .setVisible(true)
-      .build(),
+        .setKey(CategoryTypes.NAME)
+        .setDisplay(this.translate.instant('containers.settings.categories.name'))
+        .setTextProvider((t: Category): string => t.name)
+        .setVisible(true)
+        .build(),
     ]);
 
     this.addConfig = new AddItemConfig([
-      new AddItemInput(CategoryTypes.NAME, this.translate.instant('containers.settings.categories.name')),
+      new AddItemInput.Builder()
+        .setKey(CategoryTypes.NAME)
+        .setDisplay(this.translate.instant('containers.settings.categories.name'))
+        .build()
     ]);
   }
 }
