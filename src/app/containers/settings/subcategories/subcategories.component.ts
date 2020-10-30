@@ -94,7 +94,7 @@ export class SubcategoriesComponent implements OnInit {
     }
   }
 
-  async addItem(data: { result: AddOption, details: any }) {
+  async addItem(data: { result: AddOption, details: Map<string,any> }) {
     switch (data.result) {
       case 'ok':
         let obj = this.createFrom(data.details);
@@ -128,10 +128,10 @@ export class SubcategoriesComponent implements OnInit {
     console.log("update");
   }
 
-  createFrom(data: any): SubCategory {
+  createFrom(data: Map<string,any>): SubCategory {
     return new SubCategory({
-      name: data.name,
-      parent: this.dataProvider.categories.filter(i => i.id == data.parent)[0],
+      name: data.get(SubcategoryTypes.NAME),
+      parent: this.dataProvider.categories.filter(i => i.id == data.get(SubcategoryTypes.PARENT))[0],
       groupId: this.dataProvider.group
     })
   }

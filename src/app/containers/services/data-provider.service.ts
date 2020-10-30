@@ -160,7 +160,6 @@ export class DataProviderService {
   }
 
   async removePermanentItem(item: PermanentItemModel): Promise<ResponseData>{
-    debugger;
     return await this.permanentItemService.remove(item.id);
   }
 

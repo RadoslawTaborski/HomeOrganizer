@@ -4,10 +4,11 @@ import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { DataGridConfig, DataGridItemText } from 'src/app/modules/shared/components/data-grid/data-grid-config';
-import { AddItemConfig, AddItemInput } from 'src/app/modules/shared/components/modal/add/add-config';
+import { AddItemCheckboxes, AddItemConfig, AddItemInput, AddItemNumber, AddItemRadio, CheckboxPair } from 'src/app/modules/shared/components/modal/add/add-config';
 import { AddOption } from 'src/app/modules/shared/components/modal/add/add.component';
 import { ConfirmOption } from 'src/app/modules/shared/components/modal/confirm/modal-confirm.component';
 import { SearchConfig } from 'src/app/modules/shared/components/search/search-config';
+import { User } from '../../accounts/users/services/users.service.models';
 import { DataProviderService } from '../../services/data-provider.service';
 import { ExpensesFilters, Expense, ExpenseAction, ExpenseTypes } from './services/expenses.service.models';
 
@@ -46,6 +47,8 @@ export class ExpensesComponent implements OnInit {
 
   async ngOnInit() {
     await this.translate.get('containers.finances.expenses.name').subscribe(async t => {
+      await this.dataProvider.reloadUsers();
+      console.log(this.dataProvider.users)
       await this.configuration();
 
       this.filters = new BehaviorSubject(new ExpensesFilters());
@@ -87,7 +90,7 @@ export class ExpensesComponent implements OnInit {
     }
   }
 
-  async addItem(data: { result: AddOption, details: any }) {
+  async addItem(data: { result: AddOption, details: Map<string, any> }) {
     switch (data.result) {
       case 'ok':
         let obj = this.createFrom(data.details);
@@ -104,7 +107,7 @@ export class ExpensesComponent implements OnInit {
 
   async add(data: Expense) {
     //await this.dataProvider.addCategories(data);
-    window.location.reload();
+    //window.location.reload();
   }
 
   async fetch() {
@@ -121,7 +124,8 @@ export class ExpensesComponent implements OnInit {
     console.log("update");
   }
 
-  createFrom(data: any) : Expense {
+  createFrom(data: Map<string, any>) : Expense {
+    console.log(data.get(ExpenseTypes.RECIPIENTS));
     return new Expense({
       // name: data.name,
       // groupId: this.dataProvider.group
@@ -142,6 +146,27 @@ export class ExpensesComponent implements OnInit {
       new AddItemInput.Builder()
       .setKey(ExpenseTypes.NAME)
       .setDisplay(this.translate.instant('containers.finances.expenses.name'))
+      .build(),
+      new AddItemNumber.Builder()
+      .setKey(ExpenseTypes.AMOUNT)
+      .setStep(0.01)
+      .setDefault(0.00)
+      .setDisplay(this.translate.instant('containers.finances.expenses.amount'))
+      .build(),
+      new AddItemRadio.Builder()
+      .setKey(ExpenseTypes.PAYER)
+      .setDisplay(this.translate.instant('containers.finances.expenses.payer'))
+      .setOptions(this.dataProvider.users)
+      .setValue(this.dataProvider.users[0])
+      .setDisplayProvider((t: User) => t?.username)
+      .setIdentifierProvider((t: User) => t?.id)
+      .build(),
+      new AddItemCheckboxes.Builder()
+      .setKey(ExpenseTypes.RECIPIENTS)
+      .setDisplay(this.translate.instant('containers.finances.expenses.contributors'))
+      .setOptions(this.dataProvider.users.map(u=>new CheckboxPair(u, true)))
+      .setDisplayProvider((t: User) => t?.username)
+      .setIdentifierProvider((t: User) => t?.id)
       .build()
     ]);
   }

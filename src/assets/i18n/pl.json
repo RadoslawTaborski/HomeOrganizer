@@ -71,7 +71,10 @@
         "finances": {
             "expenses":{
                 "name": "nazwa",
-                "expenses": "wydatki"
+                "expenses": "wydatki",
+                "contributors": "osoby składające się na wydatek",
+                "payer": "opłacone przez",
+                "amount": "kwota"
             },
             "saldo":{
                 "person1": "osoba1",

@@ -17,4 +17,5 @@ export class Api {
     static SALDO_END_POINT = Api.DATA_BASE_END_POINT + 'saldo';
 
     static USERS_END_POINT = Api.DATA_BASE_END_POINT + 'users';
+    static GROUPS_END_POINT = Api.DATA_BASE_END_POINT + 'groups';
 }

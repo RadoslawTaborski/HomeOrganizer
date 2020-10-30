@@ -87,7 +87,7 @@ export class CategoriesComponent implements OnInit {
     }
   }
 
-  async addItem(data: { result: AddOption, details: any }) {
+  async addItem(data: { result: AddOption, details: Map<string,any> }) {
     switch (data.result) {
       case 'ok':
         let obj = this.createFrom(data.details);
@@ -121,9 +121,9 @@ export class CategoriesComponent implements OnInit {
     console.log("update");
   }
 
-  createFrom(data: any): Category {
+  createFrom(data: Map<string,any>): Category {
     return new Category({
-      name: data.name,
+      name: data.get(CategoryTypes.NAME),
       groupId: this.dataProvider.group
     })
   }

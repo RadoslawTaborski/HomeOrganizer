@@ -71,7 +71,10 @@
         "finances": {
             "expenses":{
                 "name": "name",
-                "expenses": "expenses"
+                "expenses": "expenses",
+                "contributors": "contributors",
+                "payer": "payer",
+                "amount": "amount"
             },
             "saldo":{
                 "person1": "person1",

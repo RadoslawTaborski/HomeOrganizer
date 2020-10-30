@@ -193,13 +193,13 @@ export class TemporaryItemsComponent implements OnInit {
     this.operationsService.fetchSubCategories(this.category, this.subcategory);
   }
 
-  async addItem(data: { result: AddOption, details: any }) {
+  async addItem(data: { result: AddOption, details: Map<string,any> }) {
     switch (data.result) {
       case 'ok':
         let item = new TemporaryItemModel({
-          name: data.details.name,
-          category: this.dataProvider.subcategories.filter(i => i.id == data.details.subcategory)[0],
-          quantity: data.details.quantity,
+          name: data.details.get(TemporaryItemTypes.NAME),
+          category: this.dataProvider.subcategories.filter(i => i.id == data.details.get(TemporaryItemTypes.SUBCATEGORY))[0],
+          quantity: data.details.get(TemporaryItemTypes.QUANTITY),
           shoppingListId: this.shoppingListId,
           groupId: this.dataProvider.group
         })

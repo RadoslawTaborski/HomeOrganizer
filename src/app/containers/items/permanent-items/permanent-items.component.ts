@@ -248,12 +248,12 @@ export class PermanentItemsComponent implements OnInit {
     })
   }
 
-  async addItem(data: { result: AddOption, details: any }) {
+  async addItem(data: { result: AddOption, details: Map<string,any> }) {
     switch (data.result) {
       case 'ok':
         let item = new PermanentItemModel({
-          name: data.details.name,
-          category: this.dataProvider.subcategories.filter(i => i.id == data.details.subcategory)[0],
+          name: data.details.get(PermanentItemTypes.NAME),
+          category: this.dataProvider.subcategories.filter(i => i.id == data.details.get(PermanentItemTypes.SUBCATEGORY))[0],
           state: this.dataProvider.states.filter(i => i.level == "3")[0],
           groupId: this.dataProvider.group
         })

@@ -41,9 +41,16 @@ export class Expense implements IExpense {
     }
 }
 
+
+
+
 export enum ExpenseTypes {
-    NAME = 'name',
-    ID = 'id'
+  NAME = 'name',
+  ID = 'id',
+  VALUE = 'value',
+  RECIPIENTS = "recipients",
+  PAYER = "payer",
+  AMOUNT = "amount"
 }
 
 export interface ExpenseAction extends Action {

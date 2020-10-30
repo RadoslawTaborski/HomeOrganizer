@@ -18,31 +18,31 @@ export class GroupService implements HttpServiceModel {
   constructor(private http: HttpClient) { }
 
   fetch(filters?: { [key: string]: any; }): Promise<ResponseData> {
-    return this.http.get<ResponseData>(Api.EXPENSES_END_POINT, {params: filters}).toPromise();
+    return this.http.get<ResponseData>(Api.GROUPS_END_POINT, {params: filters}).toPromise();
   }
 
   get(id: string, deep?: number): Promise<Group> {
     return this.http
-      .get<ResponseData>(Api.EXPENSES_END_POINT + `/${id}`)
+      .get<ResponseData>(Api.GROUPS_END_POINT + `/${id}`)
       .pipe(
         map((resp: { data }) => resp.data)
       ).toPromise();
   } 
 
   add(item: any): Promise<ResponseData> {
-    return this.http.post(Api.EXPENSES_END_POINT, item, httpOptions).pipe(
+    return this.http.post(Api.GROUPS_END_POINT, item, httpOptions).pipe(
       map((resp: { data }) => resp.data)
     ).toPromise();
   }
 
   update(item: any): Promise<ResponseData> {
-    return this.http.put(Api.EXPENSES_END_POINT, item, httpOptions).pipe(
+    return this.http.put(Api.GROUPS_END_POINT, item, httpOptions).pipe(
       map((resp: { data }) => resp.data)
     ).toPromise();
   }
 
   remove(id: string): Promise<ResponseData> {
-    return this.http.delete(Api.EXPENSES_END_POINT+`/${id}`).pipe(
+    return this.http.delete(Api.GROUPS_END_POINT+`/${id}`).pipe(
       map((resp: { data }) => resp.data)
     ).toPromise();
   }

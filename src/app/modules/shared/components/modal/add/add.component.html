@@ -5,28 +5,49 @@
             <i class="fas fa-window-close" style="color:firebrick;"></i>
         </button>
     </div>
-    <form #searchForm="ngForm" autocomplete="off" id="search-form" class="card card-body" (ngSubmit) = "onClickSubmit(searchForm.value)">  
+    <form #searchForm="ngForm" autocomplete="off" id="search-form" class="card card-body"
+        (ngSubmit)="onClickSubmit(searchForm.value)">
         <div class="form-group" *ngFor="let control of config.data" [ngSwitch]="control.type" class="modal-body">
-    
+
             <label [for]="control.key">
                 {{control.display | camelCaseToSign:' '}}
             </label>
-    
-            <input *ngSwitchCase="'input'" type="text" class="form-control" [id]="control.key"
-                [name]="control.key" ngModel>
-    
-            <input *ngSwitchCase="'input_number'" type="number" class="form-control" [id]="control.key"
+
+            <input *ngSwitchCase="'input'" type="text" class="form-control" [id]="control.key" [name]="control.key"
+                ngModel>
+
+            <input *ngSwitchCase="'input_number'" [step]="control.step" [placeholder]="control.default" type="number" class="form-control" [id]="control.key"
                 [name]="control.key" ngModel>
 
             <select *ngSwitchCase="'select'" class="form-control" [id]="control.key" [name]="control.key"
                 [ngModel]="castToSelect(control).value">
-                <option *ngFor="let opt of castToSelect(control).options" [value]="provideSelectIdentifier(control, opt)">
+                <option *ngFor="let opt of castToSelect(control).options"
+                    [value]="provideSelectIdentifier(control, opt)">
                     {{provideSelectText(control, opt)}}
                 </option>
             </select>
+
+            <div *ngSwitchCase="'checkboxes'">
+                <div *ngFor="let opt of castToCheckboxes(control).options; let i = index">
+                    <input type="checkbox"
+                        [id]="'array:'+control.key+'['+provideCheckboxIdentifier(control,opt.getObject())+']'"
+                        [name]="'array:'+control.key+'['+provideCheckboxIdentifier(control,opt.getObject())+']'"
+                        [(ngModel)]="opt.value">
+                    <label
+                        [for]="'array:'+control.key+'['+provideCheckboxIdentifier(control,opt.getObject())+']'">{{provideCheckboxText(control, opt.getObject())}}</label>
+                </div>
+            </div>
+
+            <div *ngSwitchCase="'radio'">
+                <div *ngFor="let opt of castToRadio(control).options">
+                    <input type="radio" [id]="control.key+'['+provideRadioIdentifier(control,opt.getObject())+']'" [name]="control.key" [value]="provideRadioIdentifier(control,opt.getObject())" [checked]="true" [(ngModel)]="opt.value">
+                    <label [for]="control.key+'['+provideRadioIdentifier(control,opt.getObject())+']'">{{provideRadioText(control, opt.getObject())}}</label>
+                </div>
+            </div>
+
         </div>
         <br>
-        <input class="button btn-primary" type = "submit" value = "{{'modules.shared.components.add.add'|translate}}">
+        <input class="button btn-primary" type="submit" value="{{'modules.shared.components.add.add'|translate}}">
     </form>
 </ng-template>
 

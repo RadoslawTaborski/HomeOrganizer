@@ -171,12 +171,12 @@ export class ShoppingListsComponent implements OnInit {
     })
   }
 
-  async addItem(data: { result: AddOption, details: any }) {
+  async addItem(data: { result: AddOption, details: Map<string,any> }) {
     switch (data.result) {
       case 'ok':
         let item = new ShoppingListModel({
-          name: data.details.name,
-          description: data.details.description,
+          name: data.details.get(ShoppingListsTypes.NAME),
+          description: data.details.get(ShoppingListsTypes.DESCRIPTION),
           visible: true,
           groupId: this.dataProvider.group
         })
