@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { DataGridConfig, DataGridItemText } from 'src/app/modules/shared/components/data-grid/data-grid-config';
+import { DataGridConfig, DataGridItemList, DataGridItemText } from 'src/app/modules/shared/components/data-grid/data-grid-config';
 import { AddItemCheckboxes, AddItemConfig, AddItemInput, AddItemNumber, AddItemRadio, CheckboxPair } from 'src/app/modules/shared/components/modal/add/add-config';
 import { AddOption } from 'src/app/modules/shared/components/modal/add/add.component';
 import { ConfirmOption } from 'src/app/modules/shared/components/modal/confirm/modal-confirm.component';
@@ -138,8 +138,8 @@ export class ExpensesComponent implements OnInit {
     let details: ExpenseDetail[]=[]
     for(var recipient of recipients){
       details.push(new ExpenseDetail({
-        payerId: payer,
-        recipientId: recipient,
+        payer: this.dataProvider.users.filter(u=>u.id==payer)[0],
+        recipient: this.dataProvider.users.filter(u=>u.id==recipient)[0],
         value: value
       }))
     }
@@ -165,9 +165,18 @@ export class ExpensesComponent implements OnInit {
       new DataGridItemText.Builder()
       .setKey(ExpenseTypes.VALUE)
       .setDisplay(this.translate.instant('containers.finances.expenses.amount'))
-      .setTextProvider((t: Expense): string => t.calculateTotalValue().toString())
+      .setTextProvider((t: Expense): string => t.calculateTotalValue().toString()+" zł")
       .setVisible(true)
       .build(),
+      new DataGridItemText.Builder()
+      .setKey(ExpenseTypes.PAYER)
+      .setDisplay(this.translate.instant('containers.finances.expenses.payer'))
+      .setTextProvider((t: Expense): string => t.details[0].payer.username)
+      .build(),
+      new DataGridItemList.Builder()
+      .setValuesProvider((t:Expense): ExpenseDetail[] => t.details)
+      .setValueTextProvider((t:ExpenseDetail)=>`${t.recipient.username}: ${t.value} zł`)
+      .build()
     ]);
 
     this.addConfig = new AddItemConfig([

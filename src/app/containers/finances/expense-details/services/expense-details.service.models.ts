@@ -1,19 +1,20 @@
+import { User } from 'src/app/containers/accounts/users/services/users.service.models';
 import { Action, Filter, IModel, Methods } from 'src/app/containers/models/models';
 
 export interface IExpenseDetail extends IModel {
     id: string;
     expenseId: string;
     value: number;
-    payerId: string;
-    recipientId: string;
+    payer: User;
+    recipient: User;
 }
 
 export class ExpenseDetail implements IExpenseDetail {
     id: string;
     expenseId: string;
     value: number;
-    payerId: string;
-    recipientId: string;
+    payer: User;
+    recipient: User;
     createTime: string;
     updateTime: string;
     deleteTime: string;
@@ -22,13 +23,13 @@ export class ExpenseDetail implements IExpenseDetail {
         Object.assign(this, init);
     }
 
-    static createFromJson(a: any): ExpenseDetail {
+    static createFromJson(a: any, payer: User, recipient:User): ExpenseDetail {
         return new ExpenseDetail({
             id: a.uuid,
             expenseId: a.expenseUuid,
             value: a.value,
-            payerId: a.payerUuid,
-            recipientId: a.recipientUuid,
+            payer: payer,
+            recipient: recipient,
             createTime: a.createTime,
             updateTime: a.updateTime,
             deleteTime: a.deleteTime
@@ -40,8 +41,8 @@ export class ExpenseDetail implements IExpenseDetail {
         tmp.uuid = entity.id;
         tmp.expenseUuid = expenseId;
         tmp.value = entity.value;
-        tmp.payerUuid = entity.payerId;
-        tmp.recipientUuid = entity.recipientId;
+        tmp.payerUuid = entity.payer.id;
+        tmp.recipientUuid = entity.recipient.id;
         tmp.createTime = entity.createTime;
         tmp.updateTime = entity.updateTime;
         tmp.deleteTime = entity.deleteTime;

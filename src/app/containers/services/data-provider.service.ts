@@ -151,7 +151,7 @@ export class DataProviderService {
     filters = this.extendsFilters(this.group.id, filters);
     let response = (await this.expenseDetailsService.fetch(filters));
     let data: any[] = []
-    response.data.forEach(a => data.push(ExpenseDetail.createFromJson(a)))
+    response.data.forEach(a => data.push(ExpenseDetail.createFromJson(a, this.users.filter(u=>u.id==a.payerUuid)[0], this.users.filter(u=>u.id==a.recipientUuid)[0])))
 
     return {data: data, total:response.total, error:"", message:""};
   }

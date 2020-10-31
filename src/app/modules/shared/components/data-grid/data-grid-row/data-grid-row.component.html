@@ -37,7 +37,7 @@
 <div attr.id="body{{index}}" class="collapse in" role="tabpanel" attr.aria-labelledby="heading{{index}}">
     <div class="card-block">
         <div [ngSwitch]="item.type" *ngFor="let item of getVisibleAttributes(false)" style="width: 100%;">
-            <p style="display:inline; margin-left: 1em;">{{item.display}}: </p>
+            <p style="display:inline; margin-left: 1em;" *ngIf="item.display">{{item.display}}: </p>
             <div *ngSwitchCase="'img'" style="display:inline">
                 <img src={{castToImg(item).src}} height="70">
             </div>
@@ -52,6 +52,13 @@
                 <button [disabled]="castToButton(item).access ? !(castToButton(item).access | async) : false"
                     class="btn btn-secondary" [style]="provideButtonStyle(item,model)"
                     (click)="action(castToButton(item).key, model)">{{provideButtonText(item, model)}}</button>
+            </div>
+
+            <div *ngSwitchCase="'list'">
+                <div *ngFor="let value of provideListObjects(item, model)">
+                    <p style="display:inline; margin-left: 1em;" *ngIf="castToList(item).valuesProvider">
+                        {{provideListItemText(item, value)}}</p>
+                </div>
             </div>
 
             <div *ngSwitchDefault style="display:inline">
