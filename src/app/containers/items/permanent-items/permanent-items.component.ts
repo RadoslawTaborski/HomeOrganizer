@@ -56,6 +56,7 @@ export class PermanentItemsComponent implements OnInit {
   }
 
   async ngOnInit() {
+    await this.dataProvider.init();
     await this.dataProvider.reloadCategories();
     await this.dataProvider.reloadSubCategories();
     await this.dataProvider.reloadStates();
@@ -255,7 +256,7 @@ export class PermanentItemsComponent implements OnInit {
           name: data.details.get(PermanentItemTypes.NAME),
           category: this.dataProvider.subcategories.filter(i => i.id == data.details.get(PermanentItemTypes.SUBCATEGORY))[0],
           state: this.dataProvider.states.filter(i => i.level == "3")[0],
-          groupId: this.dataProvider.group
+          groupId: this.dataProvider.group.id
         })
 
         await this.add(item);

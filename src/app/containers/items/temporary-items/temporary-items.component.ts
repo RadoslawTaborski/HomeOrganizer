@@ -53,6 +53,7 @@ export class TemporaryItemsComponent implements OnInit {
 
   async ngOnInit() {
     this.shoppingListId = this.activatedRoute.snapshot.paramMap.get('id');
+    await this.dataProvider.init();
     await this.dataProvider.reloadCategories();
     await this.dataProvider.reloadSubCategories();
     await this.dataProvider.reloadStates();
@@ -201,7 +202,7 @@ export class TemporaryItemsComponent implements OnInit {
           category: this.dataProvider.subcategories.filter(i => i.id == data.details.get(TemporaryItemTypes.SUBCATEGORY))[0],
           quantity: data.details.get(TemporaryItemTypes.QUANTITY),
           shoppingListId: this.shoppingListId,
-          groupId: this.dataProvider.group
+          groupId: this.dataProvider.group.id
         })
 
         await this.add(item);

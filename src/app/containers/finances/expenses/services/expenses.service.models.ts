@@ -1,15 +1,18 @@
 import { Action, Filter, IModel, Methods } from 'src/app/containers/models/models';
+import { ExpenseDetail } from '../../expense-details/services/expense-details.service.models';
 
 export interface IExpense extends IModel{
     id: string;
     name: string;
     groupId: string;
+    details: ExpenseDetail[];
 }
 
 export class Expense implements IExpense {
     id: string;
     name: string;
     groupId: string;
+    details: ExpenseDetail[]
     createTime: string;
     updateTime: string;
     deleteTime: string;
@@ -18,11 +21,21 @@ export class Expense implements IExpense {
         Object.assign(this, init);
     }
 
-    static createFromJson(a: any): Expense {
+    calculateTotalValue() : number {
+        var total = 0;
+        this.details.forEach(element => {
+            total += element.value
+        });
+
+        return total;
+    }
+
+    static createFromJson(a: any, details: ExpenseDetail[]): Expense {
         return new Expense({
             id: a.uuid,
             name: a.name,
             groupId : a.groupUuid,
+            details : details,
             createTime: a.createTime,
             updateTime: a.updateTime,
             deleteTime: a.deleteTime
@@ -40,9 +53,6 @@ export class Expense implements IExpense {
         return JSON.stringify(tmp)
     }
 }
-
-
-
 
 export enum ExpenseTypes {
   NAME = 'name',
@@ -64,6 +74,7 @@ export class ExpensesFilters implements Filter {
     constructor(
         public pageNumber = 1,
         public pageSize = 25,
+        public groupUuid = '',
         public orderBy = "createTime desc") {
     }
 }

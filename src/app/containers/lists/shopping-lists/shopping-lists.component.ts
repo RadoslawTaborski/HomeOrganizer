@@ -47,6 +47,7 @@ export class ShoppingListsComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
+    await this.dataProvider.init();
     await this.dataProvider.reloadCategories();
     await this.dataProvider.reloadSubCategories();
     await this.dataProvider.reloadStates();
@@ -178,7 +179,7 @@ export class ShoppingListsComponent implements OnInit {
           name: data.details.get(ShoppingListsTypes.NAME),
           description: data.details.get(ShoppingListsTypes.DESCRIPTION),
           visible: true,
-          groupId: this.dataProvider.group
+          groupId: this.dataProvider.group.id
         })
 
         await this.add(item);

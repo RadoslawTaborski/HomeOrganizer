@@ -29,19 +29,19 @@ export class UsersService implements HttpServiceModel {
       ).toPromise();
   } 
 
-  add(item: any): Promise<ResponseData> {
+  add(item: any): Promise<string> {
     return this.http.post(Api.USERS_END_POINT, item, httpOptions).pipe(
-      map((resp: { data }) => resp.data)
+      map((resp: { uuid }) => resp.uuid)
     ).toPromise();
   }
 
-  update(item: any): Promise<ResponseData> {
+  update(item: any): Promise<string> {
     return this.http.put(Api.USERS_END_POINT, item, httpOptions).pipe(
-      map((resp: { data }) => resp.data)
+      map((resp: { uuid }) => resp.uuid)
     ).toPromise();
   }
 
-  remove(id: string): Promise<ResponseData> {
+  remove(id: string): Promise<any> {
     return this.http.delete(Api.USERS_END_POINT+`/${id}`).pipe(
       map((resp: { data }) => resp.data)
     ).toPromise();

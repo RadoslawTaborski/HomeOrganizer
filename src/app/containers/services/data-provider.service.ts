@@ -18,16 +18,22 @@ import { UsersService } from '../accounts/users/services/users.service';
 import { User } from '../accounts/users/services/users.service.models';
 import { Expense, IExpense } from '../finances/expenses/services/expenses.service.models';
 import { ExpensesService } from '../finances/expenses/services/expenses.service';
+import { ExpenseDetailsService } from '../finances/expense-details/services/expense-details.service';
+import { GroupService } from '../accounts/groups/services/groups.service';
+import { ExpenseDetail } from '../finances/expense-details/services/expense-details.service.models';
+import { Group } from '../accounts/groups/services/groups.service.models';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataProviderService {
+  groups: Group[] = [];
   users: User[] = [];
   categories: Category[] = [];
   subcategories: SubCategory[] = [];
   states: State[] = [];
-  group = "07fd7024-9218-eb11-886e-2025641e9574";
+  user = "f22b0756-061a-eb11-bcee-2025641e9574";
+  group: Group;
 
   constructor(
     private categoryService: CategoriesService,
@@ -37,7 +43,9 @@ export class DataProviderService {
     private shoppingItemService: ShoppingItemsService,
     private temporaryItemService: TemporaryItemService,
     private shoppingListsService: ShoppingListsService,
+    private groupsService: GroupService,
     private usersService: UsersService,
+    private expenseDetailsService: ExpenseDetailsService,
     private expensesService: ExpensesService
   ) { }
 
@@ -49,8 +57,13 @@ export class DataProviderService {
     return filters;
   }
 
+  async init(){
+    await this.getGroups(this.user);
+    this.group = this.groups[0];
+  }
+
   async reloadUsers(filters?: { [key: string]: any; }): Promise<ResponseData>{
-    filters = this.extendsFilters(this.group, filters);
+    filters = this.extendsFilters(this.group.id, filters);
     let response = (await this.usersService.fetch(filters));
     let data: any[] = []
     response.data.forEach(a => data.push(User.createFromJson(a)))
@@ -61,7 +74,7 @@ export class DataProviderService {
   }
 
   async reloadCategories(filters?: { [key: string]: any; }): Promise<ResponseData>{
-    filters = this.extendsFilters(this.group, filters);
+    filters = this.extendsFilters(this.group.id, filters);
     let response = (await this.categoryService.fetch(filters));
     let data: any[] = []
     response.data.forEach(a => data.push(Category.createFromJson(a)))
@@ -72,7 +85,7 @@ export class DataProviderService {
   }
 
   async reloadSubCategories(filters?: { [key: string]: any; }): Promise<ResponseData>{
-    filters = this.extendsFilters(this.group, filters);
+    filters = this.extendsFilters(this.group.id, filters);
     filters["orderBy"]="categoryUuid asc"
     let response = (await this.subcategoryService.fetch(filters));
     let data: any[] = []
@@ -94,7 +107,7 @@ export class DataProviderService {
   }
 
   async getPermanentItems(filters?: { [key: string]: any; }) : Promise<ResponseData>{
-    filters = this.extendsFilters(this.group, filters);
+    filters = this.extendsFilters(this.group.id, filters);
     let response = (await this.permanentItemService.fetch(filters));
     let data: any[] = []
     response.data.forEach(a => data.push(PermanentItemModel.createFromJson(a, this.states, this.subcategories)))
@@ -103,7 +116,7 @@ export class DataProviderService {
   }
 
   async getShoppingItems(filters?: { [key: string]: any; }) : Promise<ResponseData>{
-    filters = this.extendsFilters(this.group, filters);
+    filters = this.extendsFilters(this.group.id, filters);
     let response = (await this.shoppingItemService.fetch(filters));
     let data: any[] = []
     response.data.forEach(a => data.push(ShoppingItemModel.createFromJson(a, this.states, this.subcategories)))
@@ -112,7 +125,7 @@ export class DataProviderService {
   }
 
   async getTemporeryItems(filters?: { [key: string]: any; }) : Promise<ResponseData>{
-    filters = this.extendsFilters(this.group, filters);
+    filters = this.extendsFilters(this.group.id, filters);
     let response = (await this.temporaryItemService.fetch(filters));
     let data: any[] = []
     response.data.forEach(a => data.push(TemporaryItemModel.createFromJson(a, this.subcategories)))
@@ -121,7 +134,7 @@ export class DataProviderService {
   }
 
   async getShoppingLists(filters?: { [key: string]: any; }) : Promise<ResponseData>{
-    filters = this.extendsFilters(this.group, filters);
+    filters = this.extendsFilters(this.group.id, filters);
     let response = (await this.shoppingListsService.fetch(filters));
     let data: any[] = []
     await response.data.forEach(async a => data.push(ShoppingListModel.createFromJson(a, (await this.getTemporeryItems({"shoppingListId": `${a.id}`})).data)))
@@ -134,16 +147,35 @@ export class DataProviderService {
     return ShoppingListModel.createFromJson(response, temporaryItems)
   }
 
-  async getExpenses(filters?: { [key: string]: any; }) : Promise<ResponseData> {
-    filters = this.extendsFilters(this.group, filters);
-    let response = (await this.expensesService.fetch(filters));
+  async getExpenseDetails(filters?: { [key: string]: any; }) : Promise<ResponseData> {
+    filters = this.extendsFilters(this.group.id, filters);
+    let response = (await this.expenseDetailsService.fetch(filters));
     let data: any[] = []
-    response.data.forEach(a => data.push(Expense.createFromJson(a)))
+    response.data.forEach(a => data.push(ExpenseDetail.createFromJson(a)))
 
     return {data: data, total:response.total, error:"", message:""};
   }
 
-  async addShoppingList(list: ShoppingListModel): Promise<ResponseData>{
+  async getExpenses(filters?: { [key: string]: any; }) : Promise<ResponseData> {
+    filters = this.extendsFilters(this.group.id, filters);
+    let response = (await this.expensesService.fetch(filters));
+    let data: any[] = []
+    await response.data.forEach(async a => data.push(Expense.createFromJson(a, (await this.getExpenseDetails({"expenseUuid": `${a.uuid}`})).data)));
+
+    return {data: data, total:response.total, error:"", message:""};
+  }
+
+  async getGroups(userId: string) : Promise<ResponseData> {
+    let response = (await this.groupsService.fetch({"userUuid": `${userId}`}));
+    let data: any[] = []
+    response.data.forEach(a => data.push(Group.createFromJson(a)));
+
+    this.groups = data;
+
+    return {data: data, total:response.total, error:"", message:""};
+  }
+
+  async addShoppingList(list: ShoppingListModel): Promise<string>{
     return await this.shoppingListsService.add(ShoppingListModel.toJson(list));
   }
 
@@ -151,23 +183,23 @@ export class DataProviderService {
     return await this.shoppingListsService.remove(list.id);
   }
 
-  async updateShoppingList(list: ShoppingListModel): Promise<ResponseData>{
+  async updateShoppingList(list: ShoppingListModel): Promise<string>{
     return await this.shoppingListsService.update(ShoppingListModel.toJson(list));
   }
 
-  async addPermanentItem(item: PermanentItemModel): Promise<ResponseData>{
+  async addPermanentItem(item: PermanentItemModel): Promise<string>{
     return await this.permanentItemService.add(PermanentItemModel.toJson(item));
   }
 
-  async removePermanentItem(item: PermanentItemModel): Promise<ResponseData>{
+  async removePermanentItem(item: PermanentItemModel): Promise<string>{
     return await this.permanentItemService.remove(item.id);
   }
 
-  async updatePermanentItem(item: PermanentItemModel): Promise<ResponseData>{
+  async updatePermanentItem(item: PermanentItemModel): Promise<string>{
     return await this.permanentItemService.update(PermanentItemModel.toJson(item));
   }
 
-  async addTemporaryItem(item: TemporaryItemModel): Promise<ResponseData>{
+  async addTemporaryItem(item: TemporaryItemModel): Promise<string>{
     return await this.temporaryItemService.add(TemporaryItemModel.toJson(item));
   }
 
@@ -175,16 +207,29 @@ export class DataProviderService {
     return await this.temporaryItemService.remove(item.id);
   }
 
-  async updateTemporaryItem(item: TemporaryItemModel): Promise<ResponseData>{
+  async updateTemporaryItem(item: TemporaryItemModel): Promise<string>{
     return await this.temporaryItemService.update(TemporaryItemModel.toJson(item));
   }
 
-  async addSubcategories(data: SubCategory): Promise<ResponseData> {
+  async addSubcategories(data: SubCategory): Promise<string> {
     return await this.subcategoryService.add(SubCategory.toJson(data));
   }
 
-  async addCategories(data: Category): Promise<ResponseData> {
+  async addCategories(data: Category): Promise<string> {
     return await this.categoryService.add(Category.toJson(data));
+  }
+
+  async addExpenseDetail(data: ExpenseDetail, expenseId: string): Promise<string> {
+    return await this.expenseDetailsService.add(ExpenseDetail.toJson(data, expenseId));
+  }
+
+  async addExpense(data: Expense): Promise<string> {
+    let result = await this.expensesService.add(Expense.toJson(data));
+    debugger;
+    data.details.forEach(element => {
+      this.addExpenseDetail(element, result);
+    });
+    return result;
   }
 
   getCriticalState(): State {

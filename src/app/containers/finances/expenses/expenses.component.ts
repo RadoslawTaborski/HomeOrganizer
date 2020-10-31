@@ -10,6 +10,7 @@ import { ConfirmOption } from 'src/app/modules/shared/components/modal/confirm/m
 import { SearchConfig } from 'src/app/modules/shared/components/search/search-config';
 import { User } from '../../accounts/users/services/users.service.models';
 import { DataProviderService } from '../../services/data-provider.service';
+import { ExpenseDetail } from '../expense-details/services/expense-details.service.models';
 import { ExpensesFilters, Expense, ExpenseAction, ExpenseTypes } from './services/expenses.service.models';
 
 @Component({
@@ -47,6 +48,7 @@ export class ExpensesComponent implements OnInit {
 
   async ngOnInit() {
     await this.translate.get('containers.finances.expenses.name').subscribe(async t => {
+      await this.dataProvider.init();
       await this.dataProvider.reloadUsers();
       console.log(this.dataProvider.users)
       await this.configuration();
@@ -94,7 +96,8 @@ export class ExpensesComponent implements OnInit {
     switch (data.result) {
       case 'ok':
         let obj = this.createFrom(data.details);
-        this.add(obj);
+        if(obj)
+          this.add(obj);
         break;
       case 'dissmised': console.log('nok', data); break;
     }
@@ -106,8 +109,8 @@ export class ExpensesComponent implements OnInit {
   }
 
   async add(data: Expense) {
-    //await this.dataProvider.addCategories(data);
-    //window.location.reload();
+    await this.dataProvider.addExpense(data);
+    window.location.reload();
   }
 
   async fetch() {
@@ -125,11 +128,30 @@ export class ExpensesComponent implements OnInit {
   }
 
   createFrom(data: Map<string, any>) : Expense {
-    console.log(data.get(ExpenseTypes.RECIPIENTS));
-    return new Expense({
-      // name: data.name,
-      // groupId: this.dataProvider.group
+    let recipients: string[] = data.get(ExpenseTypes.RECIPIENTS);
+    let payer = data.get(ExpenseTypes.PAYER);
+    let amount = data.get(ExpenseTypes.AMOUNT);
+    if(payer == null || recipients.length == 0 || amount == 0){
+      return null;
+    }
+    let value = data.get(ExpenseTypes.AMOUNT)/recipients.length;
+    let details: ExpenseDetail[]=[]
+    for(var recipient of recipients){
+      details.push(new ExpenseDetail({
+        payerId: payer,
+        recipientId: recipient,
+        value: value
+      }))
+    }
+
+    let result = new Expense({
+      name: data.get(ExpenseTypes.NAME),
+      groupId: this.dataProvider.group.id,
     })
+
+    result.details = details;
+
+    return result;
   }
 
   async configuration(){
@@ -138,6 +160,12 @@ export class ExpensesComponent implements OnInit {
       .setKey(ExpenseTypes.NAME)
       .setDisplay(this.translate.instant('containers.finances.expenses.name'))
       .setTextProvider((t: Expense): string => t.name)
+      .setVisible(true)
+      .build(),
+      new DataGridItemText.Builder()
+      .setKey(ExpenseTypes.VALUE)
+      .setDisplay(this.translate.instant('containers.finances.expenses.amount'))
+      .setTextProvider((t: Expense): string => t.calculateTotalValue().toString())
       .setVisible(true)
       .build(),
     ]);

@@ -28,15 +28,15 @@ export class TemporaryItemService implements HttpServiceModel {
       ).toPromise();
   } 
 
-  add(item: any): Promise<ResponseData> {
+  add(item: any): Promise<string> {
     return this.http.post(Api.TEMPORARY_ITEMS_END_POINT, item, httpOptions).pipe(
-      map((resp: { data }) => resp.data)
+      map((resp: { uuid }) => resp.uuid)
     ).toPromise();
   }
 
-  update(item: any): Promise<ResponseData> {
+  update(item: any): Promise<string> {
     return this.http.put(Api.TEMPORARY_ITEMS_END_POINT, item, httpOptions).pipe(
-      map((resp: { data }) => resp.data)
+      map((resp: { uuid }) => resp.uuid)
     ).toPromise();
   }
 

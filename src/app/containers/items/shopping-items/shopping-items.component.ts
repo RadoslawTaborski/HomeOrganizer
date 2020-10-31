@@ -47,6 +47,7 @@ export class ShoppingItemsComponent implements OnInit {
   }
 
   async ngOnInit() {
+    await this.dataProvider.init();
     await this.dataProvider.reloadCategories();
     await this.dataProvider.reloadSubCategories();
     await this.dataProvider.reloadStates();

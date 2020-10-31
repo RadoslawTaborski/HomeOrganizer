@@ -45,6 +45,8 @@ export class CategoriesComponent implements OnInit {
   }
 
   async ngOnInit() {
+    await this.dataProvider.init();
+    
     await this.translate.get('containers.settings.categories.name').subscribe(async t => {
       await this.configuration();
 
@@ -124,7 +126,7 @@ export class CategoriesComponent implements OnInit {
   createFrom(data: Map<string,any>): Category {
     return new Category({
       name: data.get(CategoryTypes.NAME),
-      groupId: this.dataProvider.group
+      groupId: this.dataProvider.group.id
     })
   }
 

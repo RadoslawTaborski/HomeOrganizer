@@ -46,6 +46,7 @@ export class SubcategoriesComponent implements OnInit {
   }
 
   async ngOnInit() {
+    await this.dataProvider.init();
     await this.dataProvider.reloadCategories();
 
     this.translate.get('containers.items.name').subscribe(async (t) => {
@@ -132,7 +133,7 @@ export class SubcategoriesComponent implements OnInit {
     return new SubCategory({
       name: data.get(SubcategoryTypes.NAME),
       parent: this.dataProvider.categories.filter(i => i.id == data.get(SubcategoryTypes.PARENT))[0],
-      groupId: this.dataProvider.group
+      groupId: this.dataProvider.group.id
     })
   }
 
