@@ -6,7 +6,7 @@
             "permanent": "Permanent list",
             "temporary": "Temporary list",
             "expenses": "Expenses",
-            "saldo": "Balance",
+            "saldo": "Debt",
             "settings": "Settings",
             "categories": "Categories",
             "subcategories": "Subcategories",
@@ -77,9 +77,16 @@
                 "amount": "amount"
             },
             "saldo":{
+                "name":"name",
                 "person1": "person1",
                 "person2": "person2",
-                "posts":"posts"
+                "amount": "amount",
+                "posts":"posts",
+                "user": "user",
+                "indebt": "in debt to",
+                "debtRepayment": "debt repayment",
+                "repayer": "debt repayer",
+                "toWhom": "to whom"
             }
         }
     },

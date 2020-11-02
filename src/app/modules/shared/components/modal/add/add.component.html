@@ -13,7 +13,7 @@
                 {{control.display | camelCaseToSign:' '}}
             </label>
 
-            <input *ngSwitchCase="'input'" type="text" class="form-control" [id]="control.key" [name]="control.key"
+            <input *ngSwitchCase="'input'" type="text" class="form-control" [id]="control.key" [name]="control.key" [value]="castToInput(control).defaultValue" [disabled]="!control.enabled"
                 ngModel>
 
             <input *ngSwitchCase="'input_number'" [step]="control.step" [placeholder]="control.default" type="number" class="form-control" [id]="control.key"

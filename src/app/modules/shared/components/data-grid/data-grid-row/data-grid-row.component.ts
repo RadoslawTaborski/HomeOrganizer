@@ -60,7 +60,6 @@ export class DataGridRowComponent {
     }
 
     provideText(item: DataGridItemModel, model: any): string {
-        //debugger;
         return this.castToText(item)?.textProvider(model)
     }
 

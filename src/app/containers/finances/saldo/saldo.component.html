@@ -1,1 +1,8 @@
-<p>saldo works!</p>
+<div *ngIf="isLoaded">
+    <app-grid-search-add [dataGridConfig]="dataGridConfig" [items]="items" [action]="itemAction"
+        [badgeItemName]="'containers.finances.saldo.posts'|translate" [filterOn]="false" [addOn]="true"
+        [addConfig]="addConfig" (addAction)="addItem($event)" [filters]="filters">
+    </app-grid-search-add>
+    <modal-confirm #confirmModal [object]="toRemove" [question]="'containers.lists.confirm'|translate"
+        [displayButton]="false" (outputAction)="removeAction($event)"></modal-confirm>
+</div>

@@ -1,12 +1,13 @@
 import { User } from 'src/app/containers/accounts/users/services/users.service.models';
 import { Action, Filter, IModel, Methods } from 'src/app/containers/models/models';
+import { ExpenseSettings } from '../../expenses-settings/services/expenses-settings.service.models';
 
 export interface IExpenseDetail extends IModel {
     id: string;
     expenseId: string;
     value: number;
     payer: User;
-    recipient: User;
+    recipient: ExpenseSettings;
 }
 
 export class ExpenseDetail implements IExpenseDetail {
@@ -14,7 +15,7 @@ export class ExpenseDetail implements IExpenseDetail {
     expenseId: string;
     value: number;
     payer: User;
-    recipient: User;
+    recipient: ExpenseSettings;
     createTime: string;
     updateTime: string;
     deleteTime: string;
@@ -23,7 +24,7 @@ export class ExpenseDetail implements IExpenseDetail {
         Object.assign(this, init);
     }
 
-    static createFromJson(a: any, payer: User, recipient:User): ExpenseDetail {
+    static createFromJson(a: any, payer: User, recipient:ExpenseSettings): ExpenseDetail {
         return new ExpenseDetail({
             id: a.uuid,
             expenseId: a.expenseUuid,
@@ -42,7 +43,7 @@ export class ExpenseDetail implements IExpenseDetail {
         tmp.expenseUuid = expenseId;
         tmp.value = entity.value;
         tmp.payerUuid = entity.payer.id;
-        tmp.recipientUuid = entity.recipient.id;
+        tmp.recipientUuid = entity.recipient.user.id;
         tmp.createTime = entity.createTime;
         tmp.updateTime = entity.updateTime;
         tmp.deleteTime = entity.deleteTime;

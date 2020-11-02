@@ -4,7 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs';
 import { ModalBase } from '../modal-base';
-import { AddItemCheckboxes, AddItemCheckboxesModel, AddItemConfig, AddItemModel, AddItemRadioModel, AddItemSelect } from "../add/add-config"
+import { AddItemCheckboxes, AddItemCheckboxesModel, AddItemConfig, AddItemInputModel, AddItemModel, AddItemRadioModel, AddItemSelect } from "../add/add-config"
 
 @Component({
   selector: 'app-add',
@@ -25,7 +25,7 @@ export class AddComponent extends ModalBase implements OnInit {
 
   go(result: any) {
     if (typeof result !== "string") {
-      console.log(result)
+      //console.log(result)
       this.addAction.emit({ result: 'ok', details: result });
     } else {
       this.addAction.emit({ result: 'dissmised', details: result });
@@ -51,6 +51,10 @@ export class AddComponent extends ModalBase implements OnInit {
       }
     })
     this.go(dataMap)
+  }
+
+  castToInput(data: AddItemModel): AddItemInputModel {
+    return data as AddItemInputModel;
   }
 
   castToSelect(data: AddItemModel): AddItemSelect {

@@ -14,7 +14,6 @@ import { CategoriesComponent } from './settings/categories/categories.component'
 import { SubcategoriesComponent } from './settings/subcategories/subcategories.component';
 import { ExpensesComponent } from './finances/expenses/expenses.component';
 import { SaldoComponent } from './finances/saldo/saldo.component';
-import { ExpensesSettingsComponent } from './finances/expenses-settings/expenses-settings.component';
 
 @NgModule({
   declarations: [
@@ -26,8 +25,7 @@ import { ExpensesSettingsComponent } from './finances/expenses-settings/expenses
     CategoriesComponent,
     SubcategoriesComponent,
     ExpensesComponent,
-    SaldoComponent,
-    ExpensesSettingsComponent,
+    SaldoComponent
   ],
   imports: [
     BrowserModule,

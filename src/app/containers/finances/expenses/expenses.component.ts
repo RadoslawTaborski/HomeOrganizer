@@ -50,7 +50,7 @@ export class ExpensesComponent implements OnInit {
     await this.translate.get('containers.finances.expenses.name').subscribe(async t => {
       await this.dataProvider.init();
       await this.dataProvider.reloadUsers();
-      console.log(this.dataProvider.users)
+      await this.dataProvider.reloadUsersSettings();
       await this.configuration();
 
       this.filters = new BehaviorSubject(new ExpensesFilters());
@@ -128,19 +128,21 @@ export class ExpensesComponent implements OnInit {
   }
 
   createFrom(data: Map<string, any>) : Expense {
-    let recipients: string[] = data.get(ExpenseTypes.RECIPIENTS);
+    let recipientsGuids: string[] = data.get(ExpenseTypes.RECIPIENTS);
+    let recipients = recipientsGuids.map(s=>this.dataProvider.usersSettings.filter(u=>u.user.id==s)[0])
     let payer = data.get(ExpenseTypes.PAYER);
     let amount = data.get(ExpenseTypes.AMOUNT);
-    if(payer == null || recipients.length == 0 || amount == 0){
+    let coefficient = recipients.map(c=>c.value).reduce((prev, next) => prev + next)
+    if(payer == null || recipients.length == 0){
       return null;
     }
-    let value = data.get(ExpenseTypes.AMOUNT)/recipients.length;
+
     let details: ExpenseDetail[]=[]
     for(var recipient of recipients){
       details.push(new ExpenseDetail({
         payer: this.dataProvider.users.filter(u=>u.id==payer)[0],
-        recipient: this.dataProvider.users.filter(u=>u.id==recipient)[0],
-        value: value
+        recipient: recipient,
+        value: amount * recipient.value / coefficient
       }))
     }
 
@@ -165,7 +167,8 @@ export class ExpensesComponent implements OnInit {
       new DataGridItemText.Builder()
       .setKey(ExpenseTypes.VALUE)
       .setDisplay(this.translate.instant('containers.finances.expenses.amount'))
-      .setTextProvider((t: Expense): string => t.calculateTotalValue().toString()+" zł")
+      .setTextProvider((t: Expense): string => t.calculateTotalValue().toFixed(2).toString()+" zł")
+      .setColumnClass("fitwidth")
       .setVisible(true)
       .build(),
       new DataGridItemText.Builder()
@@ -175,7 +178,7 @@ export class ExpensesComponent implements OnInit {
       .build(),
       new DataGridItemList.Builder()
       .setValuesProvider((t:Expense): ExpenseDetail[] => t.details)
-      .setValueTextProvider((t:ExpenseDetail)=>`${t.recipient.username}: ${t.value} zł`)
+      .setValueTextProvider((t:ExpenseDetail)=>`${t.recipient.user.username}: ${t.value.toFixed(2)} zł`)
       .build()
     ]);
 

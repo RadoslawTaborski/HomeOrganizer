@@ -17,7 +17,7 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.translate.get('root.header.shopping').subscribe(t=>{
-      console.log(t)
+      //console.log(t)
     })
   }
 

@@ -13,6 +13,7 @@ export class Api {
     static SHOPPING_ITEMS_END_POINT = Api.DATA_BASE_END_POINT + 'shoppingitems';
     static SHOPPING_LISTS_END_POINT = Api.DATA_BASE_END_POINT + 'shoppinglists';
 
+    static EXPENSES_SETTINGS_END_POINT = Api.DATA_BASE_END_POINT + 'expensessettings';
     static EXPENSES_END_POINT = Api.DATA_BASE_END_POINT + 'expenses';
     static EXPENSES_DETAILS_END_POINT = Api.DATA_BASE_END_POINT + 'expensedetails';
     static SALDO_END_POINT = Api.DATA_BASE_END_POINT + 'saldo';

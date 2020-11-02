@@ -22,6 +22,10 @@ import { ExpenseDetailsService } from '../finances/expense-details/services/expe
 import { GroupService } from '../accounts/groups/services/groups.service';
 import { ExpenseDetail } from '../finances/expense-details/services/expense-details.service.models';
 import { Group } from '../accounts/groups/services/groups.service.models';
+import { Saldo, SaldoFilters } from '../finances/saldo/services/saldo.service.models';
+import { SaldoService } from '../finances/saldo/services/saldo.service';
+import { ExpenseSettingsService } from '../finances/expenses-settings/services/expenses-settings.service';
+import { ExpenseSettings } from '../finances/expenses-settings/services/expenses-settings.service.models';
 
 @Injectable({
   providedIn: 'root'
@@ -29,10 +33,11 @@ import { Group } from '../accounts/groups/services/groups.service.models';
 export class DataProviderService {
   groups: Group[] = [];
   users: User[] = [];
+  usersSettings: ExpenseSettings[] = [];
   categories: Category[] = [];
   subcategories: SubCategory[] = [];
   states: State[] = [];
-  user = "f22b0756-061a-eb11-bcee-2025641e9574";
+  user: User;
   group: Group;
 
   constructor(
@@ -46,7 +51,9 @@ export class DataProviderService {
     private groupsService: GroupService,
     private usersService: UsersService,
     private expenseDetailsService: ExpenseDetailsService,
-    private expensesService: ExpensesService
+    private expensesService: ExpensesService,
+    private expensesSettingsService: ExpenseSettingsService,
+    private saldoService: SaldoService
   ) { }
 
   private extendsFilters(groupId: string, filters: { [key: string]: any; }): any{
@@ -58,8 +65,25 @@ export class DataProviderService {
   }
 
   async init(){
-    await this.getGroups(this.user);
+    await this.login("Radek", "1234");
+    await this.getGroups(this.user.id);
     this.group = this.groups[0];
+  }
+
+  async login(username: string, password:string) {
+    let response = (await this.usersService.login(username, password));
+    this.user = User.createFromJson(response);
+  }
+
+  async reloadUsersSettings(filters?: { [key: string]: any; }): Promise<ResponseData>{
+    filters = this.extendsFilters(this.group.id, filters);
+    let response = (await this.expensesSettingsService.fetch(filters));
+    let data: any[] = []
+    response.data.forEach(a => data.push(ExpenseSettings.createFromJson(a, this.users.filter(u=>u.id == a.userUuid)[0])));
+
+    this.usersSettings = data;
+
+    return {data: data, total:response.total, error:"", message:""};
   }
 
   async reloadUsers(filters?: { [key: string]: any; }): Promise<ResponseData>{
@@ -151,7 +175,7 @@ export class DataProviderService {
     filters = this.extendsFilters(this.group.id, filters);
     let response = (await this.expenseDetailsService.fetch(filters));
     let data: any[] = []
-    response.data.forEach(a => data.push(ExpenseDetail.createFromJson(a, this.users.filter(u=>u.id==a.payerUuid)[0], this.users.filter(u=>u.id==a.recipientUuid)[0])))
+    response.data.forEach(a => data.push(ExpenseDetail.createFromJson(a, this.users.filter(u=>u.id==a.payerUuid)[0], this.usersSettings.filter(u=>u.user.id==a.recipientUuid)[0])))
 
     return {data: data, total:response.total, error:"", message:""};
   }
@@ -160,7 +184,16 @@ export class DataProviderService {
     filters = this.extendsFilters(this.group.id, filters);
     let response = (await this.expensesService.fetch(filters));
     let data: any[] = []
-    await response.data.forEach(async a => data.push(Expense.createFromJson(a, (await this.getExpenseDetails({"expenseUuid": `${a.uuid}`})).data)));
+    await response.data.forEach(async a =>data.push(Expense.createFromJson(a, (await this.getExpenseDetails({"expenseUuid": `${a.uuid}`})).data)));
+
+    return {data: data, total:response.total, error:"", message:""};
+  }
+
+  async getSaldos(filters?: { [key: string]: any; }) : Promise<ResponseData> {
+    filters = this.extendsFilters(this.group.id, filters);
+    let response = (await this.saldoService.fetch(filters));
+    let data: any[] = []
+    await response.data.forEach(async a => data.push(Saldo.createFromJson(a, this.users.filter(u=>u.id==a.payerUuid)[0], this.users.filter(u=>u.id==a.recipientUuid)[0])));
 
     return {data: data, total:response.total, error:"", message:""};
   }
@@ -225,7 +258,6 @@ export class DataProviderService {
 
   async addExpense(data: Expense): Promise<string> {
     let result = await this.expensesService.add(Expense.toJson(data));
-    debugger;
     data.details.forEach(element => {
       this.addExpenseDetail(element, result);
     });

@@ -2,16 +2,19 @@ export interface AddItemModel {
     key: string;
     display: string;
     type: string;
+    enabled: boolean
 }
 
 export abstract class AddItemModelBase implements AddItemModel{
     key: string;
     display: string;
     type: string;
+    enabled: boolean
 
     static Builder = class {
         key: string;
         display: string;
+        enabled: boolean = true
 
         public setKey(key: string): this {
             this.key = key;
@@ -23,16 +26,23 @@ export abstract class AddItemModelBase implements AddItemModel{
             return this;
         }
 
+        public setEnabled(value: boolean): this{
+            this.enabled = value;
+            return this;
+        }
+
         protected internalSetter(instance: AddItemModelBase, type: string) {
             instance.key = this.key;
             instance.display = this.display;
             instance.type = type;
+            instance.enabled = this.enabled;
         }
     }
 }
 
 export interface AddItemInputModel extends AddItemModel {
     readonly textProvider?: Function;
+    readonly defaultValue: string;
 }
 
 export interface AddItemNumberModel extends AddItemModel {
@@ -76,13 +86,20 @@ export class CheckboxPair {
 }
 
 export class AddItemInput extends AddItemModelBase implements AddItemInputModel {
+    defaultValue: string;
     textProvider?: Function;
 
     static Builder = class extends AddItemModelBase.Builder {
         textProvider?: Function;
+        defaultValue: string;
 
         public setTextProvider(textProvider: Function) : this{
             this.textProvider = textProvider;
+            return this;
+        }
+
+        public setDefaultValue(value: string) : this {
+            this.defaultValue = value;
             return this;
         }
 
@@ -90,6 +107,7 @@ export class AddItemInput extends AddItemModelBase implements AddItemInputModel 
             let entity = new AddItemInput();
             super.internalSetter(entity, FieldTypes.INPUT);
             entity.textProvider = this.textProvider;
+            entity.defaultValue = this.defaultValue;
 
             return entity;
         }

@@ -6,7 +6,7 @@
             "permanent": "Lista permanentna",
             "temporary": "Lista tymczasowa",
             "expenses": "Wydatki",
-            "saldo": "Saldo",
+            "saldo": "Zadłużenie",
             "settings": "Ustawienia",
             "categories": "Kategorie",
             "subcategories": "Podkategorie",
@@ -77,9 +77,16 @@
                 "amount": "kwota"
             },
             "saldo":{
+                "name":"nazwa",
                 "person1": "osoba1",
                 "person2": "osoba2",
-                "posts":"rekord"
+                "amount": "kwota",
+                "posts":"posty",
+                "user": "użytkownik",
+                "indebt": "zadłużony u",
+                "debtRepayment": "zwrot pieniędzy",
+                "repayer": "osoba spłacająca",
+                "toWhom": "komu"
             }
         }
     },

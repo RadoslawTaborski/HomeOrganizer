@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ExpensesSettingsComponent } from './containers/finances/expenses-settings/expenses-settings.component';
 import { ExpensesComponent } from './containers/finances/expenses/expenses.component';
 import { SaldoComponent } from './containers/finances/saldo/saldo.component';
 import { PermanentItemsComponent } from './containers/items/permanent-items/permanent-items.component';
@@ -18,7 +17,6 @@ const routes: Routes = [
   { path: 'shopping-lists', component: ShoppingListsComponent },
   { path: 'finances/saldo', component: SaldoComponent },
   { path: 'finances/expenses', component: ExpensesComponent },
-  { path: 'finances/expenses-settings', component: ExpensesSettingsComponent },
   { path: 'settings/categories', component: CategoriesComponent },
   { path: 'settings/subcategories', component: SubcategoriesComponent },
   { path: 'shopping-lists/:id', component: ShoppingListDetailsComponent, resolve: { item: ShoppingListDetailsResolver} },
