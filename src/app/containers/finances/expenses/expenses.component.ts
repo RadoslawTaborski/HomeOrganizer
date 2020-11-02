@@ -8,6 +8,7 @@ import { AddItemCheckboxes, AddItemConfig, AddItemInput, AddItemNumber, AddItemR
 import { AddOption } from 'src/app/modules/shared/components/modal/add/add.component';
 import { ConfirmOption } from 'src/app/modules/shared/components/modal/confirm/modal-confirm.component';
 import { SearchConfig } from 'src/app/modules/shared/components/search/search-config';
+import { DateService } from 'src/app/modules/shared/utils/date/date.service';
 import { User } from '../../accounts/users/services/users.service.models';
 import { DataProviderService } from '../../services/data-provider.service';
 import { ExpenseDetail } from '../expense-details/services/expense-details.service.models';
@@ -38,6 +39,7 @@ export class ExpensesComponent implements OnInit {
   constructor(
     private dataProvider: DataProviderService,
     private translate: TranslateService,
+    public dateService: DateService,
     public router: Router) {
   }
 
@@ -170,6 +172,11 @@ export class ExpensesComponent implements OnInit {
       .setTextProvider((t: Expense): string => t.calculateTotalValue().toFixed(2).toString()+" zł")
       .setColumnClass("fitwidth")
       .setVisible(true)
+      .build(),
+      new DataGridItemText.Builder()
+      .setKey(ExpenseTypes.DATE)
+      .setDisplay(this.translate.instant('containers.finances.expenses.date'))
+      .setTextProvider((t: Expense): string => this.dateService.isoToLocal(t.createTime))
       .build(),
       new DataGridItemText.Builder()
       .setKey(ExpenseTypes.PAYER)

@@ -71,6 +71,7 @@
         "finances": {
             "expenses":{
                 "name": "name",
+                "date": "date",
                 "expenses": "expenses",
                 "contributors": "contributors",
                 "payer": "payer",

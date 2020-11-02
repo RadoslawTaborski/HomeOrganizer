@@ -71,6 +71,7 @@
         "finances": {
             "expenses":{
                 "name": "nazwa",
+                "date": "data",
                 "expenses": "wydatki",
                 "contributors": "osoby składające się na wydatek",
                 "payer": "opłacone przez",
