@@ -1,10 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { SubcategoryService } from 'src/app/containers/items/services/subcategory/subcategory.service';
-import { ShoppingItemModel } from 'src/app/containers/items/shopping-items/services/shopping-items.service.models';
-import { TemporaryItemModel } from 'src/app/containers/items/temporary-items/services/temporary-item.service.models';
 import { Api } from 'src/app/utils/api';
 import { HttpServiceModel, ResponseData } from 'src/app/utils/interfaces/http.models';
 import { IShoppingListModel, ShoppingListModel } from './shopping-lists.service.models';
@@ -32,15 +28,15 @@ export class ShoppingListsService implements HttpServiceModel {
       ).toPromise();
   } 
 
-  add(item: any): Promise<ResponseData> {
+  add(item: any): Promise<string> {
     return this.http.post(Api.SHOPPING_LISTS_END_POINT, item, httpOptions).pipe(
-      map((resp: { data }) => resp.data)
+      map((resp: { uuid }) => resp.uuid)
     ).toPromise();
   }
 
-  update(item: any): Promise<ResponseData> {
+  update(item: any): Promise<string> {
     return this.http.put(Api.SHOPPING_LISTS_END_POINT, item, httpOptions).pipe(
-      map((resp: { data }) => resp.data)
+      map((resp: { uuid }) => resp.uuid)
     ).toPromise();
   }
 

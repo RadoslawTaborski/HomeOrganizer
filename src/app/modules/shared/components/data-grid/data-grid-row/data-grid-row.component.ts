@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Subject } from "rxjs";
-import { DataGridConfig, DataGridItemButtonModel, DataGridItemModel, DataGridItemImageModel, DataGridItemInputModel, DataGridItemTextModel, DataGridItemCheckboxModel } from '../data-grid-config';
+import { DataGridConfig, DataGridItemButtonModel, DataGridItemModel, DataGridItemImageModel, DataGridItemInputModel, DataGridItemTextModel, DataGridItemCheckboxModel, DataGridItemListModel, DataGridItemList } from '../data-grid-config';
 
 @Component({
     selector: 'data-grid-row',
@@ -45,6 +45,18 @@ export class DataGridRowComponent {
 
     castToText(item: DataGridItemModel): DataGridItemTextModel{
         return item as DataGridItemTextModel;
+    }
+
+    castToList(item: DataGridItemModel): DataGridItemListModel{
+        return item as DataGridItemListModel;
+    }
+
+    provideListObjects(item: DataGridItemModel, model: any): any[] {
+        return this.castToList(item).valuesProvider(model)
+    }
+
+    provideListItemText(item: DataGridItemModel, model: any): string {
+        return this.castToList(item)?.valuesTextProvider(model)
     }
 
     provideText(item: DataGridItemModel, model: any): string {

@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, Input, Output, ViewChild, OnDestroy, EventEmitter } from '@angular/core';
-import { SearchControl, SearchControlModel } from './search-config';
+import { SearchSelect, SearchItemModel, SearchSelectModel } from './search-config';
 import { Subscriber } from 'rxjs';
 import { tap, filter } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
@@ -11,7 +11,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 export class SearchComponent implements AfterViewInit, OnDestroy {
 
-    @Input() controls: SearchControl[];
+    @Input() controls: SearchSelect[];
     @Output() searchChange = new EventEmitter();
     @Output() closeEvent = new EventEmitter();
     @ViewChild('searchForm', { static: true }) searchForm;
@@ -53,11 +53,15 @@ export class SearchComponent implements AfterViewInit, OnDestroy {
         this.closeEvent.emit();
     }
 
-    provideSelectText(item: SearchControlModel, model: any): string {
-        return item.displayProvider(model)
+    provideSelectText(item: SearchItemModel, model: any): string {
+        return this.castToSelect(item).displayProvider(model)
     }
 
-    provideSelectIdentifier(item: SearchControlModel, model: any) {
-        return item?.identifierProvider(model)
+    provideSelectIdentifier(item: SearchItemModel, model: any) {
+        return this.castToSelect(item)?.identifierProvider(model)
+    }
+
+    castToSelect(item: SearchItemModel): SearchSelectModel {
+        return item as SearchSelectModel;
     }
 }

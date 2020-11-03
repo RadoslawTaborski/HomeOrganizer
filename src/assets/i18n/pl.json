@@ -4,7 +4,13 @@
             "shopping": "Lista zbiorcza",
             "shopping-lists": "Listy zakupów",
             "permanent": "Lista permanentna",
-            "temporary": "Lista tymczasowa"
+            "temporary": "Lista tymczasowa",
+            "expenses": "Wydatki",
+            "saldo": "Zadłużenie",
+            "settings": "Ustawienia",
+            "categories": "Kategorie",
+            "subcategories": "Podkategorie",
+            "saldosettings": "Ustawienia wydatków"
         }
     },
     "containers": {
@@ -45,6 +51,44 @@
             "created": "utworzono",
             "updated": "zaktualizowano",
             "confirm": "Czy na pewno?"
+        },
+        "settings":{
+            "categories":{
+                "name": "nazwa",
+                "categories": "kategorie"
+            },
+            "subcategories":{
+                "name": "nazwa",
+                "parent": "kategoria",
+                "categories": "kategorie",
+                "category": "kategoria"
+            },
+            "saldo-settings":{
+                "name": "nazwa",
+                "posts": "rekord"
+            }
+        },
+        "finances": {
+            "expenses":{
+                "name": "nazwa",
+                "date": "data",
+                "expenses": "wydatki",
+                "contributors": "osoby składające się na wydatek",
+                "payer": "opłacone przez",
+                "amount": "kwota"
+            },
+            "saldo":{
+                "name":"nazwa",
+                "person1": "osoba1",
+                "person2": "osoba2",
+                "amount": "kwota",
+                "posts":"posty",
+                "user": "użytkownik",
+                "indebt": "zadłużony u",
+                "debtRepayment": "zwrot pieniędzy",
+                "repayer": "osoba spłacająca",
+                "toWhom": "komu"
+            }
         }
     },
     "modules": {

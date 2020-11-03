@@ -1,14 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpServiceModel, ResponseData } from 'src/app/utils/interfaces/http.models';
-import { SubCategory } from '../../models/models';
 import { map } from 'rxjs/operators'
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Api } from 'src/app/utils/api';
+import { SubCategory } from './subcategories.service.models';
+
+const httpOptions = {
+  headers: new HttpHeaders().append('Content-Type', 'application/json')
+};
 
 @Injectable({
   providedIn: 'root'
 })
-export class SubcategoryService implements HttpServiceModel {
+export class SubcategoriesService implements HttpServiceModel {
 
   constructor(private http: HttpClient) { }
 
@@ -24,19 +28,19 @@ export class SubcategoryService implements HttpServiceModel {
       ).toPromise();
   } 
 
-  add(item: any): Promise<ResponseData> {
-    return this.http.post(Api.SUBCATEGORIES_END_POINT, item).pipe(
-      map((resp: { data }) => resp.data)
+  add(item: any): Promise<string> {
+    return this.http.post(Api.SUBCATEGORIES_END_POINT, item, httpOptions).pipe(
+      map((resp: { uuid }) => resp.uuid)
     ).toPromise();
   }
 
-  update(item: any): Promise<ResponseData> {
-    return this.http.put(Api.SUBCATEGORIES_END_POINT, item).pipe(
-      map((resp: { data }) => resp.data)
+  update(item: any): Promise<string> {
+    return this.http.put(Api.SUBCATEGORIES_END_POINT, item, httpOptions).pipe(
+      map((resp: { uuid }) => resp.uuid)
     ).toPromise();
   }
 
-  remove(id: string): Promise<ResponseData> {
+  remove(id: string): Promise<any> {
     return this.http.delete(Api.SUBCATEGORIES_END_POINT+`/${id}`).pipe(
       map((resp: { data }) => resp.data)
     ).toPromise();

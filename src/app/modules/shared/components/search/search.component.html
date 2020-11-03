@@ -7,19 +7,19 @@
             (click)="close()"><span aria-hidden="true">&times;</span></button>
     </h4>
 
-    <div class="form-group" *ngFor="let control of controls" [ngSwitch]="control.tag">
+    <div class="form-group" *ngFor="let control of controls" [ngSwitch]="control.type">
 
-        <label [for]="control.name">
+        <label [for]="control.key">
             {{control.display | camelCaseToSign:' '}}
         </label>
 
-        <input *ngSwitchCase="'INPUT_TEXT'" type="text" class="form-control" [id]="'search-by-' + control.name"
-            [name]="control.name" ngModel>
+        <input *ngSwitchCase="'INPUT_TEXT'" type="text" class="form-control" [id]="'search-by-' + control.key"
+            [name]="control.key" ngModel>
 
-        <input *ngSwitchCase="'INPUT_NUMBER'" type="number" class="form-control" [id]="'search-by-' + control.name"
-            [name]="control.name" ngModel>
+        <input *ngSwitchCase="'INPUT_NUMBER'" type="number" class="form-control" [id]="'search-by-' + control.key"
+            [name]="control.key" ngModel>
 
-        <select *ngSwitchCase="'SELECT'" class="form-control" [id]="'search-by-' + control.name" [name]="control.name"
+        <select *ngSwitchCase="'SELECT'" class="form-control" [id]="'search-by-' + control.key" [name]="control.key"
             [ngModel]="provideSelectIdentifier(control, control.options[0])">
             <option *ngFor="let opt of control.options" [value]="provideSelectIdentifier(control, opt)">
                 {{provideSelectText(control, opt)}}

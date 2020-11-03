@@ -1,14 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
+import { State } from './states.service.models';
 import { Api } from 'src/app/utils/api';
 import { HttpServiceModel, ResponseData } from 'src/app/utils/interfaces/http.models';
-import { State } from '../../permanent-items/services/permanent-item.service.models';
 
 @Injectable({
   providedIn: 'root'
 })
-export class StateService implements HttpServiceModel {
+export class StatesService implements HttpServiceModel {
 
   constructor(private http: HttpClient) { }
 
@@ -24,19 +24,19 @@ export class StateService implements HttpServiceModel {
       ).toPromise();
   } 
 
-  add(item: any): Promise<ResponseData> {
+  add(item: any): Promise<string> {
     return this.http.post(Api.STATES_END_POINT, item).pipe(
-      map((resp: { data }) => resp.data)
+      map((resp: { uuid }) => resp.uuid)
     ).toPromise();
   }
 
-  update(item: any): Promise<ResponseData> {
+  update(item: any): Promise<string> {
     return this.http.put(Api.STATES_END_POINT, item).pipe(
-      map((resp: { data }) => resp.data)
+      map((resp: { uuid }) => resp.uuid)
     ).toPromise();
   }
 
-  remove(id: string): Promise<ResponseData> {
+  remove(id: string): Promise<any> {
     return this.http.delete(Api.STATES_END_POINT+`/${id}`).pipe(
       map((resp: { data }) => resp.data)
     ).toPromise();

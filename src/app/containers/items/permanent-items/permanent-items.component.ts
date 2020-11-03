@@ -1,19 +1,21 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IPermanentItemModel, PermanentItemTypes, State, PermanentItemAction, PermanentItemsFilters, PermanentItemModel, PermanentItemsFilterTypes } from './services/permanent-item.service.models'
+import { IPermanentItemModel, PermanentItemTypes, PermanentItemAction, PermanentItemsFilters, PermanentItemModel, PermanentItemsFilterTypes } from './services/permanent-item.service.models'
 import { DataGridConfig, DataGridItemText, DataGridItemButton } from '../../../modules/shared/components/data-grid/data-grid-config';
 import { StateService } from 'src/app/root/services/state.service';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { SearchConfig, SearchControl, FieldTypes as SearchFieldTypes } from 'src/app/modules/shared/components/search/search-config';
-import { SubCategory, Category } from '../models/models';
+import { SearchConfig, SearchSelect, FieldTypes as SearchFieldTypes } from 'src/app/modules/shared/components/search/search-config';
 import { TranslateService } from '@ngx-translate/core';
 import { AddItemConfig, AddItemInput, AddItemSelect } from 'src/app/modules/shared/components/modal/add/add-config';
 import { DataProviderService } from '../../services/data-provider.service';
-import { OperationsService } from '../utils/operations.service';
+import { OperationsService } from '../../services/operations.service';
 import { ConfirmOption } from 'src/app/modules/shared/components/modal/confirm/modal-confirm.component';
 import { AddOption } from 'src/app/modules/shared/components/modal/add/add.component';
 import { DateService } from 'src/app/modules/shared/utils/date/date.service';
+import { SubCategory } from '../../settings/subcategories/services/subcategories.service.models';
+import { Category } from '../../settings/categories/services/categories.service.models';
+import { State } from '../../settings/states/services/states.service.models';
 
 @Component({
   selector: 'app-permanent-items',
@@ -54,14 +56,34 @@ export class PermanentItemsComponent implements OnInit {
   }
 
   async ngOnInit() {
+    await this.dataProvider.init();
+    await this.dataProvider.reloadCategories();
     await this.dataProvider.reloadSubCategories();
     await this.dataProvider.reloadStates();
 
     await this.translate.get('containers.items.name').subscribe(async t => {
       this.searchConfig = new SearchConfig([
-        new SearchControl(SearchFieldTypes.SELECT, PermanentItemsFilterTypes.CATEGORY, this.translate.instant('containers.items.category'), await this.operationsService.getCategories(), (t: Category) => t?.name, (t: Category) => t?.id),
-        new SearchControl(SearchFieldTypes.SELECT, PermanentItemsFilterTypes.SUBCATEGORY, this.translate.instant('containers.items.subcategory'), await this.operationsService.getSubCategories(), (t: SubCategory) => t?.name, (t: SubCategory) => t?.id),
-        new SearchControl(SearchFieldTypes.SELECT, PermanentItemsFilterTypes.STATE, this.translate.instant('containers.items.permanent-item.state'), await this.getStates(), (t: State) => this.translateState(t), (t: State) => t.id),
+        new SearchSelect.Builder()
+          .setKey(PermanentItemsFilterTypes.CATEGORY)
+          .setDisplay(this.translate.instant('containers.items.category'))
+          .setOptions(await this.operationsService.getCategories())
+          .setDisplayProvider((t: Category) => t?.name)
+          .setIdentifierProvider((t: Category) => t?.id)
+          .build(),
+        new SearchSelect.Builder()
+          .setKey(PermanentItemsFilterTypes.SUBCATEGORY)
+          .setDisplay(this.translate.instant('containers.items.subcategory'))
+          .setOptions(await this.operationsService.getSubCategories())
+          .setDisplayProvider((t: SubCategory) => t?.name)
+          .setIdentifierProvider((t: SubCategory) => t?.id)
+          .build(),
+        new SearchSelect.Builder()
+          .setKey(PermanentItemsFilterTypes.STATE)
+          .setDisplay(this.translate.instant('containers.items.permanent-item.state'))
+          .setOptions(await this.getStates())
+          .setDisplayProvider((t: State) => this.translateState(t))
+          .setIdentifierProvider((t: State) => t.level)
+          .build()
       ]);
 
       this.dataGridConfig = new DataGridConfig([
@@ -86,7 +108,7 @@ export class PermanentItemsComponent implements OnInit {
           .setDisplay(this.translate.instant('containers.items.permanent-item.lastUpdate'))
           .setTextProvider((t: IPermanentItemModel): string => this.dateService.isoToLocal(t.updateTime))
           .build(),
-          new DataGridItemButton.Builder()
+        new DataGridItemButton.Builder()
           .setKey(PermanentItemTypes.STATE)
           .setDisplay(this.translate.instant('containers.items.permanent-item.state'))
           .setTextProvider(() => "")
@@ -98,7 +120,7 @@ export class PermanentItemsComponent implements OnInit {
         new DataGridItemButton.Builder()
           .setKey(PermanentItemTypes.ARCHIVE)
           .setDisplay(this.translate.instant('containers.items.delete'))
-          .setIconProvider(()=>"<i class=\"fas fa-window-close\"></i>")
+          .setIconProvider(() => "<i class=\"fas fa-window-close\"></i>")
           .setClassProvider((t: IPermanentItemModel) => "btn btn-danger")
           .setAccess(this.stateService.access)
           .setColumnClass("fitwidth")
@@ -107,8 +129,17 @@ export class PermanentItemsComponent implements OnInit {
       ]);
 
       this.addConfig = new AddItemConfig([
-        new AddItemInput(PermanentItemTypes.NAME, this.translate.instant('containers.items.name')),
-        new AddItemSelect(PermanentItemTypes.SUBCATEGORY, this.translate.instant('containers.items.subcategory'), null, await this.operationsService.getSubCategories(), (t: SubCategory) => t?.name, (t: SubCategory) => t?.id),
+        new AddItemInput.Builder()
+          .setKey(PermanentItemTypes.NAME)
+          .setDisplay(this.translate.instant('containers.items.name'))
+          .build(),
+        new AddItemSelect.Builder()
+          .setKey(PermanentItemTypes.SUBCATEGORY)
+          .setDisplay(this.translate.instant('containers.items.subcategory'))
+          .setOptions(await this.operationsService.getSubCategories())
+          .setDisplayProvider((t: SubCategory) => t?.name)
+          .setIdentifierProvider((t: SubCategory) => t?.id)
+          .build()
       ]);
 
       this.filters = new BehaviorSubject(new PermanentItemsFilters());
@@ -218,14 +249,14 @@ export class PermanentItemsComponent implements OnInit {
     })
   }
 
-  async addItem(data: { result: AddOption, details: any }) {
+  async addItem(data: { result: AddOption, details: Map<string,any> }) {
     switch (data.result) {
       case 'ok':
         let item = new PermanentItemModel({
-          name: data.details.name,
-          category: this.dataProvider.subcategories.filter(i => i.id == data.details.subcategory)[0],
-          state: this.dataProvider.states.filter(i => i.id == "3")[0],
-          groupId: this.dataProvider.group
+          name: data.details.get(PermanentItemTypes.NAME),
+          category: this.dataProvider.subcategories.filter(i => i.id == data.details.get(PermanentItemTypes.SUBCATEGORY))[0],
+          state: this.dataProvider.states.filter(i => i.level == "3")[0],
+          groupId: this.dataProvider.group.id
         })
 
         await this.add(item);

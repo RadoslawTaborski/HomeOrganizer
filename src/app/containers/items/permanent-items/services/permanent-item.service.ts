@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpServiceModel, ResponseData } from 'src/app/utils/interfaces/http.models';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { PermanentItemModel, State } from './permanent-item.service.models'
+import { PermanentItemModel } from './permanent-item.service.models'
 import { Api } from 'src/app/utils/api';
 import { map } from 'rxjs/operators';
 
@@ -28,15 +28,15 @@ export class PermanentItemService implements HttpServiceModel {
       ).toPromise();
   } 
 
-  add(item: any): Promise<ResponseData> {
+  add(item: any): Promise<string> {
     return this.http.post(Api.PERMANENT_ITEMS_END_POINT, item, httpOptions).pipe(
-      map((resp: { data }) => resp.data)
+      map((resp: { uuid }) => resp.uuid)
     ).toPromise();
   }
 
-  update(item: any): Promise<ResponseData> {
+  update(item: any): Promise<string> {
     return this.http.put(Api.PERMANENT_ITEMS_END_POINT, item, httpOptions).pipe(
-      map((resp: { data }) => resp.data)
+      map((resp: { uuid }) => resp.uuid)
     ).toPromise();
   }
 

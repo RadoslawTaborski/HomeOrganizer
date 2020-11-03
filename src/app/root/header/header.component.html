@@ -1,5 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary navbar-fixed-top">
   <div class="container">
+    <a href=""><img src="../../../assets/favicon.png" width="50" height="50" alt="Icon"></a>
     <a class="navbar-brand" href="">{{appName}}</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01"
       aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
@@ -10,13 +11,34 @@
       <div class="collapse navbar-collapse" id="navbarColor01">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a class="nav-link" routerLink="/shopping/" data-toggle="collapse" data-target=".navbar-collapse.show">{{'root.header.shopping'|translate}}</a>
+            <a class="nav-link" routerLink="/shopping/" data-toggle="collapse"
+              data-target=".navbar-collapse.show">{{'root.header.shopping'|translate}}</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLink="/shopping-lists/" data-toggle="collapse" data-target=".navbar-collapse.show">{{'root.header.shopping-lists'|translate}}</a>
+            <a class="nav-link" routerLink="/shopping-lists/" data-toggle="collapse"
+              data-target=".navbar-collapse.show">{{'root.header.shopping-lists'|translate}}</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLink="/permanent/" data-toggle="collapse" data-target=".navbar-collapse.show">{{'root.header.permanent'|translate}}</a>
+            <a class="nav-link" routerLink="/permanent/" data-toggle="collapse"
+              data-target=".navbar-collapse.show">{{'root.header.permanent'|translate}}</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/finances/expenses/" data-toggle="collapse"
+              data-target=".navbar-collapse.show">{{'root.header.expenses'|translate}}</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/finances/saldo/" data-toggle="collapse"
+              data-target=".navbar-collapse.show">{{'root.header.saldo'|translate}}</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+              aria-expanded="true">{{'root.header.settings'|translate}}<span class="caret"></span></a>
+            <div class="dropdown-menu" aria-labelledby="download">
+              <a class="nav-link" routerLink="/settings/categories/" data-toggle="collapse"
+                data-target=".navbar-collapse.show">{{'root.header.categories'|translate}}</a>
+              <a class="nav-link" routerLink="/settings/subcategories/" data-toggle="collapse"
+                data-target=".navbar-collapse.show">{{'root.header.subcategories'|translate}}</a>
+            </div>
           </li>
         </ul>
       </div>

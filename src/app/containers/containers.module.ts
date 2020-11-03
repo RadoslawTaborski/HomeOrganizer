@@ -10,6 +10,10 @@ import { SidebarModule } from 'ng-sidebar';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ShoppingListsComponent } from './lists/shopping-lists/shopping-lists.component';
 import { ShoppingListDetailsComponent } from './lists/shopping-lists/details/shopping-list-details.component';
+import { CategoriesComponent } from './settings/categories/categories.component';
+import { SubcategoriesComponent } from './settings/subcategories/subcategories.component';
+import { ExpensesComponent } from './finances/expenses/expenses.component';
+import { SaldoComponent } from './finances/saldo/saldo.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +22,10 @@ import { ShoppingListDetailsComponent } from './lists/shopping-lists/details/sho
     ShoppingItemsComponent,
     ShoppingListsComponent,
     ShoppingListDetailsComponent,
+    CategoriesComponent,
+    SubcategoriesComponent,
+    ExpensesComponent,
+    SaldoComponent
   ],
   imports: [
     BrowserModule,

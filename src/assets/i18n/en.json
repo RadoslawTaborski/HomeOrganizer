@@ -4,7 +4,13 @@
             "shopping": "General list",
             "shopping-lists": "Shopping lists",
             "permanent": "Permanent list",
-            "temporary": "Temporary list"
+            "temporary": "Temporary list",
+            "expenses": "Expenses",
+            "saldo": "Debt",
+            "settings": "Settings",
+            "categories": "Categories",
+            "subcategories": "Subcategories",
+            "saldosettings": "Expenses settings"
         }
     },
     "containers": {
@@ -45,6 +51,44 @@
             "created": "created",
             "updated": "updated",
             "confirm": "Are you sure?"
+        },
+        "settings":{
+            "categories":{
+                "name": "name",
+                "categories": "categories"
+            },
+            "subcategories":{
+                "name": "name",
+                "parent": "category",
+                "categories": "categories",
+                "category": "category"
+            },
+            "saldo-settings":{
+                "name": "name",
+                "posts": "posts"
+            }
+        },
+        "finances": {
+            "expenses":{
+                "name": "name",
+                "date": "date",
+                "expenses": "expenses",
+                "contributors": "contributors",
+                "payer": "payer",
+                "amount": "amount"
+            },
+            "saldo":{
+                "name":"name",
+                "person1": "person1",
+                "person2": "person2",
+                "amount": "amount",
+                "posts":"posts",
+                "user": "user",
+                "indebt": "in debt to",
+                "debtRepayment": "debt repayment",
+                "repayer": "debt repayer",
+                "toWhom": "to whom"
+            }
         }
     },
     "modules": {

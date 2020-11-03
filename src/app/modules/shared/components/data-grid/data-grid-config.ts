@@ -1,4 +1,3 @@
-import { style } from '@angular/animations';
 import { BehaviorSubject } from 'rxjs';
 
 export interface DataGridItemModel {
@@ -65,6 +64,11 @@ export interface DataGridItemTextModel extends DataGridItemModel {
     readonly textProvider?: Function;
 }
 
+export interface DataGridItemListModel extends DataGridItemModel {
+    readonly valuesProvider?: Function
+    readonly valuesTextProvider?: Function
+}
+
 export interface DataGridItemCheckboxModel extends DataGridItemModel {
     readonly textProvider?: Function;
     readonly valueProvider?: Function;
@@ -101,6 +105,36 @@ export class DataGridItemText extends DataGridItemBase implements DataGridItemTe
             let entity = new DataGridItemText();
             super.internalSetter(entity, null);
             entity.textProvider = this.textProvider;
+
+            return entity;
+        }
+    }
+}
+
+export class DataGridItemList extends DataGridItemBase implements DataGridItemListModel {
+    valuesProvider?: Function
+    valuesTextProvider?: Function
+
+    static Builder = class extends DataGridItemBase.Builder {
+        valuesProvider?: Function
+        valueTextProvider?: Function
+
+        public setValuesProvider(valuesProvider: Function) : this{
+            this.valuesProvider = valuesProvider;
+            return this;
+        }
+
+        public setValueTextProvider(valueTextProvider: Function){
+            this.valueTextProvider = valueTextProvider
+            return this;
+        }
+
+        public build(): DataGridItemList {
+            let entity = new DataGridItemList();
+            super.internalSetter(entity, FieldTypes.LIST);
+            entity.valuesTextProvider = this.valueTextProvider;
+            entity.valuesProvider = this.valuesProvider
+            entity.alwaysVisible = false;
 
             return entity;
         }
@@ -236,6 +270,7 @@ export class FieldTypes {
     static IMAGE = 'img';
     static BUTTON = 'button';
     static CHECKBOX = 'checkbox';
+    static LIST = 'list';
 }
 
 export class DataGridConfig {
