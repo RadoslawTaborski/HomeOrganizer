@@ -109,7 +109,7 @@ export class SaldoComponent implements OnInit {
 
   async add(data: Expense) {
     await this.dataProvider.addExpense(data);
-    //window.location.reload();
+    window.location.reload();
   }
 
   async fetch() {
