@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { DataGridConfig, DataGridItemList, DataGridItemText } from 'src/app/modules/shared/components/data-grid/data-grid-config';
-import { AddItemCheckboxes, AddItemConfig, AddItemInput, AddItemNumber, AddItemRadio, CheckboxPair } from 'src/app/modules/shared/components/modal/add/add-config';
+import { AddItemCheckbox, AddItemCheckboxes, AddItemConfig, AddItemInput, AddItemNumber, AddItemRadio, CheckboxPair } from 'src/app/modules/shared/components/modal/add/add-config';
 import { AddOption } from 'src/app/modules/shared/components/modal/add/add.component';
 import { ConfirmOption } from 'src/app/modules/shared/components/modal/confirm/modal-confirm.component';
 import { SearchConfig } from 'src/app/modules/shared/components/search/search-config';
@@ -134,6 +134,7 @@ export class ExpensesComponent implements OnInit {
     let recipients = recipientsGuids.map(s=>this.dataProvider.usersSettings.filter(u=>u.user.id==s)[0])
     let payer = data.get(ExpenseTypes.PAYER);
     let amount = data.get(ExpenseTypes.AMOUNT);
+    let fiftyfifty = data.get(ExpenseTypes.FIFTY_FIFTY);
     let coefficient = recipients.map(c=>c.value).reduce((prev, next) => prev + next)
     if(payer == null || recipients.length == 0){
       return null;
@@ -144,7 +145,7 @@ export class ExpensesComponent implements OnInit {
       details.push(new ExpenseDetail({
         payer: this.dataProvider.users.filter(u=>u.id==payer)[0],
         recipient: recipient,
-        value: amount * recipient.value / coefficient
+        value: fiftyfifty? amount/recipients.length :amount * recipient.value / coefficient
       }))
     }
 
@@ -207,6 +208,11 @@ export class ExpensesComponent implements OnInit {
       .setValue(this.dataProvider.users[0])
       .setDisplayProvider((t: User) => t?.username)
       .setIdentifierProvider((t: User) => t?.id)
+      .build(),
+      new AddItemCheckbox.Builder()
+      .setKey(ExpenseTypes.FIFTY_FIFTY)
+      .setValue(false)
+      .setDisplayProvider(() => this.translate.instant('containers.finances.expenses.fifty-fifty'))
       .build(),
       new AddItemCheckboxes.Builder()
       .setKey(ExpenseTypes.RECIPIENTS)

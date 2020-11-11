@@ -59,10 +59,14 @@ export interface AddItemSelectModel extends AddItemModel {
 }
 
 export interface AddItemCheckboxesModel extends AddItemModel {
-    readonly value?: string;
     readonly options?: CheckboxPair[];
     readonly displayProvider?: Function;
     readonly identifierProvider?: Function;
+}
+
+export interface AddItemCheckboxModel extends AddItemModel {
+    readonly value?: boolean;
+    readonly displayProvider?: Function;
 }
 
 export interface AddItemRadioModel extends AddItemModel {
@@ -233,6 +237,35 @@ export class AddItemCheckboxes extends AddItemModelBase implements AddItemCheckb
     }
 }
 
+export class AddItemCheckbox extends AddItemModelBase implements AddItemCheckboxModel { 
+    value?: boolean;
+    displayProvider?: Function;
+
+    static Builder = class extends AddItemModelBase.Builder {
+        value?: boolean;
+        displayProvider?: Function;
+
+        public setValue(value: boolean) : this{
+            this.value = value;
+            return this;
+        }
+
+        public setDisplayProvider(value: Function) : this{
+            this.displayProvider = value;
+            return this;
+        }
+
+        public build(): AddItemCheckbox {
+            let entity = new AddItemCheckbox();
+            super.internalSetter(entity, FieldTypes.CHECKBOX);
+            entity.value = this.value;
+            entity.displayProvider = this.displayProvider;
+
+            return entity;
+        }
+    }
+}
+
 export class AddItemRadio extends AddItemModelBase implements AddItemRadioModel { 
     options?: CheckboxPair[];
     displayProvider?: Function;
@@ -286,6 +319,7 @@ export class AddItemRadio extends AddItemModelBase implements AddItemRadioModel 
 export class FieldTypes {
     static RADIO = 'radio';
     static CHECKBOXES = 'checkboxes';
+    static CHECKBOX = 'checkbox';
     static INPUT = 'input';
     static INPUT_NUMBER = 'input_number';
     static SELECT = 'select';

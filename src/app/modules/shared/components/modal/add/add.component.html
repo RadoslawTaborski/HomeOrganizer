@@ -9,7 +9,7 @@
         (ngSubmit)="onClickSubmit(searchForm.value)">
         <div class="form-group" *ngFor="let control of config.data" [ngSwitch]="control.type" class="modal-body">
 
-            <label [for]="control.key">
+            <label [for]="control.key" *ngIf="control.display">
                 {{control.display | camelCaseToSign:' '}}
             </label>
 
@@ -27,6 +27,15 @@
                 </option>
             </select>
 
+            <div *ngSwitchCase="'checkbox'">
+                    <input type="checkbox"
+                        [id]="control.key"
+                        [name]="control.key"
+                        [(ngModel)]="control.value">
+                    <label
+                        [for]="control.key">{{provideCheckboxText(control, control.value)}}</label>
+            </div>
+
             <div *ngSwitchCase="'checkboxes'">
                 <div *ngFor="let opt of castToCheckboxes(control).options; let i = index">
                     <input type="checkbox"
@@ -34,7 +43,7 @@
                         [name]="'array:'+control.key+'['+provideCheckboxIdentifier(control,opt.getObject())+']'"
                         [(ngModel)]="opt.value">
                     <label
-                        [for]="'array:'+control.key+'['+provideCheckboxIdentifier(control,opt.getObject())+']'">{{provideCheckboxText(control, opt.getObject())}}</label>
+                        [for]="'array:'+control.key+'['+provideCheckboxIdentifier(control,opt.getObject())+']'">{{provideCheckboxesText(control, opt.getObject())}}</label>
                 </div>
             </div>
 

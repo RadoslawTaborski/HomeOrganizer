@@ -75,7 +75,8 @@
                 "expenses": "wydatki",
                 "contributors": "osoby składające się na wydatek",
                 "payer": "opłacone przez",
-                "amount": "kwota"
+                "amount": "kwota",
+                "fifty-fifty": "pół na pół"
             },
             "saldo":{
                 "name":"nazwa",

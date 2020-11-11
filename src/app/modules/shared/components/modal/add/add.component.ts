@@ -4,7 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs';
 import { ModalBase } from '../modal-base';
-import { AddItemCheckboxes, AddItemCheckboxesModel, AddItemConfig, AddItemInputModel, AddItemModel, AddItemRadioModel, AddItemSelect } from "../add/add-config"
+import { AddItemCheckboxes, AddItemCheckboxesModel, AddItemCheckboxModel, AddItemConfig, AddItemInputModel, AddItemModel, AddItemRadioModel, AddItemSelect } from "../add/add-config"
 
 @Component({
   selector: 'app-add',
@@ -65,7 +65,15 @@ export class AddComponent extends ModalBase implements OnInit {
     return data as AddItemCheckboxesModel;
   }
 
+  castToCheckbox(data: AddItemModel): AddItemCheckboxModel {
+    return data as AddItemCheckboxModel;
+  }
+
   provideCheckboxText(item: AddItemModel, model: any): string {
+    return this.castToCheckbox(item)?.displayProvider(model)
+  }
+
+  provideCheckboxesText(item: AddItemModel, model: any): string {
     return this.castToCheckboxes(item)?.displayProvider(model)
   }
 

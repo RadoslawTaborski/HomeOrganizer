@@ -75,7 +75,8 @@
                 "expenses": "expenses",
                 "contributors": "contributors",
                 "payer": "payer",
-                "amount": "amount"
+                "amount": "amount",
+                "fifty-fifty": "fifty-fifty"
             },
             "saldo":{
                 "name":"name",
