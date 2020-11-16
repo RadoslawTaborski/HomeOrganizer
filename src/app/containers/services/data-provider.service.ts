@@ -161,12 +161,12 @@ export class DataProviderService {
     filters = this.extendsFilters(this.group.id, filters);
     let response = (await this.shoppingListsService.fetch(filters));
     let data: any[] = []
-    await response.data.forEach(async a => data.push(ShoppingListModel.createFromJson(a, (await this.getTemporeryItems({"shoppingListId": `${a.id}`})).data)))
+    await response.data.forEach(async a => data.push(ShoppingListModel.createFromJson(a, (await this.getTemporeryItems({"shoppingListUuid": `${a.uuid}`})).data)))
     return {data: data, total:response.total, error:"", message:""};
   }
 
   async getShoppingList(id: string) : Promise<IShoppingListModel>{
-    let temporaryItems: ITemporaryItemModel[] = (await this.getTemporeryItems({"shoppingListId": `${id}`})).data
+    let temporaryItems: ITemporaryItemModel[] = (await this.getTemporeryItems({"shoppingListUuid": `${id}`})).data
     let response = (await this.shoppingListsService.get(id));
     return ShoppingListModel.createFromJson(response, temporaryItems)
   }
