@@ -3,7 +3,7 @@ import { IItemModel } from "../../models/models";
 
 
 export enum TemporaryItemTypes {
-  BOUGHT = "bought",
+  BOUGHT = "boughtCheckbox",
   NAME = 'name',
   CATEGORY = 'category',
   SUBCATEGORY = 'subcategory',
@@ -13,12 +13,14 @@ export enum TemporaryItemTypes {
 }
 
 export interface ITemporaryItemModel extends IItemModel {
+    boughtCheckbox?: boolean
     quantity: string;
     bought: string;
     shoppingListId: string;
 }
 
 export class TemporaryItemModel implements ITemporaryItemModel {
+    boughtCheckbox?: boolean
     quantity: string;
     shoppingListId: string;
     id: string;
@@ -43,6 +45,7 @@ export class TemporaryItemModel implements ITemporaryItemModel {
             category: subcategories.filter(i => i.id === a.categoryUuid)[0],
             quantity: a.quantity,
             bought: a.bought,
+            boughtCheckbox: a.bought?true:false,
             createTime: a.createTime,
             updateTime: a.updateTime,
             deleteTime: a.deleteTime,

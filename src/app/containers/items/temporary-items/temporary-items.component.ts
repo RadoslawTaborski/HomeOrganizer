@@ -80,7 +80,7 @@ export class TemporaryItemsComponent implements OnInit {
         new DataGridItemCheckbox.Builder()
           .setKey(TemporaryItemTypes.BOUGHT)
           .setDisplay(this.translate.instant('containers.items.temporary-item.bought'))
-          .setValueProvider((t: ITemporaryItemModel): boolean => t.bought != null)
+          .setValueProvider((t: ITemporaryItemModel): boolean => t.boughtCheckbox)
           .setColumnClass("exactValue")
           .setColumnStyle("--value: 40px;")
           .setVisible(true)

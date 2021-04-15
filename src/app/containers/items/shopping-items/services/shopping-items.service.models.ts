@@ -3,7 +3,7 @@ import { SubCategory } from 'src/app/containers/settings/subcategories/services/
 import { IItemModel } from "../../models/models";
 
 export enum ShoppingItemTypes {
-    BOUGHT = 'bought',
+    BOUGHT = 'boughtCheckbox',
     NAME = 'name',
     CATEGORY = 'category',
     SUBCATEGORY = 'subcategory',
@@ -13,6 +13,7 @@ export enum ShoppingItemTypes {
 }
 
 export interface IShoppingItemModel extends IItemModel {
+    boughtCheckbox?: boolean
     state?: State;
     quantity?: string;
     bought?: string;
@@ -23,6 +24,7 @@ export interface IShoppingItemModel extends IItemModel {
 }
 
 export class ShoppingItemModel implements IShoppingItemModel {
+    boughtCheckbox?: boolean
     state?: State;
     quantity?: string;
     bought?: string;
@@ -50,6 +52,7 @@ export class ShoppingItemModel implements IShoppingItemModel {
             shoppingListId: a.shoppingListUuid,
             quantity: a.quantity,
             bought: a.bought,
+            boughtCheckbox: a.bought?true:false,
             groupId: a.groupUuid,
             counter: a.counter,
             state: states.filter(i => i.id === a.stateUuid)[0],

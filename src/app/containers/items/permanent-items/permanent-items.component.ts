@@ -83,6 +83,7 @@ export class PermanentItemsComponent implements OnInit {
           .setOptions(await this.getStates())
           .setDisplayProvider((t: State) => this.translateState(t))
           .setIdentifierProvider((t: State) => t.level)
+          .setValue(await this.getStates().reverse()[0].level)
           .build()
       ]);
 

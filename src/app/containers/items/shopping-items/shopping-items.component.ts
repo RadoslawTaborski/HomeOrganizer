@@ -74,7 +74,7 @@ export class ShoppingItemsComponent implements OnInit {
         new DataGridItemCheckbox.Builder()
           .setKey(ShoppingItemTypes.BOUGHT)
           .setDisplay(this.translate.instant('containers.items.shopping.bought'))
-          .setValueProvider((t: IShoppingItemModel): boolean => t.bought != null)
+          .setValueProvider((t: IShoppingItemModel): boolean => t.boughtCheckbox)
           .setColumnClass("exactValue")
           .setColumnStyle("--value: 40px;")
           .setVisible(true)
@@ -168,14 +168,26 @@ export class ShoppingItemsComponent implements OnInit {
     console.log("more");
   }
 
-  async update(data: ShoppingItemModel) {
+  async update(data: ShoppingItemModel) {debugger;
     if (data.shoppingListId) {
       let temporaryItem = data as TemporaryItemModel
-      temporaryItem.bought = new Date().toISOString();
+      if(data.boughtCheckbox){
+        data.boughtCheckbox = false
+        temporaryItem.bought = null;
+      } else {
+        data.boughtCheckbox = true
+        temporaryItem.bought = new Date().toISOString();
+      }
       await this.dataProvider.updateTemporaryItem(temporaryItem);
     } else {
       let permanentItem = data as PermanentItemModel
-      permanentItem.state = this.dataProvider.states.filter(i => i.level == "4")[0]
+      let lot = this.dataProvider.states.filter(i => i.level == "4")[0];
+      let little = this.dataProvider.states.filter(i => i.level == "1")[0]
+      if(permanentItem.state == lot){
+        permanentItem.state = little;
+      } else {
+        permanentItem.state = lot;
+      }
       permanentItem.counter = permanentItem.counter + 1;
       await this.dataProvider.updatePermanentItem(permanentItem);
     }

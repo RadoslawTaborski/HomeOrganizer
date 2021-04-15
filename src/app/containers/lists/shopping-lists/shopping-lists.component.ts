@@ -143,7 +143,6 @@ export class ShoppingListsComponent implements OnInit {
   async update(data: ShoppingListModel) {
     data.visible = !data.visible;
     await this.dataProvider.updateShoppingList(data);
-    window.location.reload();
   }
 
   async updateFilters(value?) {
