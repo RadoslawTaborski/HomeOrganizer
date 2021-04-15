@@ -80,8 +80,8 @@ export interface ShoppingListAction {
 export class ShoppingListsFilters {
     constructor(
         public pageNumber = 1,
-        public pageSize = 25,
-        public orderBy = "updateTime desc, createTime desc") {
+        public pageSize = 30,
+        public orderBy = "visible desc, updateTime desc, createTime desc") {
     }
 }
 

@@ -127,6 +127,7 @@ export class TemporaryItemsComponent implements OnInit {
         new AddItemInput.Builder()
           .setKey(TemporaryItemTypes.QUANTITY)
           .setDisplay(this.translate.instant('containers.items.temporary-item.quantity'))
+          .setDefaultValue("1")
           .build(),
         new AddItemSelect.Builder()
           .setKey(TemporaryItemTypes.SUBCATEGORY)

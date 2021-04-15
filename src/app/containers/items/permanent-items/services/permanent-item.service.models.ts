@@ -81,7 +81,7 @@ export class PermanentItemsFilters {
         public subcategoryUuid = '',
         public stateLevel = '',
         public pageNumber = 1,
-        public pageSize = 25,
+        public pageSize = 50,
         public orderBy = "counter desc, categoryUuid asc, stateUuid asc, name asc") {
     }
 }

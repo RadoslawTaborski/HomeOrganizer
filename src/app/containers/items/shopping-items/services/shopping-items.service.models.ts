@@ -79,7 +79,7 @@ export class ShoppingItemsFilters {
         public categoryUuid = '',
         public subcategoryUuid = '',
         public pageNumber = 1,
-        public pageSize = 25,
+        public pageSize = 50,
         public orderBy = "categoryUuid asc, name asc") {
     }
 }

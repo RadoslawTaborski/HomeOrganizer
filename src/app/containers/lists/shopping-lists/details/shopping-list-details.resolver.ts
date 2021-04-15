@@ -11,6 +11,7 @@ export class ShoppingListDetailsResolver implements ShoppingListResolver<IShoppi
     constructor(private service: DataProviderService) { }
 
     async resolve(route: ActivatedRouteSnapshot): Promise<IShoppingListModel> {
+        await this.service.init();
         await this.service.reloadCategories();
         await this.service.reloadSubCategories();
         return this.service.getShoppingList(route.params['id'])

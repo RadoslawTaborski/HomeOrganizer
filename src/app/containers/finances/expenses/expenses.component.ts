@@ -159,6 +159,10 @@ export class ExpensesComponent implements OnInit {
     return result;
   }
 
+  async updateFilters(value?) {
+    this.filters.next({ ...this.filters.value, ...value });
+  }
+
   async configuration(){
     this.dataGridConfig = new DataGridConfig([
       new DataGridItemText.Builder()

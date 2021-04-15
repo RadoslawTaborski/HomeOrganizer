@@ -146,6 +146,10 @@ export class ShoppingListsComponent implements OnInit {
     window.location.reload();
   }
 
+  async updateFilters(value?) {
+    this.filters.next({ ...this.filters.value, ...value });
+  }
+
   remove(data: ShoppingListModel) {
     this.toRemove = data;
     this.confirmModal.clickButton();

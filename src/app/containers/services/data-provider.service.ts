@@ -184,7 +184,9 @@ export class DataProviderService {
     filters = this.extendsFilters(this.group.id, filters);
     let response = (await this.expensesService.fetch(filters));
     let data: any[] = []
-    await response.data.forEach(async a =>data.push(Expense.createFromJson(a, (await this.getExpenseDetails({"expenseUuid": `${a.uuid}`})).data)));
+    for(var res of response.data){
+      await data.push(Expense.createFromJson(res, (await this.getExpenseDetails({"expenseUuid": `${res.uuid}`})).data))
+    }
 
     return {data: data, total:response.total, error:"", message:""};
   }
@@ -258,9 +260,10 @@ export class DataProviderService {
 
   async addExpense(data: Expense): Promise<string> {
     let result = await this.expensesService.add(Expense.toJson(data));
-    data.details.forEach(element => {
-      this.addExpenseDetail(element, result);
-    });
+    for(var res of data.details){
+      await this.addExpenseDetail(res, result);
+    }
+    
     return result;
   }
 
