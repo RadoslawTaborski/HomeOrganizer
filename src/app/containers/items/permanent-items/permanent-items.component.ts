@@ -62,6 +62,9 @@ export class PermanentItemsComponent implements OnInit {
     await this.dataProvider.reloadStates();
 
     await this.translate.get('containers.items.name').subscribe(async t => {
+      let states = await this.getStates();
+      let subcategories = await this.operationsService.getSubCategories();
+
       this.searchConfig = new SearchConfig([
         new SearchSelect.Builder()
           .setKey(PermanentItemsFilterTypes.CATEGORY)
@@ -73,17 +76,17 @@ export class PermanentItemsComponent implements OnInit {
         new SearchSelect.Builder()
           .setKey(PermanentItemsFilterTypes.SUBCATEGORY)
           .setDisplay(this.translate.instant('containers.items.subcategory'))
-          .setOptions(await this.operationsService.getSubCategories())
+          .setOptions(subcategories)
           .setDisplayProvider((t: SubCategory) => t?.name)
           .setIdentifierProvider((t: SubCategory) => t?.id)
           .build(),
         new SearchSelect.Builder()
           .setKey(PermanentItemsFilterTypes.STATE)
           .setDisplay(this.translate.instant('containers.items.permanent-item.state'))
-          .setOptions(await this.getStates())
+          .setOptions(states)
           .setDisplayProvider((t: State) => this.translateState(t))
           .setIdentifierProvider((t: State) => t.level)
-          .setValue(await this.getStates().reverse()[0].level)
+          .setValue(states.reverse()[0].level)
           .build()
       ]);
 
@@ -102,7 +105,7 @@ export class PermanentItemsComponent implements OnInit {
         new DataGridItemText.Builder()
           .setKey(PermanentItemTypes.SUBCATEGORY)
           .setDisplay(this.translate.instant('containers.items.subcategory'))
-          .setTextProvider((t: IPermanentItemModel): string => t.category.name)
+          .setTextProvider((t: IPermanentItemModel): string => this.translateSubcategory(t.category))
           .build(),
         new DataGridItemText.Builder()
           .setKey(PermanentItemTypes.DATE)
@@ -137,9 +140,18 @@ export class PermanentItemsComponent implements OnInit {
         new AddItemSelect.Builder()
           .setKey(PermanentItemTypes.SUBCATEGORY)
           .setDisplay(this.translate.instant('containers.items.subcategory'))
-          .setOptions(await this.operationsService.getSubCategories())
-          .setDisplayProvider((t: SubCategory) => t?.name)
+          .setOptions(subcategories)
+          .setDisplayProvider((t: SubCategory) => this.translateSubcategory(t))
           .setIdentifierProvider((t: SubCategory) => t?.id)
+          .setValue(subcategories.filter(i=>i.name=="none")[0].id)
+          .build(),
+        new AddItemSelect.Builder()
+          .setKey(PermanentItemTypes.STATE)
+          .setDisplay(this.translate.instant('containers.items.permanent-item.state'))
+          .setOptions(states)
+          .setDisplayProvider((t: State) => this.translateState(t))
+          .setIdentifierProvider((t: State) => t?.id)
+          .setValue(states.reverse()[0].id)
           .build()
       ]);
 
@@ -162,6 +174,16 @@ export class PermanentItemsComponent implements OnInit {
 
       this.isLoaded = true;
     });
+  }
+
+  translateSubcategory(t: SubCategory) {
+    if(!t){
+      return "";
+    }
+    if(t.name == "none"){
+      return this.translate.instant('containers.settings.subcategories.none');
+    }
+    return t.name;
   }
 
   getStates(): State[] {
@@ -256,7 +278,7 @@ export class PermanentItemsComponent implements OnInit {
         let item = new PermanentItemModel({
           name: data.details.get(PermanentItemTypes.NAME),
           category: this.dataProvider.subcategories.filter(i => i.id == data.details.get(PermanentItemTypes.SUBCATEGORY))[0],
-          state: this.dataProvider.states.filter(i => i.level == "3")[0],
+          state: this.dataProvider.states.filter(i => i.id == data.details.get(PermanentItemTypes.STATE))[0],
           groupId: this.dataProvider.group.id
         })
 

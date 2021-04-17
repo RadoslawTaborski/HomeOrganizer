@@ -152,7 +152,7 @@ export class SubcategoriesComponent implements OnInit {
       new DataGridItemText.Builder()
         .setKey(SubcategoryTypes.NAME)
         .setDisplay(this.translate.instant('containers.settings.categories.name'))
-        .setTextProvider((t: SubCategory): string => t.name)
+        .setTextProvider((t: SubCategory): string => this.translateSubcategory(t))
         .setVisible(true)
         .setColumnClass("absorbing-column")
         .build(),
@@ -178,5 +178,15 @@ export class SubcategoriesComponent implements OnInit {
         .setIdentifierProvider((t: Category) => t?.id)
         .build()
     ]);
+  }
+
+  translateSubcategory(t: SubCategory): string {
+    if(!t){
+      return "";
+    }
+    if(t.name == "none"){
+      return this.translate.instant('containers.settings.subcategories.none');
+    }
+    return t.name;
   }
 }

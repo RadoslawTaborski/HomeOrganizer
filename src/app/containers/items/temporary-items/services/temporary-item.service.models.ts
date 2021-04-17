@@ -62,7 +62,7 @@ export class TemporaryItemModel implements ITemporaryItemModel {
         tmp.name = entity.name;
         tmp.quantity = entity.quantity;
         tmp.shoppingListUuid = entity.shoppingListId;
-        tmp.categoryUuid = entity.category.id;
+        tmp.categoryUuid = entity.category?.id;
         tmp.bought = entity.bought;
         return JSON.stringify(tmp)
     }

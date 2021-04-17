@@ -31,6 +31,9 @@ import { ExpenseSettings } from '../finances/expenses-settings/services/expenses
   providedIn: 'root'
 })
 export class DataProviderService {
+
+  ONE_TIME_GROUP: string = "GROUP_ONE_TIME"
+
   groups: Group[] = [];
   users: User[] = [];
   usersSettings: ExpenseSettings[] = [];
@@ -39,6 +42,7 @@ export class DataProviderService {
   states: State[] = [];
   user: User;
   group: Group;
+  oneTimeList: IShoppingListModel;
 
   constructor(
     private categoryService: CategoriesService,
@@ -68,6 +72,16 @@ export class DataProviderService {
     await this.login("Radek", "1234");
     await this.getGroups(this.user.id);
     this.group = this.groups[0];
+    await this.getOneTimeList(this.group)
+  }
+
+  async getOneTimeList(filters?: { [key: string]: any; }) {
+    filters = this.extendsFilters(this.group.id, filters);
+    filters["name"] = this.ONE_TIME_GROUP;
+    let response = (await this.shoppingListsService.fetch(filters));
+
+    this.oneTimeList = ShoppingListModel.createFromJson(response.data[0], null)
+
   }
 
   async login(username: string, password:string) {
@@ -162,7 +176,9 @@ export class DataProviderService {
     let response = (await this.shoppingListsService.fetch(filters));
     let data: any[] = []
     for(var res of response.data){
-      data.push(ShoppingListModel.createFromJson(res, (await this.getTemporeryItems({ "shoppingListUuid": `${res.uuid}` })).data))
+      if(res.name != this.ONE_TIME_GROUP){
+        data.push(ShoppingListModel.createFromJson(res, (await this.getTemporeryItems({ "shoppingListUuid": `${res.uuid}` })).data))
+      }
     }
 
     return {data: data, total:response.total, error:"", message:""};

@@ -11,8 +11,10 @@ import { State } from '../../settings/states/services/states.service.models';
 import { SubCategory } from '../../settings/subcategories/services/subcategories.service.models';
 import { PermanentItemModel } from '../permanent-items/services/permanent-item.service.models';
 import { ShoppingItemsFilters, IShoppingItemModel, ShoppingItemAction, ShoppingItemModel, ShoppingItemTypes, ShoppingItemsFilterTypes } from '../shopping-items/services/shopping-items.service.models'
-import { TemporaryItemModel } from '../temporary-items/services/temporary-item.service.models';
+import { TemporaryItemModel, TemporaryItemTypes } from '../temporary-items/services/temporary-item.service.models';
 import { OperationsService } from '../../services/operations.service'
+import { AddItemConfig, AddItemInput, AddItemSelect } from 'src/app/modules/shared/components/modal/add/add-config';
+import { AddOption } from 'src/app/modules/shared/components/modal/add/add.component';
 
 @Component({
   selector: 'app-shopping-items',
@@ -23,6 +25,7 @@ export class ShoppingItemsComponent implements OnInit {
 
   dataGridConfig: DataGridConfig;
   searchConfig: SearchConfig;
+  addConfig: AddItemConfig;
 
   items: { data: IShoppingItemModel[], total: number };
   filters: BehaviorSubject<ShoppingItemsFilters>;
@@ -64,9 +67,29 @@ export class ShoppingItemsComponent implements OnInit {
         new SearchSelect.Builder()
           .setKey(ShoppingItemsFilterTypes.SUBCATEGORY)
           .setDisplay(this.translate.instant('containers.items.subcategory'))
-          .setOptions(await this.operationsService.getSubCategories())
+          .setOptions(this.dataProvider.subcategories)
           .setDisplayProvider((t: SubCategory) => t?.name)
           .setIdentifierProvider((t: SubCategory) => t?.id)
+          .build()
+      ]);
+
+      this.addConfig = new AddItemConfig([
+        new AddItemInput.Builder()
+          .setKey(TemporaryItemTypes.NAME)
+          .setDisplay(this.translate.instant('containers.items.name'))
+          .build(),
+        new AddItemInput.Builder()
+          .setKey(TemporaryItemTypes.QUANTITY)
+          .setDisplay(this.translate.instant('containers.items.temporary-item.quantity'))
+          .setDefaultValue("1")
+          .build(),
+        new AddItemSelect.Builder()
+          .setKey(TemporaryItemTypes.SUBCATEGORY)
+          .setOptions(this.dataProvider.subcategories)
+          .setDisplay(this.translate.instant('containers.items.subcategory'))
+          .setDisplayProvider((t: SubCategory) => this.translateSubcategory(t))
+          .setIdentifierProvider((t: SubCategory) => t?.id)
+          .setValue(this.dataProvider.subcategories.filter(i=>i.name=="none")[0].id)
           .build()
       ]);
 
@@ -101,7 +124,7 @@ export class ShoppingItemsComponent implements OnInit {
         new DataGridItemText.Builder()
           .setKey(ShoppingItemTypes.SUBCATEGORY)
           .setDisplay(this.translate.instant('containers.items.subcategory'))
-          .setTextProvider((t: IShoppingItemModel): string => t.category.name)
+          .setTextProvider((t: IShoppingItemModel): string => this.translateSubcategory(t.category))
           .build(),
       ]);
 
@@ -124,6 +147,16 @@ export class ShoppingItemsComponent implements OnInit {
 
       this.isLoaded = true;
     });
+  }
+
+  translateSubcategory(t: SubCategory) {
+    if(!t){
+      return "";
+    }
+    if(t.name == "none"){
+      return this.translate.instant('containers.settings.subcategories.none');
+    }
+    return t.name;
   }
 
   getStates(): State[] {
@@ -193,12 +226,38 @@ export class ShoppingItemsComponent implements OnInit {
     }
   }
 
+  async addItem(data: { result: AddOption, details: Map<string,any> }) {
+    switch (data.result) {
+      case 'ok':
+        let category = this.dataProvider.subcategories.filter(i => i.id == data.details.get(TemporaryItemTypes.SUBCATEGORY))[0]
+        category = category ? category : this.dataProvider.subcategories.filter(i => i.name == "none")[0]
+
+        let item = new TemporaryItemModel({
+          name: data.details.get(TemporaryItemTypes.NAME),
+          category: category,
+          quantity: data.details.get(TemporaryItemTypes.QUANTITY),
+          shoppingListId: this.dataProvider.oneTimeList.id,
+          groupId: this.dataProvider.group.id
+        })
+
+        await this.addOneTimeItem(item);
+
+        break;
+      case 'dissmised': console.log('nok', data); break;
+    }
+  }
+
   remove(data: ShoppingItemModel) {
     console.log("remove");
   }
 
-  add(data: ShoppingItemModel) {
+  async add(data: ShoppingItemModel) {
     console.log("add");
+  }
+
+  async addOneTimeItem(data: TemporaryItemModel) {
+    await this.dataProvider.addTemporaryItem(data);
+    window.location.reload();
   }
 
   async updateFilters(value?) {
@@ -215,10 +274,6 @@ export class ShoppingItemsComponent implements OnInit {
       v.data.sort(i => i.categoryId)
       this.items = v;
     })
-  }
-
-  addItem(data: any) {
-    console.log(data)
   }
 
 }

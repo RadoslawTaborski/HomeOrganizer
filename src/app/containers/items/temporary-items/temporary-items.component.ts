@@ -70,7 +70,7 @@ export class TemporaryItemsComponent implements OnInit {
       new SearchSelect.Builder()
         .setKey(TemporaryItemsFilterTypes.SUBCATEGORY)
         .setDisplay(this.translate.instant('containers.items.subcategory'))
-        .setOptions(await this.operationsService.getSubCategories())
+        .setOptions(this.dataProvider.subcategories)
         .setDisplayProvider((t: SubCategory) => t?.name)
         .setIdentifierProvider((t: SubCategory) => t?.id)
         .build()
@@ -99,7 +99,7 @@ export class TemporaryItemsComponent implements OnInit {
         new DataGridItemText.Builder()
           .setKey(TemporaryItemTypes.SUBCATEGORY)
           .setDisplay(this.translate.instant('containers.items.subcategory'))
-          .setTextProvider((t: ITemporaryItemModel): string => t.category.name)
+          .setTextProvider((t: ITemporaryItemModel): string => this.translateSubcategory(t.category))
           .build(),
         new DataGridItemText.Builder()
           .setKey(TemporaryItemTypes.QUANTITY)
@@ -132,9 +132,10 @@ export class TemporaryItemsComponent implements OnInit {
         new AddItemSelect.Builder()
           .setKey(TemporaryItemTypes.SUBCATEGORY)
           .setDisplay(this.translate.instant('containers.items.subcategory'))
-          .setOptions(await this.operationsService.getSubCategories())
-          .setDisplayProvider((t: SubCategory) => t?.name)
+          .setOptions(this.dataProvider.subcategories)
+          .setDisplayProvider((t: SubCategory) => this.translateSubcategory(t))
           .setIdentifierProvider((t: SubCategory) => t?.id)
+          .setValue(this.dataProvider.subcategories.filter(i=>i.name=="none")[0].id)
           .build()
       ]);
 
@@ -157,6 +158,16 @@ export class TemporaryItemsComponent implements OnInit {
 
       this.isLoaded = true;
     });
+  }
+
+  translateSubcategory(t: SubCategory) {
+    if(!t){
+      return "";
+    }
+    if(t.name == "none"){
+      return this.translate.instant('containers.settings.subcategories.none');
+    }
+    return t.name;
   }
 
   updateSearchConfig() {
@@ -198,9 +209,12 @@ export class TemporaryItemsComponent implements OnInit {
   async addItem(data: { result: AddOption, details: Map<string,any> }) {
     switch (data.result) {
       case 'ok':
+        let category = this.dataProvider.subcategories.filter(i => i.id == data.details.get(TemporaryItemTypes.SUBCATEGORY))[0]
+        category = category ? category : this.dataProvider.subcategories.filter(i => i.name == "none")[0]
+
         let item = new TemporaryItemModel({
           name: data.details.get(TemporaryItemTypes.NAME),
-          category: this.dataProvider.subcategories.filter(i => i.id == data.details.get(TemporaryItemTypes.SUBCATEGORY))[0],
+          category: category,
           quantity: data.details.get(TemporaryItemTypes.QUANTITY),
           shoppingListId: this.shoppingListId,
           groupId: this.dataProvider.group.id

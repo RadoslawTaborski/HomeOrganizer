@@ -90,7 +90,7 @@ export class ShoppingListsComponent implements OnInit {
         new DataGridItemText.Builder()
           .setKey(ShoppingListsTypes.DESCRIPTION)
           .setDisplay(this.translate.instant('containers.lists.description'))
-          .setTextProvider((t: ShoppingListModel) => t.description)
+          .setTextProvider((t: ShoppingListModel) => this.parseBody(t.description))
           .build(),
         new DataGridItemText.Builder()
           .setKey(ShoppingListsTypes.CREATED)
@@ -134,6 +134,10 @@ export class ShoppingListsComponent implements OnInit {
 
       this.isLoaded = true;
     });
+  }
+
+  parseBody(body:string) : string {
+    return body.replace(/((http|https).*)/, "<a href=\"$1\">link</a>")
   }
 
   more(data: ShoppingListModel) {

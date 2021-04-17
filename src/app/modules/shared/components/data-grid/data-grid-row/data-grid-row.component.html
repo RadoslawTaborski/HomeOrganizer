@@ -26,7 +26,7 @@
                 </div>
 
                 <div *ngSwitchDefault>
-                    <p *ngIf="castToText(item).textProvider">{{provideText(item, model)}}</p>
+                    <p *ngIf="castToText(item).textProvider" [innerHTML]="provideText(item, model)"></p>
                     <p *ngIf="!castToText(item).textProvider">{{model[item.key]}}</p>
                 </div>
             </td>
@@ -62,8 +62,7 @@
             </div>
 
             <div *ngSwitchDefault style="display:inline">
-                <p style="display:inline" *ngIf="castToText(item).textProvider">
-                    {{provideText(item, model)}}</p>
+                <p style="display:inline" *ngIf="castToText(item).textProvider" [innerHTML]="provideText(item, model)"></p>
                 <p style="display:inline" *ngIf="!castToText(item).textProvider">{{model[item.key]}}</p>
             </div>
         </div>
