@@ -166,7 +166,9 @@ export class DataProviderService {
     filters = this.extendsFilters(this.group.id, filters);
     let response = (await this.temporaryItemService.fetch(filters));
     let data: any[] = []
-    response.data.forEach(a => data.push(TemporaryItemModel.createFromJson(a, this.subcategories)))
+    for(let res of response.data){
+      data.push(TemporaryItemModel.createFromJson(res, this.subcategories))
+    }
 
     return {data: data, total:response.total, error:"", message:""};
   }
@@ -176,18 +178,15 @@ export class DataProviderService {
     let response = (await this.shoppingListsService.fetch(filters));
     let data: any[] = []
     for(var res of response.data){
-      if(res.name != this.ONE_TIME_GROUP){
-        data.push(ShoppingListModel.createFromJson(res, (await this.getTemporeryItems({ "shoppingListUuid": `${res.uuid}` })).data))
-      }
+        data.push(ShoppingListModel.createSimpleFromJson(res))
     }
 
     return {data: data, total:response.total, error:"", message:""};
   }
 
   async getShoppingList(id: string) : Promise<IShoppingListModel>{
-    let temporaryItems: ITemporaryItemModel[] = (await this.getTemporeryItems({"shoppingListUuid": `${id}`})).data
     let response = (await this.shoppingListsService.get(id));
-    return ShoppingListModel.createFromJson(response, temporaryItems)
+    return ShoppingListModel.createSimpleFromJson(response)
   }
 
   async getExpenseDetails(filters?: { [key: string]: any; }) : Promise<ResponseData> {

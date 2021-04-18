@@ -61,11 +61,13 @@ export class ShoppingListsComponent implements OnInit {
           .setValueProvider((t: ShoppingListModel) => t.visible)
           .setColumnClass("exactValue")
           .setColumnStyle("--value: 40px;")
+          .setEditable((t: ShoppingListModel)=>this.editable(t))
           .setVisible(true)
           .build(),
         new DataGridItemText.Builder()
           .setKey(ShoppingListsTypes.NAME)
           .setDisplay(this.translate.instant('containers.lists.name'))
+          .setTextProvider((t:ShoppingListModel) => this.translateList(t))
           .setColumnClass("absorbing-column")
           .setVisible(true)
           .build(),
@@ -85,12 +87,13 @@ export class ShoppingListsComponent implements OnInit {
           .setClassProvider((t: ShoppingListModel) => "btn btn-danger")
           .setAccess(this.stateService.access)
           .setColumnClass("fitwidth")
+          .setEditable((t: ShoppingListModel)=>this.editable(t))
           .setVisible(true)
           .build(),
         new DataGridItemText.Builder()
           .setKey(ShoppingListsTypes.DESCRIPTION)
           .setDisplay(this.translate.instant('containers.lists.description'))
-          .setTextProvider((t: ShoppingListModel) => this.parseBody(t.description))
+          .setTextProvider((t:ShoppingListModel) => this.translateListDescription(t))
           .build(),
         new DataGridItemText.Builder()
           .setKey(ShoppingListsTypes.CREATED)
@@ -136,6 +139,36 @@ export class ShoppingListsComponent implements OnInit {
     });
   }
 
+  translateListDescription(t: ShoppingListModel) {
+    if(!t.description){
+      return "";
+    }
+    if(t.description == "GROUP_ONE_TIME"){
+      return this.translate.instant('containers.lists.one-time-list')
+    }
+    return this.parseBody(t.description);
+  }
+
+  editable(t: ShoppingListModel) {
+    if(!t){
+      return true;
+    }
+    if(t.name == "GROUP_ONE_TIME"){
+      return false;
+    }
+    return true;
+  }
+
+  translateList(t: ShoppingListModel) {
+    if(!t.name){
+      return "";
+    }
+    if(t.name == "GROUP_ONE_TIME"){
+      return this.translate.instant('containers.lists.one-time-list')
+    }
+    return t.name;
+  }
+
   parseBody(body:string) : string {
     return body.replace(/((http|https).*)/, "<a href=\"$1\">link</a>")
   }
@@ -176,6 +209,8 @@ export class ShoppingListsComponent implements OnInit {
   async fetch() {
     await this.dataProvider.getShoppingLists(this.filters.getValue()).then(v => {
       this.lists = v;
+      var first = "GROUP_ONE_TIME";
+      this.lists.data.sort(function(x,y){ return x.name == first ? -1 : y.name == first ? 1 : 0; });
     })
   }
 

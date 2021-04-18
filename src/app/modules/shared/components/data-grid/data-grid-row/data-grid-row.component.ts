@@ -88,6 +88,10 @@ export class DataGridRowComponent {
         return this.castToCheckbox(item).valueProvider(model);
     }
 
+    provideEditableValue(item: DataGridItemModel, model: any): boolean {
+        return item.editableProvider(model);
+    }
+
     provideButtonStyle(item: DataGridItemModel, model: any): string {
         if(this.castToButton(item)?.styleProvider){
             return this.castToButton(item)?.styleProvider(model)

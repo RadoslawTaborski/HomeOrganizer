@@ -55,6 +55,20 @@ export class ShoppingListModel implements IShoppingListModel {
         });
     }
 
+    static createSimpleFromJson(a: any): ShoppingListModel {
+        return new ShoppingListModel({
+            id: a.uuid,
+            groupId: a.groupUuid,
+            name: a.name,
+            description: a.description,
+            visible: a.visible,
+            data: null,
+            createTime: a.createTime,
+            updateTime: a.updateTime,
+            deleteTime: a.deleteTime,
+        });
+    }
+
     static toJson(entity: ShoppingListModel): string{
         var tmp: any = {};
         tmp.uuid = entity.id;

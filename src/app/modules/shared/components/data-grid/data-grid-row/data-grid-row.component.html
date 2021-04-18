@@ -8,7 +8,8 @@
 
                 <div *ngSwitchCase="'checkbox'" class="form-group form-inline">
                     <input class="form-control" type="checkbox" [(ngModel)]="model[item.key]"
-                        [disabled]="castToInput(item).access ? !(castToInput(item).access | async) : false"
+                        [disabled]="provideEditableValue(item, model) ? (castToInput(item).access ? !(castToInput(item).access | async) : false) : true"
+                        [readonly]="!provideEditableValue(item, model)"
                         [checked]="provideCheckboxValue(item, model)"
                         (input)="action('update', model)" (click)="$event.stopPropagation();">
                 </div>
@@ -20,7 +21,7 @@
                 </div>
 
                 <div *ngSwitchCase="'button'" class="form-group form-inline">
-                    <button [disabled]="castToButton(item).access ? !(castToButton(item).access | async) : false"
+                    <button [disabled]="provideEditableValue(item, model) ? (castToButton(item).access ? !(castToButton(item).access | async) : false) : true"
                         [class]="provideButtonClass(item, model)" [style]="provideButtonStyle(item,model)"
                         (click)="action(castToButton(item).key, model); $event.stopPropagation()" [innerHTML]="provideButtonInner(item, model)"></button>
                 </div>

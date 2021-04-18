@@ -47,6 +47,7 @@
             "more":"more",
             "delete": "archive",
             "description": "description",
+            "one-time-list": "one-time purchases",
             "visible": "visible",
             "created": "created",
             "updated": "updated",

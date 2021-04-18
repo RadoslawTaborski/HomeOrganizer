@@ -63,6 +63,7 @@ export class PermanentItemsComponent implements OnInit {
 
     await this.translate.get('containers.items.name').subscribe(async t => {
       let states = await this.getStates();
+      states.sort((a,b)=>parseInt(b.level)-parseInt(a.level));
       let subcategories = await this.operationsService.getSubCategories();
 
       this.searchConfig = new SearchConfig([
@@ -86,7 +87,7 @@ export class PermanentItemsComponent implements OnInit {
           .setOptions(states)
           .setDisplayProvider((t: State) => this.translateState(t))
           .setIdentifierProvider((t: State) => t.level)
-          .setValue(states.reverse()[0].level)
+          .setValue(states[0].level)
           .build()
       ]);
 
@@ -151,7 +152,7 @@ export class PermanentItemsComponent implements OnInit {
           .setOptions(states)
           .setDisplayProvider((t: State) => this.translateState(t))
           .setIdentifierProvider((t: State) => t?.id)
-          .setValue(states.reverse()[0].id)
+          .setValue(states[0].id)
           .build()
       ]);
 

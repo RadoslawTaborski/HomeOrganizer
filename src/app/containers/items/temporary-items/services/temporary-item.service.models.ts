@@ -82,10 +82,11 @@ export enum TemporaryItemsFilterTypes {
 
 export class TemporaryItemsFilters {
     constructor(
+        public shoppingListUuid,
         public categoryUuid = '',
         public subcategoryUuid = '',
         public pageNumber = 1,
-        public pageSize = 50,
-        public orderBy = "categoryUuid asc, name asc") {
+        public pageSize = 30,
+        public orderBy = "bought asc, categoryUuid asc, name asc") {
     }
 }

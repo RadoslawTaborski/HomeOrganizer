@@ -67,7 +67,7 @@ export class ShoppingItemsComponent implements OnInit {
         new SearchSelect.Builder()
           .setKey(ShoppingItemsFilterTypes.SUBCATEGORY)
           .setDisplay(this.translate.instant('containers.items.subcategory'))
-          .setOptions(this.dataProvider.subcategories)
+          .setOptions(await this.operationsService.getSubCategories())
           .setDisplayProvider((t: SubCategory) => t?.name)
           .setIdentifierProvider((t: SubCategory) => t?.id)
           .build()
@@ -201,7 +201,7 @@ export class ShoppingItemsComponent implements OnInit {
     console.log("more");
   }
 
-  async update(data: ShoppingItemModel) {debugger;
+  async update(data: ShoppingItemModel) {
     if (data.shoppingListId) {
       let temporaryItem = data as TemporaryItemModel
       if(data.boughtCheckbox){

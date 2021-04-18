@@ -7,6 +7,7 @@ export interface DataGridItemModel {
     readonly alwaysVisible: boolean;
     readonly columnStyle?: string;
     readonly columnClass?: string;
+    editableProvider?: Function;
 }
 
 export abstract class DataGridItemBase implements DataGridItemModel {
@@ -16,6 +17,7 @@ export abstract class DataGridItemBase implements DataGridItemModel {
     alwaysVisible: boolean;
     columnStyle?: string;
     columnClass?: string;
+    editableProvider?: Function;
 
     static Builder = class {
         key: string;
@@ -23,6 +25,12 @@ export abstract class DataGridItemBase implements DataGridItemModel {
         alwaysVisible: boolean = false;
         columnStyle?: string; 
         columnClass?: string;
+        editableProvider?: Function;
+
+        public setEditable(editableProvider: Function) {
+            this.editableProvider = editableProvider;
+            return this;
+        }
 
         public setKey(key: string): this {
             this.key = key;
@@ -56,6 +64,12 @@ export abstract class DataGridItemBase implements DataGridItemModel {
             instance.columnStyle = this.columnStyle;
             instance.columnClass = this.columnClass;
             instance.type = type;
+            
+            if(this.editableProvider){
+                instance.editableProvider = this.editableProvider;
+            } else {
+                instance.editableProvider = () => true;
+            }
         }
     }
 }
@@ -72,6 +86,7 @@ export interface DataGridItemListModel extends DataGridItemModel {
 export interface DataGridItemCheckboxModel extends DataGridItemModel {
     readonly textProvider?: Function;
     readonly valueProvider?: Function;
+    editableProvider?: Function;
 }
 
 export interface DataGridItemButtonModel extends DataGridItemModel {

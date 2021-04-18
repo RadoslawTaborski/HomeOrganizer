@@ -16,8 +16,7 @@ export class ShoppingListDetailsComponent {
   constructor(
       private route: ActivatedRoute,
       private location: Location) {
-      this.data = route.data.pipe(map(({ item }) => item));
-      
+      this.data = route.data.pipe(map(({ item }) => item));    
   }
 
   back() {

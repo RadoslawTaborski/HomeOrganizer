@@ -21,7 +21,7 @@ import { SubCategory } from '../../settings/subcategories/services/subcategories
 })
 export class TemporaryItemsComponent implements OnInit {
 
-  @Input() items: { data: ITemporaryItemModel[], total: number };
+  items: { data: ITemporaryItemModel[], total: number };
   shoppingListId: string
 
   dataGridConfig: DataGridConfig;
@@ -70,7 +70,7 @@ export class TemporaryItemsComponent implements OnInit {
       new SearchSelect.Builder()
         .setKey(TemporaryItemsFilterTypes.SUBCATEGORY)
         .setDisplay(this.translate.instant('containers.items.subcategory'))
-        .setOptions(this.dataProvider.subcategories)
+        .setOptions(await this.operationsService.getSubCategories())
         .setDisplayProvider((t: SubCategory) => t?.name)
         .setIdentifierProvider((t: SubCategory) => t?.id)
         .build()
@@ -139,12 +139,12 @@ export class TemporaryItemsComponent implements OnInit {
           .build()
       ]);
 
-      this.filters = new BehaviorSubject(new TemporaryItemsFilters());
+      this.filters = new BehaviorSubject(new TemporaryItemsFilters(this.shoppingListId));
       this.itemAction = new Subject();
 
       this.filtersSubscriber = this.filters
         .pipe(debounceTime(500))
-        .subscribe(() => this.items);
+        .subscribe(async () => await this.fetch());
 
       this.itemActionSubscriber = this.itemAction
         .subscribe((action) => {
@@ -158,6 +158,12 @@ export class TemporaryItemsComponent implements OnInit {
 
       this.isLoaded = true;
     });
+  }
+
+  async fetch() {
+    await this.dataProvider.getTemporeryItems(this.filters.getValue()).then(v => {
+      this.items = v;
+    })
   }
 
   translateSubcategory(t: SubCategory) {
