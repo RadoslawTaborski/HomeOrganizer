@@ -62,7 +62,7 @@ export class PermanentItemsComponent implements OnInit {
     await this.dataProvider.reloadStates();
 
     await this.translate.get('containers.items.name').subscribe(async t => {
-      let states = await this.getStates();
+      let states = this.getStates();
       states.sort((a,b)=>parseInt(b.level)-parseInt(a.level));
       let subcategories = await this.operationsService.getSubCategories();
 
@@ -253,7 +253,7 @@ export class PermanentItemsComponent implements OnInit {
     let states = this.getStates();
     let stateId = states.indexOf(data.state);
     let max = states.length;
-    let newStateId = stateId - 1 >= 0 ? stateId - 1 : max - 1;
+    let newStateId = stateId + 1 < max ? stateId + 1 : 0;
     data.state = states[newStateId]
     await this.dataProvider.updatePermanentItem(data);
   }
