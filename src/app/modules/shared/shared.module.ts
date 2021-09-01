@@ -10,6 +10,9 @@ import { ModalConfirmComponent } from './components/modal/confirm/modal-confirm.
 import { AddComponent } from './components/modal/add/add.component';
 import { GridSearchAddComponent } from './components/grid-search-add/grid-search-add.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { RegisterComponent } from './components/authentication/account/register/register.component';
+import { AuthCallbackComponent } from './components/authentication/auth-callback/auth-callback.component';
+import { HomeComponent } from './components/authentication/home/home.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +23,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ModalConfirmComponent,
     AddComponent,
     GridSearchAddComponent,
+    RegisterComponent,
+    AuthCallbackComponent,
+    HomeComponent
   ],
   imports: [
     CommonModule,

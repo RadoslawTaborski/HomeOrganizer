@@ -4,7 +4,19 @@
 
 export const environment = {
   production: false,
-  apiEndpoint: 'https://localhost:5001/api/v1/'
+  apiEndpoint: 'http://localhost:5091/api/v1/',
+  authConfig: {
+    client_id: 'homeorganizer',
+    scope: "openid profile email ho.read",
+    response_type: "id_token token",
+    authority: 'http://localhost:5000',
+    authorityApi: 'http://localhost:5000/api',
+    redirect_uri: 'http://localhost:5090/auth-callback',
+    post_logout_redirect_uri: 'http://localhost:5090/',
+    silent_redirect_uri: 'http://localhost:5090/assets/silent-refresh.html',
+    redirect_component_signin: '/shopping',
+    redirect_component_signout: '/home'
+  },
 };
 
 /*

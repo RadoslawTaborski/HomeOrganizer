@@ -10,7 +10,9 @@
             "settings": "Ustawienia",
             "categories": "Kategorie",
             "subcategories": "Podkategorie",
-            "saldosettings": "Ustawienia wydatków"
+            "saldosettings": "Ustawienia wydatków",
+            "login": "Zaloguj się",
+            "logout": "Wyloguj się"
         }
     },
     "containers": {
@@ -105,6 +107,9 @@
                 "add": {
                     "add": "dodaj",
                     "title": "dodaj nowy element"
+                },
+                "home": {
+                    "text": "Nie jesteś zalogowany."
                 }
             }
         }

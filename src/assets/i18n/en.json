@@ -10,7 +10,9 @@
             "settings": "Settings",
             "categories": "Categories",
             "subcategories": "Subcategories",
-            "saldosettings": "Expenses settings"
+            "saldosettings": "Expenses settings",
+            "login": "Login",
+            "logout": "Logout"
         }
     },
     "containers": {
@@ -105,6 +107,9 @@
                 "add": {
                     "add": "add",
                     "title": "add new item"
+                },
+                "home": {
+                    "text": "You're not logged in."
                 }
             }
         }
