@@ -13,6 +13,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RegisterComponent } from './components/authentication/account/register/register.component';
 import { AuthCallbackComponent } from './components/authentication/auth-callback/auth-callback.component';
 import { HomeComponent } from './components/authentication/home/home.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { XhrInterceptor } from './interceptors/xhr-interceptor';
 
 @NgModule({
   declarations: [
@@ -42,6 +44,13 @@ import { HomeComponent } from './components/authentication/home/home.component';
     ModalConfirmComponent,
     AddComponent,
     GridSearchAddComponent,
+  ],
+  providers : [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: XhrInterceptor,
+      multi: true,
+    }
   ]
 })
 export class SharedModule { }
