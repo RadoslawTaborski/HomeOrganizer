@@ -11,19 +11,20 @@ import { ShoppingListsComponent } from './containers/lists/shopping-lists/shoppi
 import { CategoriesComponent } from './containers/settings/categories/categories.component';
 import { SubcategoriesComponent } from './containers/settings/subcategories/subcategories.component';
 import { AuthCallbackComponent } from './modules/shared/components/authentication/auth-callback/auth-callback.component';
+import { AuthGuard } from './modules/shared/services/authentication/auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'auth-callback', component: AuthCallbackComponent  },
   { path: 'home', component: HomeComponent  },
-  { path: 'shopping', component: ShoppingItemsComponent },
-  { path: 'permanent', component: PermanentItemsComponent },
-  { path: 'shopping-lists', component: ShoppingListsComponent },
-  { path: 'finances/saldo', component: SaldoComponent },
-  { path: 'finances/expenses', component: ExpensesComponent },
-  { path: 'settings/categories', component: CategoriesComponent },
-  { path: 'settings/subcategories', component: SubcategoriesComponent },
-  { path: 'shopping-lists/:id', component: ShoppingListDetailsComponent, resolve: { item: ShoppingListDetailsResolver} },
+  { path: 'shopping', component: ShoppingItemsComponent, canActivate: [AuthGuard]},
+  { path: 'permanent', component: PermanentItemsComponent, canActivate: [AuthGuard] },
+  { path: 'shopping-lists', component: ShoppingListsComponent, canActivate: [AuthGuard] },
+  { path: 'finances/saldo', component: SaldoComponent, canActivate: [AuthGuard] },
+  { path: 'finances/expenses', component: ExpensesComponent, canActivate: [AuthGuard] },
+  { path: 'settings/categories', component: CategoriesComponent, canActivate: [AuthGuard] },
+  { path: 'settings/subcategories', component: SubcategoriesComponent, canActivate: [AuthGuard] },
+  { path: 'shopping-lists/:id', component: ShoppingListDetailsComponent, resolve: { item: ShoppingListDetailsResolver}, canActivate: [AuthGuard] },
   { path: '**', redirectTo: 'home' }
 ];
 

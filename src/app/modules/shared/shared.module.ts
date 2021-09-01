@@ -15,6 +15,7 @@ import { AuthCallbackComponent } from './components/authentication/auth-callback
 import { HomeComponent } from './components/authentication/home/home.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { XhrInterceptor } from './interceptors/xhr-interceptor';
+import { AuthGuard } from './services/authentication/auth.guard';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { XhrInterceptor } from './interceptors/xhr-interceptor';
     GridSearchAddComponent,
   ],
   providers : [
+    AuthGuard,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: XhrInterceptor,
