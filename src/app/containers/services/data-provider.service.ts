@@ -26,6 +26,7 @@ import { Saldo, SaldoFilters } from '../finances/saldo/services/saldo.service.mo
 import { SaldoService } from '../finances/saldo/services/saldo.service';
 import { ExpenseSettingsService } from '../finances/expenses-settings/services/expenses-settings.service';
 import { ExpenseSettings } from '../finances/expenses-settings/services/expenses-settings.service.models';
+import { AuthService } from 'src/app/modules/shared/services/authentication/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -45,6 +46,7 @@ export class DataProviderService {
   oneTimeList: IShoppingListModel;
 
   constructor(
+    private authService: AuthService,
     private categoryService: CategoriesService,
     private subcategoryService: SubcategoriesService,
     private stateService: StatesService,
@@ -69,7 +71,7 @@ export class DataProviderService {
   }
 
   async init(){
-    await this.login("Radek", "1234");
+    await this.login(this.authService.id);
     await this.getGroups(this.user.id);
     this.group = this.groups[0];
     await this.getOneTimeList(this.group)
@@ -84,8 +86,8 @@ export class DataProviderService {
 
   }
 
-  async login(username: string, password:string) {
-    let response = (await this.usersService.login(username, password));
+  async login(id: string) {
+    let response = (await this.usersService.login(id));
     this.user = User.createFromJson(response);
   }
 

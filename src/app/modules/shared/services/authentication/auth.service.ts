@@ -63,7 +63,7 @@ export class AuthService {
       this.manager.getUser().then(user => {
         this.user = null;
         this._authNavStatusSource.next(this.isAuthenticated());
-        window.location.reload()
+        //window.location.reload()
       });
     });
   }
@@ -99,6 +99,10 @@ export class AuthService {
 
   get name(): string {
     return this.isAuthenticated() ? this.user.profile.name : '';
+  }
+
+  get id(): string {
+    return this.isAuthenticated() ? this.user.profile.sub : '';
   }
 
   async signout() {

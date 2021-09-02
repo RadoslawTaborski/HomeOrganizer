@@ -9,7 +9,8 @@
 
     <ng-container *ngIf="!isAuthenticated">
       <div class="collapse navbar-collapse" id="navbarColor01">
-        <ul class="navbar-nav mr-auto">
+        <ul class="navbar-nav mr-auto"></ul>
+        <ul class="navbar-nav ms-md-auto">
           <li class="nav-item">
             <a class="nav-link" (click)="login()" href="javascript:void(0)" data-toggle="collapse"
               data-target=".navbar-collapse.show">{{'root.header.login'|translate}}</a>
@@ -50,6 +51,8 @@
                 data-target=".navbar-collapse.show">{{'root.header.subcategories'|translate}}</a>
             </div>
           </li>
+        </ul>
+        <ul class="navbar-nav ms-md-auto">
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
               aria-expanded="true">{{userName}}<span class="caret"></span></a>
