@@ -11,6 +11,7 @@ export const environment = {
     post_logout_redirect_uri: 'http://webapp.zapto.org:5090/',
     silent_redirect_uri: 'http://webapp.zapto.org:5090/assets/silent-refresh.html',
     redirect_component_signin: '/shopping',
-    redirect_component_signout: '/home'
+    redirect_component_signout: '/home',
+    redirect_component_register: '/register'
   },
 };

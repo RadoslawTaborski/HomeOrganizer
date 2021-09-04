@@ -110,6 +110,27 @@
                 },
                 "home": {
                     "text": "Nie jesteś zalogowany."
+                },
+                "authentication": {
+                    "account": {
+                        "register": {
+                            "register": "Rejestracja",
+                            "yourName": "Twój login",
+                            "yourEmail": "Adres email",
+                            "yourPassword": "Hasło",
+                            "validationDescription": "Min. 6 znaków z przynajmniej jednym niealfanumerycznym znakiem.",
+                            "start": "Zatwierdź",
+                            "ops": "Uups!",
+                            "success": "Sukces!",
+                            "success-detail": "Twoje konto zostało poprawnie utworzone",
+                            "login": "Proszę się zalogować",
+                            "login2": "by kontynuować.",
+                            "validEmail": "Wprowadź poprawny adres email",
+                            "email": "Adres email",
+                            "name": "Login",
+                            "password": "Hasło"
+                        }
+                    }
                 }
             }
         }

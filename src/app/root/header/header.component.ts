@@ -29,7 +29,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
           if(status == true){
             this.router.navigate([environment.authConfig.redirect_component_signin]);   
           } else {
-            this.router.navigate([environment.authConfig.redirect_component_signout]);   
+            if(this.router.url !== environment.authConfig.redirect_component_register){
+              this.router.navigate([environment.authConfig.redirect_component_signout]); 
+            }  
           }
         }
         this.isAuthenticated = status

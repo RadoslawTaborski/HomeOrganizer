@@ -110,6 +110,27 @@
                 },
                 "home": {
                     "text": "You're not logged in."
+                },
+                "authentication": {
+                    "account": {
+                        "register": {
+                            "register": "Register",
+                            "yourName": "Your name",
+                            "yourEmail": "Email address",
+                            "yourPassword": "Password",
+                            "validationDescription": "Min. 6 characters with at least one non alphanumeric character",
+                            "start": "Go",
+                            "ops": "Oops!",
+                            "success": "Well done!",
+                            "success-detail": "Your account was created successfully",
+                            "login": "Please login",
+                            "login2": "to continue.",
+                            "validEmail": "Please enter a valid email",
+                            "email": "Email address",
+                            "name": "Name",
+                            "password": "Password"
+                        }
+                    }
                 }
             }
         }
