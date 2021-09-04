@@ -49,8 +49,8 @@
 
             <div *ngSwitchCase="'radio'">
                 <div *ngFor="let opt of castToRadio(control).options">
-                    <input type="radio" [id]="control.key+'['+provideRadioIdentifier(control,opt.getObject())+']'" [name]="control.key" [value]="provideRadioIdentifier(control,opt.getObject())" [checked]="true" [(ngModel)]="opt.value">
-                    <label [for]="control.key+'['+provideRadioIdentifier(control,opt.getObject())+']'">{{provideRadioText(control, opt.getObject())}}</label>
+                    <input type="radio" [id]="control.key+'['+provideRadioIdentifier(control,opt)+']'" [name]="control.key" [value]='provideRadioIdentifier(control, opt)' [checked]="true" [(ngModel)]="castToRadio(control).value">
+                    <label [for]="control.key+'['+provideRadioIdentifier(control,opt)+']'">{{provideRadioText(control, opt)}}</label>
                 </div>
             </div>
 
