@@ -5,6 +5,7 @@ import { UserManager, UserManagerSettings, User, WebStorageStateStore } from 'oi
 import { BehaviorSubject, throwError } from 'rxjs';
 
 import { environment } from '../../../../../environments/environment';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class AuthService {
   private manager = new UserManager(getClientSettings());
   private user: User = null;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
     this.manager.getUser().then(user => {
       this.user = user;
       this._authNavStatusSource.next(this.isAuthenticated());
@@ -48,6 +49,8 @@ export class AuthService {
 
     this.manager.events.addAccessTokenExpired(() => {
       console.log("access token expired");
+      this.user = null;
+      this.router.navigate([environment.authConfig.redirect_component_signout]);
     });
 
     this.manager.events.addUserLoaded(() => {
@@ -63,7 +66,7 @@ export class AuthService {
       this.manager.getUser().then(user => {
         this.user = null;
         this._authNavStatusSource.next(this.isAuthenticated());
-        //window.location.reload()
+        this.router.navigate([environment.authConfig.redirect_component_signout]);    
       });
     });
   }

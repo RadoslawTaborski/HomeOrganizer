@@ -107,12 +107,12 @@ export class ExpensesComponent implements OnInit {
 
   async removeItem(data: Expense){
     console.log("remove");
-    window.location.reload();
+    this.ngOnInit();
   }
 
   async add(data: Expense) {
     await this.dataProvider.addExpense(data);
-    window.location.reload();
+    this.ngOnInit();
   }
 
   async fetch() {

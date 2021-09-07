@@ -107,12 +107,12 @@ export class SubcategoriesComponent implements OnInit {
 
   async removeItem(data: SubCategory) {
     console.log("remove");
-    window.location.reload();
+    this.ngOnInit();
   }
 
   async add(data: SubCategory) {
     await this.dataProvider.addSubcategories(data);
-    window.location.reload();
+    this.ngOnInit();
   }
 
   async fetch() {
@@ -159,7 +159,7 @@ export class SubcategoriesComponent implements OnInit {
       new DataGridItemText.Builder()
         .setKey(SubcategoryTypes.PARENT)
         .setDisplay(this.translate.instant('containers.settings.categories.parent'))
-        .setTextProvider((t: SubCategory): string => t.parent.name)
+        .setTextProvider((t: SubCategory): string => this.translateCategory(t.parent))
         .setColumnClass("fitwidth")
         .setVisible(true)
         .build(),
@@ -174,7 +174,7 @@ export class SubcategoriesComponent implements OnInit {
         .setKey(SubcategoryTypes.PARENT)
         .setDisplay(this.translate.instant('containers.settings.subcategories.parent'))
         .setOptions(await this.operationsService.getCategories())
-        .setDisplayProvider((t: Category) => t?.name)
+        .setDisplayProvider((t: Category) => this.translateCategory(t))
         .setIdentifierProvider((t: Category) => t?.id)
         .build()
     ]);
@@ -186,6 +186,16 @@ export class SubcategoriesComponent implements OnInit {
     }
     if(t.name == "none"){
       return this.translate.instant('containers.settings.subcategories.none');
+    }
+    return t.name;
+  }
+
+  translateCategory(t: Category): string {
+    if(!t){
+      return "";
+    }
+    if(t.name == "none"){
+      return this.translate.instant('containers.settings.categories.none');
     }
     return t.name;
   }

@@ -195,7 +195,7 @@ export class ShoppingListsComponent implements OnInit {
     switch (data.result) {
       case 'ok':
         await this.dataProvider.removeShoppingList(data.object);
-        window.location.reload();
+        this.ngOnInit();
         break;
       case 'dissmised': console.log('nok', data); break;
     }
@@ -203,7 +203,7 @@ export class ShoppingListsComponent implements OnInit {
 
   async add(data: ShoppingListModel) {
     await this.dataProvider.addShoppingList(data);
-    window.location.reload();
+    this.ngOnInit();
   }
 
   async fetch() {

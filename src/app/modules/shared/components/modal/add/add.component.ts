@@ -51,6 +51,7 @@ export class AddComponent extends ModalBase implements OnInit {
       }
     })
     this.go(dataMap)
+    this.close();
   }
 
   castToInput(data: AddItemModel): AddItemInputModel {

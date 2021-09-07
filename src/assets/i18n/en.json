@@ -58,7 +58,8 @@
         "settings":{
             "categories":{
                 "name": "name",
-                "categories": "categories"
+                "categories": "categories",
+                "none": "none"
             },
             "subcategories":{
                 "name": "name",

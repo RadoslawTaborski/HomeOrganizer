@@ -25,15 +25,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.translate.get('root.header.shopping').subscribe(t=>{
       this.subscription = this.authService.authNavStatus$.subscribe(status => {
-        if(this.isAuthenticated != status){
-          if(status == true){
-            this.router.navigate([environment.authConfig.redirect_component_signin]);   
-          } else {
-            if(this.router.url !== environment.authConfig.redirect_component_register){
-              this.router.navigate([environment.authConfig.redirect_component_signout]); 
-            }  
-          }
-        }
         this.isAuthenticated = status
         this.userName = this.authService.name;
       });

@@ -94,7 +94,7 @@ export class TemporaryItemsComponent implements OnInit {
         new DataGridItemText.Builder()
           .setKey(TemporaryItemTypes.CATEGORY)
           .setDisplay(this.translate.instant('containers.items.category'))
-          .setTextProvider((t: ITemporaryItemModel): string => { return t.category.parent.name })
+          .setTextProvider((t: ITemporaryItemModel): string => this.translateCategory(t.category.parent))
           .build(),
         new DataGridItemText.Builder()
           .setKey(TemporaryItemTypes.SUBCATEGORY)
@@ -166,6 +166,16 @@ export class TemporaryItemsComponent implements OnInit {
     })
   }
 
+  translateCategory(t: Category): string {
+    if(!t){
+      return "";
+    }
+    if(t.name == "none"){
+      return this.translate.instant('containers.settings.categories.none');
+    }
+    return t.name;
+  }
+
   translateSubcategory(t: SubCategory) {
     if(!t){
       return "";
@@ -195,12 +205,12 @@ export class TemporaryItemsComponent implements OnInit {
 
   async remove(data: TemporaryItemModel) {
     await this.dataProvider.removeTemporaryItem(data);
-    window.location.reload();
+    this.ngOnInit();
   }
 
   async add(data: TemporaryItemModel) {
     await this.dataProvider.addTemporaryItem(data);
-    window.location.reload();
+    this.ngOnInit();
   }
 
   async updateFilters(value?) {

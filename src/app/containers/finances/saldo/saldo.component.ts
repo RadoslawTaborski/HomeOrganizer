@@ -104,12 +104,12 @@ export class SaldoComponent implements OnInit {
 
   async removeItem(data: Saldo) {
     console.log("remove");
-    window.location.reload();
+    this.ngOnInit();
   }
 
   async add(data: Expense) {
     await this.dataProvider.addExpense(data);
-    window.location.reload();
+    this.ngOnInit();
   }
 
   async fetch() {
@@ -162,6 +162,8 @@ export class SaldoComponent implements OnInit {
         .setKey(SaldoTypes.PAYER)
         .setDisplay(this.translate.instant('containers.finances.saldo.person2'))
         .setTextProvider((t: Saldo): string => this.translate.instant('containers.finances.saldo.indebt') + ": " + t.payer.username)
+        .setColumnClass("exactValue")
+        .setColumnStyle("--value: 25%;")
         .setVisible(true)
         .build(),
       new DataGridItemText.Builder()

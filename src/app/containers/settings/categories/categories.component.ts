@@ -101,12 +101,12 @@ export class CategoriesComponent implements OnInit {
 
   async removeItem(data: Category) {
     console.log("remove");
-    window.location.reload();
+    this.ngOnInit();
   }
 
   async add(data: Category) {
     await this.dataProvider.addCategories(data);
-    window.location.reload();
+    this.ngOnInit();
   }
 
   async fetch() {
@@ -130,12 +130,22 @@ export class CategoriesComponent implements OnInit {
     })
   }
 
+  translateCategory(t: Category): string {
+    if(!t){
+      return "";
+    }
+    if(t.name == "none"){
+      return this.translate.instant('containers.settings.categories.none');
+    }
+    return t.name;
+  }
+
   async configuration() {
     this.dataGridConfig = new DataGridConfig([
       new DataGridItemText.Builder()
         .setKey(CategoryTypes.NAME)
         .setDisplay(this.translate.instant('containers.settings.categories.name'))
-        .setTextProvider((t: Category): string => t.name)
+        .setTextProvider((t: Category): string => this.translateCategory(t))
         .setVisible(true)
         .build(),
     ]);

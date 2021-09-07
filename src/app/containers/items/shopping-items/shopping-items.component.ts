@@ -119,7 +119,7 @@ export class ShoppingItemsComponent implements OnInit {
         new DataGridItemText.Builder()
           .setKey(ShoppingItemTypes.CATEGORY)
           .setDisplay(this.translate.instant('containers.items.category'))
-          .setTextProvider((t: IShoppingItemModel): string => t.category.parent.name)
+          .setTextProvider((t: IShoppingItemModel): string => this.translateCategory(t.category.parent))
           .build(),
         new DataGridItemText.Builder()
           .setKey(ShoppingItemTypes.SUBCATEGORY)
@@ -147,6 +147,16 @@ export class ShoppingItemsComponent implements OnInit {
 
       this.isLoaded = true;
     });
+  }
+
+  translateCategory(t: Category): string {
+    if(!t){
+      return "";
+    }
+    if(t.name == "none"){
+      return this.translate.instant('containers.settings.categories.none');
+    }
+    return t.name;
   }
 
   translateSubcategory(t: SubCategory) {
@@ -257,7 +267,7 @@ export class ShoppingItemsComponent implements OnInit {
 
   async addOneTimeItem(data: TemporaryItemModel) {
     await this.dataProvider.addTemporaryItem(data);
-    window.location.reload();
+    this.ngOnInit();
   }
 
   async updateFilters(value?) {

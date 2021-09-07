@@ -58,7 +58,8 @@
         "settings":{
             "categories":{
                 "name": "nazwa",
-                "categories": "kategorie"
+                "categories": "kategorie",
+                "none": "brak"
             },
             "subcategories":{
                 "name": "nazwa",
