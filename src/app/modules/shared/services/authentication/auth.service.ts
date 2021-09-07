@@ -50,6 +50,7 @@ export class AuthService {
     this.manager.events.addAccessTokenExpired(() => {
       console.log("access token expired");
       this.user = null;
+      this._authNavStatusSource.next(this.isAuthenticated());
       this.router.navigate([environment.authConfig.redirect_component_signout]);
     });
 

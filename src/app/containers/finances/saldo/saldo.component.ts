@@ -162,8 +162,6 @@ export class SaldoComponent implements OnInit {
         .setKey(SaldoTypes.PAYER)
         .setDisplay(this.translate.instant('containers.finances.saldo.person2'))
         .setTextProvider((t: Saldo): string => this.translate.instant('containers.finances.saldo.indebt') + ": " + t.payer.username)
-        .setColumnClass("exactValue")
-        .setColumnStyle("--value: 25%;")
         .setVisible(true)
         .build(),
       new DataGridItemText.Builder()
