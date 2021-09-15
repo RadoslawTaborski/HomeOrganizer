@@ -30,7 +30,7 @@ export class XhrInterceptor implements HttpInterceptor {
           switch (status) {
             case 401:
             default:
-                alert(status + '\n' + error + '\n' + message);
+                console.log(status + '\n' + error + '\n' + message);
           }
           return throwError(error);
         })

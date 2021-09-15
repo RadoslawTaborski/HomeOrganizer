@@ -24,6 +24,9 @@ export class GridSearchAddComponent implements OnInit {
   @Input() addConfig: AddItemConfig;
   @Output() addAction = new EventEmitter();
 
+  @Input() actionOn: boolean;
+  @Input() actionClass: string;
+  @Output() actionAction = new EventEmitter();
 
   filterVisible: boolean;
 
@@ -34,6 +37,10 @@ export class GridSearchAddComponent implements OnInit {
 
   openFilter(){
     this.filterVisible = true;
+  }
+
+  takeAction(){
+    this.actionAction.emit();
   }
 
   closeFilter(){

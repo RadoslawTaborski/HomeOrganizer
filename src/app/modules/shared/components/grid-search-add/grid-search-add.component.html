@@ -8,11 +8,14 @@
                 </div>
             </div>
             <div class="row">
-                <div *ngIf="addOn || filterOn" class="col">
+                <div *ngIf="addOn || filterOn || actionOn" class="col">
                     <button *ngIf="filterOn" type="button" class="btn btn-primary" (click)="openFilter()">
                         <i class="fa fa-arrow-right" aria-hidden="true"></i>
                     </button>
                     <app-add *ngIf="addOn" [config]="addConfig" (addAction)="addItem($event)"></app-add>
+                    <button *ngIf="actionOn" type="button" class="btn btn-danger" (click)="takeAction()">
+                        <i [class]="actionClass" aria-hidden="true"></i>
+                    </button>
                 </div>
                 <div class="col">
                     <ngb-pagination class="float-right" [collectionSize]="items?.total" [maxSize]="5" size="sm"

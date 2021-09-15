@@ -127,6 +127,6 @@ export function getClientSettings(): UserManagerSettings {
     loadUserInfo: true,
     automaticSilentRenew: true,
     silent_redirect_uri: environment.authConfig.silent_redirect_uri,
-    userStore: new WebStorageStateStore({ store: window.localStorage })
+    //userStore: new WebStorageStateStore({ store: window.localStorage })
   };
 }
