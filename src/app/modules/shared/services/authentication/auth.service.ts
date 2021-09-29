@@ -40,22 +40,22 @@ export class AuthService {
 
   public subscribeevents(): void {
     this.manager.events.addSilentRenewError((e) => {
-      console.log("error SilentRenew", e);
+      console.log(new Date().toLocaleTimeString()+" error SilentRenew", e);
     });
 
     this.manager.events.addAccessTokenExpiring(() => {
-      console.log("access token expiring");
+      console.log(new Date().toLocaleTimeString()+" access token expiring");
     });
 
     this.manager.events.addAccessTokenExpired(() => {
-      console.log("access token expired");
+      console.log(new Date().toLocaleTimeString()+" access token expired");
       this.user = null;
       this._authNavStatusSource.next(this.isAuthenticated());
       this.router.navigate([environment.authConfig.redirect_component_signout]);
     });
 
     this.manager.events.addUserLoaded(() => {
-      console.log("user loaded");
+      console.log(new Date().toLocaleTimeString()+" user loaded");
       this.manager.getUser().then(user => {
         this.user = user;
         this._authNavStatusSource.next(this.isAuthenticated());
@@ -63,7 +63,7 @@ export class AuthService {
     });
 
     this.manager.events.addUserSignedOut(() => {
-      console.log("user signedOut");
+      console.log(new Date().toLocaleTimeString()+" user signedOut");
       this.manager.getUser().then(user => {
         this.user = null;
         this._authNavStatusSource.next(this.isAuthenticated());
