@@ -25,6 +25,10 @@ export class AuthService {
       this._authNavStatusSource.next(this.isAuthenticated());
       this.subscribeevents();
     });
+    if(this.user == null){
+      this.manager.signinSilent().then(x=>this.router.navigate([environment.authConfig.redirect_component_signin])).catch(x=>this.login())
+      this._authNavStatusSource.next(this.isAuthenticated());
+    }
   }
 
   login() {
@@ -33,7 +37,6 @@ export class AuthService {
 
   public refreshUser(): void {
     this.manager.getUser().then(user => {
-      console.log(user);
       this.user = user;
     });
   }
@@ -126,7 +129,9 @@ export function getClientSettings(): UserManagerSettings {
     filterProtocolClaims: true,
     loadUserInfo: true,
     automaticSilentRenew: true,
+    monitorSession: false,
     silent_redirect_uri: environment.authConfig.silent_redirect_uri,
+    silentRequestTimeout: 5000
     //userStore: new WebStorageStateStore({ store: window.localStorage })
   };
 }
