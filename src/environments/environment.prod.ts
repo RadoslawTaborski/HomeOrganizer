@@ -3,7 +3,7 @@ export const environment = {
   apiEndpoint: 'http://webapp.zapto.org:5091/api/v1/',
   authConfig: {
     client_id: 'homeorganizer',
-    scope: "openid profile email ho.read",
+    scope: "openid profile email offline_access ho.read",
     response_type: "id_token token",
     authority: 'http://webapp.zapto.org:5000',
     authorityApi: 'http://webapp.zapto.org:5000/api',
