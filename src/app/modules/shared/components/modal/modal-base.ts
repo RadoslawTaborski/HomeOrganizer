@@ -24,13 +24,20 @@ export class ModalBase implements ModalModel {
     }
 
     open(content) {
-        this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
-            this.closeResult = `Closed with: ${result}`;
-            this.go(this.closeResult);
+        this.openedModal = this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
+        this.openedModal.result.then((result) => {
+            if(result!=="accept"){
+                this.closeResult = `Closed with: ${result}`;
+                this.go(this.closeResult);
+            }
         }, (reason) => {
             this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
             this.go(this.closeResult);
         });
+    }
+
+    close(){
+        this.openedModal.close("accept");
     }
 
     private getDismissReason(reason: any): string {

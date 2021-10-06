@@ -1,3 +1,5 @@
+import { User } from "src/app/containers/accounts/users/services/users.service.models";
+
 export interface AddItemModel {
     key: string;
     display: string;
@@ -267,7 +269,8 @@ export class AddItemCheckbox extends AddItemModelBase implements AddItemCheckbox
 }
 
 export class AddItemRadio extends AddItemModelBase implements AddItemRadioModel { 
-    options?: CheckboxPair[];
+    options?: any[];
+    value: any;
     displayProvider?: Function;
     identifierProvider?: Function;
 
@@ -279,6 +282,15 @@ export class AddItemRadio extends AddItemModelBase implements AddItemRadioModel 
 
         public setValue(value: any) : this{
             this.value = value;
+            return this;
+        }
+
+        public setOtherValue(value: any) {
+            for(let opt of this.options){
+                if(value != opt){
+                    this.value = opt;
+                }
+            }
             return this;
         }
 
@@ -300,16 +312,10 @@ export class AddItemRadio extends AddItemModelBase implements AddItemRadioModel 
         public build(): AddItemRadio {
             let entity = new AddItemRadio();
             super.internalSetter(entity, FieldTypes.RADIO);
-            entity.options = []
-            for(let item of this.options){
-                if(item==this.value){
-                    entity.options.push(new CheckboxPair(item, true))
-                } else {
-                    entity.options.push(new CheckboxPair(item, false))
-                }
-            }
+            entity.options = this.options;
             entity.displayProvider = this.displayProvider;
             entity.identifierProvider = this.identifierProvider;
+            entity.value = entity.identifierProvider(this.value);
 
             return entity;
         }

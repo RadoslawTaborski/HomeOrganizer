@@ -101,7 +101,7 @@ export class PermanentItemsComponent implements OnInit {
         new DataGridItemText.Builder()
           .setKey(PermanentItemTypes.CATEGORY)
           .setDisplay(this.translate.instant('containers.items.category'))
-          .setTextProvider((t: IPermanentItemModel): string => t.category.parent.name)
+          .setTextProvider((t: IPermanentItemModel): string => this.translateCategory(t.category.parent))
           .build(),
         new DataGridItemText.Builder()
           .setKey(PermanentItemTypes.SUBCATEGORY)
@@ -187,6 +187,16 @@ export class PermanentItemsComponent implements OnInit {
     return t.name;
   }
 
+  translateCategory(t: Category): string {
+    if(!t){
+      return "";
+    }
+    if(t.name == "none"){
+      return this.translate.instant('containers.settings.categories.none');
+    }
+    return t.name;
+  }
+
   getStates(): State[] {
     return this.dataProvider.states
   }
@@ -238,7 +248,7 @@ export class PermanentItemsComponent implements OnInit {
     switch (data.result) {
       case 'ok':
         await this.dataProvider.removePermanentItem(data.object);
-        window.location.reload();
+        this.ngOnInit();
         break;
       case 'dissmised': console.log('nok', data); break;
     }
@@ -246,7 +256,7 @@ export class PermanentItemsComponent implements OnInit {
 
   async add(data: PermanentItemModel) {
     await this.dataProvider.addPermanentItem(data);
-    window.location.reload();
+    this.ngOnInit();
   }
 
   async changeState(data: PermanentItemModel) {

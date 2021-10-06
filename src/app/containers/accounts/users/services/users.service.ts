@@ -29,9 +29,9 @@ export class UsersService implements HttpServiceModel {
       ).toPromise();
   } 
 
-  login(username: string, password: string): Promise<string> {
+  login(id: string): Promise<string> {
     return this.http
-      .get<string>(Api.USERS_END_POINT + `/${username}/${password}`)
+      .get<string>(Api.USERS_END_POINT + `/${id}`)
       .pipe(
         map(resp => resp)
       ).toPromise();

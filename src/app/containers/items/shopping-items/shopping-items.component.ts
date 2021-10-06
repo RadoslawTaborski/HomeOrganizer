@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { BehaviorSubject, Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, of, Subject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { DataGridConfig, DataGridItemCheckbox, DataGridItemText } from 'src/app/modules/shared/components/data-grid/data-grid-config';
 import { SearchConfig, SearchSelect, FieldTypes as SearchFieldTypes } from 'src/app/modules/shared/components/search/search-config';
@@ -89,7 +89,7 @@ export class ShoppingItemsComponent implements OnInit {
           .setDisplay(this.translate.instant('containers.items.subcategory'))
           .setDisplayProvider((t: SubCategory) => this.translateSubcategory(t))
           .setIdentifierProvider((t: SubCategory) => t?.id)
-          .setValue(this.dataProvider.subcategories.filter(i=>i.name=="none")[0].id)
+          .setValue(this.dataProvider.subcategories.filter(i => i.name == "none")[0].id)
           .build()
       ]);
 
@@ -119,7 +119,7 @@ export class ShoppingItemsComponent implements OnInit {
         new DataGridItemText.Builder()
           .setKey(ShoppingItemTypes.CATEGORY)
           .setDisplay(this.translate.instant('containers.items.category'))
-          .setTextProvider((t: IShoppingItemModel): string => t.category.parent.name)
+          .setTextProvider((t: IShoppingItemModel): string => this.translateCategory(t.category.parent))
           .build(),
         new DataGridItemText.Builder()
           .setKey(ShoppingItemTypes.SUBCATEGORY)
@@ -149,11 +149,21 @@ export class ShoppingItemsComponent implements OnInit {
     });
   }
 
-  translateSubcategory(t: SubCategory) {
-    if(!t){
+  translateCategory(t: Category): string {
+    if (!t) {
       return "";
     }
-    if(t.name == "none"){
+    if (t.name == "none") {
+      return this.translate.instant('containers.settings.categories.none');
+    }
+    return t.name;
+  }
+
+  translateSubcategory(t: SubCategory) {
+    if (!t) {
+      return "";
+    }
+    if (t.name == "none") {
       return this.translate.instant('containers.settings.subcategories.none');
     }
     return t.name;
@@ -204,7 +214,7 @@ export class ShoppingItemsComponent implements OnInit {
   async update(data: ShoppingItemModel) {
     if (data.shoppingListId) {
       let temporaryItem = data as TemporaryItemModel
-      if(data.boughtCheckbox){
+      if (data.boughtCheckbox) {
         data.boughtCheckbox = false
         temporaryItem.bought = null;
       } else {
@@ -216,7 +226,7 @@ export class ShoppingItemsComponent implements OnInit {
       let permanentItem = data as PermanentItemModel
       let lot = this.dataProvider.states.filter(i => i.level == "4")[0];
       let little = this.dataProvider.states.filter(i => i.level == "1")[0]
-      if(permanentItem.state == lot){
+      if (permanentItem.state == lot) {
         permanentItem.state = little;
       } else {
         permanentItem.state = lot;
@@ -226,7 +236,7 @@ export class ShoppingItemsComponent implements OnInit {
     }
   }
 
-  async addItem(data: { result: AddOption, details: Map<string,any> }) {
+  async addItem(data: { result: AddOption, details: Map<string, any> }) {
     switch (data.result) {
       case 'ok':
         let category = this.dataProvider.subcategories.filter(i => i.id == data.details.get(TemporaryItemTypes.SUBCATEGORY))[0]
@@ -247,6 +257,57 @@ export class ShoppingItemsComponent implements OnInit {
     }
   }
 
+  textProvider() {
+    let arr = this.items.data.map(x => x.name + ": " + this.translateState(x))
+
+    return of(
+      arr.join("\r\n")
+    );
+  }
+
+  private setting = {
+    element: {
+      dynamicDownload: null as HTMLElement
+    }
+  }
+
+  takeAction() {
+    this.textProvider().subscribe((res) => {
+      if (!this.isEmpty(res)) {
+        this.dyanmicDownloadByHtmlTag({
+          fileName: new Date().toISOString().substring(0, 19),
+          text: res
+        });
+      } else {
+        console.log("nothing to export.")
+      }
+    });
+  }
+
+  getActionClass(): string{
+    return "fas fa-file-download"
+  }
+
+  isEmpty(str) {
+    return (!str || str.length === 0);
+  }
+
+  private dyanmicDownloadByHtmlTag(arg: {
+    fileName: string,
+    text: string
+  }) {
+    if (!this.setting.element.dynamicDownload) {
+      this.setting.element.dynamicDownload = document.createElement('a');
+    }
+    const element = this.setting.element.dynamicDownload;
+    const fileType = arg.fileName.indexOf('.json') > -1 ? 'text/json' : 'text/plain';
+    element.setAttribute('href', `data:${fileType};charset=utf-8,${(arg.text)}`);
+    element.setAttribute('download', arg.fileName);
+
+    var event = new MouseEvent("click");
+    element.dispatchEvent(event);
+  }
+
   remove(data: ShoppingItemModel) {
     console.log("remove");
   }
@@ -257,7 +318,7 @@ export class ShoppingItemsComponent implements OnInit {
 
   async addOneTimeItem(data: TemporaryItemModel) {
     await this.dataProvider.addTemporaryItem(data);
-    window.location.reload();
+    this.ngOnInit();
   }
 
   async updateFilters(value?) {

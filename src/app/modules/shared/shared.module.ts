@@ -10,6 +10,12 @@ import { ModalConfirmComponent } from './components/modal/confirm/modal-confirm.
 import { AddComponent } from './components/modal/add/add.component';
 import { GridSearchAddComponent } from './components/grid-search-add/grid-search-add.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { RegisterComponent } from './components/authentication/account/register/register.component';
+import { AuthCallbackComponent } from './components/authentication/auth-callback/auth-callback.component';
+import { HomeComponent } from './components/authentication/home/home.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { XhrInterceptor } from './interceptors/xhr-interceptor';
+import { AuthGuard } from './services/authentication/auth.guard';
 
 @NgModule({
   declarations: [
@@ -20,6 +26,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ModalConfirmComponent,
     AddComponent,
     GridSearchAddComponent,
+    RegisterComponent,
+    AuthCallbackComponent,
+    HomeComponent
   ],
   imports: [
     CommonModule,
@@ -36,6 +45,14 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ModalConfirmComponent,
     AddComponent,
     GridSearchAddComponent,
+  ],
+  providers : [
+    AuthGuard,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: XhrInterceptor,
+      multi: true,
+    }
   ]
 })
 export class SharedModule { }

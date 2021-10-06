@@ -7,7 +7,18 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <ng-container>
+    <ng-container *ngIf="!isAuthenticated">
+      <div class="collapse navbar-collapse" id="navbarColor01">
+        <ul class="navbar-nav mr-auto"></ul>
+        <ul class="navbar-nav ms-md-auto">
+          <li class="nav-item">
+            <a class="nav-link" (click)="login()" href="javascript:void(0)" data-toggle="collapse"
+              data-target=".navbar-collapse.show">{{'root.header.login'|translate}}</a>
+          </li>
+        </ul>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="isAuthenticated">
       <div class="collapse navbar-collapse" id="navbarColor01">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
@@ -38,6 +49,16 @@
                 data-target=".navbar-collapse.show">{{'root.header.categories'|translate}}</a>
               <a class="nav-link" routerLink="/settings/subcategories/" data-toggle="collapse"
                 data-target=".navbar-collapse.show">{{'root.header.subcategories'|translate}}</a>
+            </div>
+          </li>
+        </ul>
+        <ul class="navbar-nav ms-md-auto">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+              aria-expanded="true">{{userName}}<span class="caret"></span></a>
+            <div class="dropdown-menu" aria-labelledby="download">
+              <a class="nav-link" (click)="signout()" href="javascript:void(0)" data-toggle="collapse"
+              data-target=".navbar-collapse.show">{{'root.header.logout'|translate}}</a>
             </div>
           </li>
         </ul>

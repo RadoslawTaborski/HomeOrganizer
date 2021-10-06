@@ -10,7 +10,9 @@
             "settings": "Ustawienia",
             "categories": "Kategorie",
             "subcategories": "Podkategorie",
-            "saldosettings": "Ustawienia wydatków"
+            "saldosettings": "Ustawienia wydatków",
+            "login": "Zaloguj się",
+            "logout": "Wyloguj się"
         }
     },
     "containers": {
@@ -56,7 +58,8 @@
         "settings":{
             "categories":{
                 "name": "nazwa",
-                "categories": "kategorie"
+                "categories": "kategorie",
+                "none": "brak"
             },
             "subcategories":{
                 "name": "nazwa",
@@ -105,6 +108,30 @@
                 "add": {
                     "add": "dodaj",
                     "title": "dodaj nowy element"
+                },
+                "home": {
+                    "text": "Nie jesteś zalogowany."
+                },
+                "authentication": {
+                    "account": {
+                        "register": {
+                            "register": "Rejestracja",
+                            "yourName": "Twój login",
+                            "yourEmail": "Adres email",
+                            "yourPassword": "Hasło",
+                            "validationDescription": "Min. 6 znaków z przynajmniej jednym niealfanumerycznym znakiem.",
+                            "start": "Zatwierdź",
+                            "ops": "Uups!",
+                            "success": "Sukces!",
+                            "success-detail": "Twoje konto zostało poprawnie utworzone",
+                            "login": "Proszę się zalogować",
+                            "login2": "by kontynuować.",
+                            "validEmail": "Wprowadź poprawny adres email",
+                            "email": "Adres email",
+                            "name": "Login",
+                            "password": "Hasło"
+                        }
+                    }
                 }
             }
         }

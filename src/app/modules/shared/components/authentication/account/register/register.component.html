@@ -1,0 +1,30 @@
+<div class="row justify-content-center">
+    <div class="col-md-4 text-center">
+      <form *ngIf="!success" #f="ngForm" (ngSubmit)="onSubmit()">
+        <h1 class="h3 mb-3 font-weight-normal">{{'modules.shared.components.authentication.account.register.register'|translate}}</h1>
+        <div class="form-group">
+            <label for="name" class="sr-only">{{'modules.shared.components.authentication.account.register.name'|translate}}</label>
+            <input type="text" id="name" name="name" [(ngModel)]="userRegistration.name" class="form-control" placeholder="{{'modules.shared.components.authentication.account.register.yourName'|translate}}" required autoFocus>
+        </div>
+        <div class="form-group">
+            <label for="email" class="sr-only">{{'modules.shared.components.authentication.account.register.email'|translate}}</label>
+            <input type="email" id="email" name="email" #email="ngModel" [(ngModel)]="userRegistration.email" class="form-control" placeholder="{{'modules.shared.components.authentication.account.register.yourEmail'|translate}}" email required>
+            <small [hidden]="email.valid || (email.pristine && !submitted)" class="text-danger">{{'modules.shared.components.authentication.account.register.validEmail'|translate}}</small>
+        </div>
+        <div class="form-group">
+            <label for="password" class="sr-only">{{'modules.shared.components.authentication.account.register.password'|translate}}</label>
+            <input type="password" id="password" name="password" [(ngModel)]="userRegistration.password" class="form-control" placeholder="{{'modules.shared.components.authentication.account.register.yourPassword'|translate}}" aria-describedby="passwordHelp" required>     
+            <small id="passwordHelp" class="form-text text-muted">{{'modules.shared.components.authentication.account.register.validationDescription'|translate}}</small>
+          </div>   
+        <button class="btn btn-lg btn-primary btn-block" type="submit" [disabled]="!f.form.valid">{{'modules.shared.components.authentication.account.register.start'|translate}}</button>
+        <ngx-spinner></ngx-spinner>   
+        <div *ngIf="error" class="alert alert-danger mt-3" role="alert">
+            <strong>{{'modules.shared.components.authentication.account.register.ops'|translate}}</strong> {{error}}
+        </div>     
+      </form>      
+      <div *ngIf="success" class="alert alert-success" role="alert">
+          <h4 class="alert-heading">{{'modules.shared.components.authentication.account.register.success'|translate}}</h4>
+          <p>{{'modules.shared.components.authentication.account.register.success-detail'|translate}}, <a routerLink="/login">{{'modules.shared.components.authentication.account.register.login'|translate}}</a> {{'modules.shared.components.authentication.account.register.login2'|translate}}</p>        
+      </div>  
+    </div> 
+  </div>  

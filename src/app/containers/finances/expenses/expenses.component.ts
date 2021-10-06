@@ -107,12 +107,12 @@ export class ExpensesComponent implements OnInit {
 
   async removeItem(data: Expense){
     console.log("remove");
-    window.location.reload();
+    this.ngOnInit();
   }
 
   async add(data: Expense) {
     await this.dataProvider.addExpense(data);
-    window.location.reload();
+    this.ngOnInit();
   }
 
   async fetch() {
@@ -209,7 +209,7 @@ export class ExpensesComponent implements OnInit {
       .setKey(ExpenseTypes.PAYER)
       .setDisplay(this.translate.instant('containers.finances.expenses.payer'))
       .setOptions(this.dataProvider.users)
-      .setValue(this.dataProvider.users[0])
+      .setValue(this.dataProvider.users.filter(u=>u.id==this.dataProvider.user.id)[0])
       .setDisplayProvider((t: User) => t?.username)
       .setIdentifierProvider((t: User) => t?.id)
       .build(),
