@@ -13,6 +13,7 @@ import { SubcategoriesComponent } from './containers/settings/subcategories/subc
 import { AuthCallbackComponent } from './modules/shared/components/authentication/auth-callback/auth-callback.component';
 import { AuthGuard } from './modules/shared/services/authentication/auth.guard';
 import { RegisterComponent } from './modules/shared/components/authentication/account/register/register.component';
+import { ListcategoriesComponent } from './containers/settings/listcategories/listcategories.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -25,6 +26,7 @@ const routes: Routes = [
   { path: 'finances/expenses', component: ExpensesComponent, canActivate: [AuthGuard] },
   { path: 'settings/categories', component: CategoriesComponent, canActivate: [AuthGuard] },
   { path: 'settings/subcategories', component: SubcategoriesComponent, canActivate: [AuthGuard] },
+  { path: 'settings/listcategories', component: ListcategoriesComponent, canActivate: [AuthGuard] },
   { path: 'shopping-lists/:id', component: ShoppingListDetailsComponent, resolve: { item: ShoppingListDetailsResolver}, canActivate: [AuthGuard] },
   { path: 'register', component: RegisterComponent },
   { path: '**', redirectTo: 'home' }

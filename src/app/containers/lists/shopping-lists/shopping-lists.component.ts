@@ -3,14 +3,17 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 import { DataGridConfig, DataGridItemButton, DataGridItemCheckbox, DataGridItemText } from 'src/app/modules/shared/components/data-grid/data-grid-config';
-import { AddItemConfig, AddItemInput } from 'src/app/modules/shared/components/modal/add/add-config';
-import { ShoppingListAction, IShoppingListModel, ShoppingListsTypes, ShoppingListModel, ShoppingListsFilters } from './services/shopping-lists.service.models'
+import { AddItemConfig, AddItemInput, AddItemSelect } from 'src/app/modules/shared/components/modal/add/add-config';
+import { ShoppingListAction, IShoppingListModel, ShoppingListsTypes, ShoppingListModel, ShoppingListsFilters, ShoppingListsFilterTypes } from './services/shopping-lists.service.models'
 import { debounceTime } from 'rxjs/operators';
 import { StateService } from 'src/app/root/services/state.service';
 import { ConfirmOption } from 'src/app/modules/shared/components/modal/confirm/modal-confirm.component';
 import { DataProviderService } from '../../services/data-provider.service';
 import { DateService } from '../../../modules/shared/utils/date/date.service'
 import { AddOption } from 'src/app/modules/shared/components/modal/add/add.component';
+import { ListCategory } from '../../settings/listcategories/services/listcategories.service.models';
+import { SearchConfig, SearchSelect } from 'src/app/modules/shared/components/search/search-config';
+import { OperationsService } from '../../services/operations.service';
 
 @Component({
   selector: 'app-shopping-lists',
@@ -20,6 +23,7 @@ import { AddOption } from 'src/app/modules/shared/components/modal/add/add.compo
 export class ShoppingListsComponent implements OnInit {
 
   dataGridConfig: DataGridConfig;
+  searchConfig: SearchConfig;
   addConfig: AddItemConfig;
 
   lists: { data: IShoppingListModel[], total: number };
@@ -35,6 +39,7 @@ export class ShoppingListsComponent implements OnInit {
   @ViewChild('confirmModal') confirmModal;
 
   constructor(
+    private operationsService: OperationsService,
     private translate: TranslateService,
     private dataProvider: DataProviderService,
     public stateService: StateService,
@@ -53,6 +58,16 @@ export class ShoppingListsComponent implements OnInit {
     await this.dataProvider.reloadStates();
 
     this.translate.get('containers.items.name').subscribe(async (t) => {
+      let categories = this.dataProvider.listcategories;
+      this.searchConfig = new SearchConfig([
+        new SearchSelect.Builder()
+        .setKey(ShoppingListsFilterTypes.CATEGORY)
+        .setDisplay(this.translate.instant('containers.lists.category'))
+        .setOptions(await this.operationsService.getListCategories())
+        .setDisplayProvider((t: ListCategory) => this.translateListCategory(t))
+        .setIdentifierProvider((t: ListCategory) => t?.id)
+        .build()
+      ]);
 
       this.dataGridConfig = new DataGridConfig([
         new DataGridItemCheckbox.Builder()
@@ -96,6 +111,11 @@ export class ShoppingListsComponent implements OnInit {
           .setTextProvider((t:ShoppingListModel) => this.translateListDescription(t))
           .build(),
         new DataGridItemText.Builder()
+          .setKey(ShoppingListsTypes.CATEGORY)
+          .setDisplay(this.translate.instant('containers.lists.category'))
+          .setTextProvider((t:ShoppingListModel) => this.translateListCategory(t.category))
+          .build(),
+        new DataGridItemText.Builder()
           .setKey(ShoppingListsTypes.CREATED)
           .setDisplay(this.translate.instant('containers.lists.created'))
           .setTextProvider((t: ShoppingListModel) => this.dateService.isoToLocal(t.createTime))
@@ -111,6 +131,14 @@ export class ShoppingListsComponent implements OnInit {
         new AddItemInput.Builder()
           .setKey(ShoppingListsTypes.NAME)
           .setDisplay(this.translate.instant('containers.lists.name'))
+          .build(),
+        new AddItemSelect.Builder()
+          .setKey(ShoppingListsTypes.CATEGORY)
+          .setDisplay(this.translate.instant('containers.lists.category'))
+          .setOptions(this.dataProvider.listcategories)
+          .setDisplayProvider((t: ListCategory) => this.translateListCategory(t))
+          .setIdentifierProvider((t: ListCategory) => t?.id)
+          .setValue(this.dataProvider.listcategories.filter(i=>i.name=="none")[0].id)
           .build(),
         new AddItemInput.Builder()
           .setKey(ShoppingListsTypes.DESCRIPTION)
@@ -149,6 +177,16 @@ export class ShoppingListsComponent implements OnInit {
     return this.parseBody(t.description);
   }
 
+  translateListCategory(t: ListCategory): string {
+    if(!t){
+      return "";
+    }
+    if(t.name == "none"){
+      return this.translate.instant('containers.settings.listcategories.none');
+    }
+    return t.name;
+  }
+
   editable(t: ShoppingListModel) {
     if(!t){
       return true;
@@ -171,6 +209,10 @@ export class ShoppingListsComponent implements OnInit {
 
   parseBody(body:string) : string {
     return body.replace(/((http|https).*)/, "<a href=\"$1\">link</a>")
+  }
+
+  updateSearchConfig() {
+    return this.searchConfig?.controls;
   }
 
   more(data: ShoppingListModel) {
@@ -220,6 +262,7 @@ export class ShoppingListsComponent implements OnInit {
         let item = new ShoppingListModel({
           name: data.details.get(ShoppingListsTypes.NAME),
           description: data.details.get(ShoppingListsTypes.DESCRIPTION),
+          category: this.dataProvider.listcategories.filter(i => i.id == data.details.get(ShoppingListsTypes.CATEGORY))[0],
           visible: true,
           groupId: this.dataProvider.group.id
         })

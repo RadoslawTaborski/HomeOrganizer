@@ -65,7 +65,6 @@ export class PermanentItemsComponent implements OnInit {
       let states = this.getStates();
       states.sort((a,b)=>parseInt(b.level)-parseInt(a.level));
       let subcategories = await this.operationsService.getSubCategories();
-
       this.searchConfig = new SearchConfig([
         new SearchSelect.Builder()
           .setKey(PermanentItemsFilterTypes.CATEGORY)
@@ -141,10 +140,10 @@ export class PermanentItemsComponent implements OnInit {
         new AddItemSelect.Builder()
           .setKey(PermanentItemTypes.SUBCATEGORY)
           .setDisplay(this.translate.instant('containers.items.subcategory'))
-          .setOptions(subcategories)
+          .setOptions(this.dataProvider.subcategories)
           .setDisplayProvider((t: SubCategory) => this.translateSubcategory(t))
           .setIdentifierProvider((t: SubCategory) => t?.id)
-          .setValue(subcategories.filter(i=>i.name=="none")[0].id)
+          .setValue(this.dataProvider.subcategories.filter(i=>i.name=="none")[0].id)
           .build(),
         new AddItemSelect.Builder()
           .setKey(PermanentItemTypes.STATE)

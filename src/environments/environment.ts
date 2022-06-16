@@ -4,16 +4,16 @@
 
 export const environment = {
   production: false,
-  apiEndpoint: 'http://192.168.1.6:5091/api/v1/',
+  apiEndpoint: 'http://localhost:5091/api/v1/',
   authConfig: {
     client_id: 'homeorganizer',
     scope: "openid profile email offline_access ho.read",
     response_type: "id_token token",
-    authority: 'http://192.168.1.6:5000',
-    authorityApi: 'http://192.168.1.6:5000/api',
-    redirect_uri: 'http://192.168.1.6:5090/auth-callback',
-    post_logout_redirect_uri: 'http://192.168.1.6:5090/',
-    silent_redirect_uri: 'http://192.168.1.6:5090/assets/silent-refresh.html',
+    authority: 'http://localhost:5000',
+    authorityApi: 'http://localhost:5000/api',
+    redirect_uri: 'http://localhost:5090/auth-callback',
+    post_logout_redirect_uri: 'http://localhost:5090/',
+    silent_redirect_uri: 'http://localhost:5090/assets/silent-refresh.html',
     redirect_component_signin: '/shopping',
     redirect_component_signout: '/home',
     redirect_component_register: '/register'

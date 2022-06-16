@@ -7,22 +7,24 @@ import { ShoppingItemModel } from '../items/shopping-items/services/shopping-ite
 import { ShoppingListsService } from '../lists/shopping-lists/services/shopping-lists.service';
 import { IShoppingListModel, ShoppingListModel } from '../lists/shopping-lists/services/shopping-lists.service.models';
 import { TemporaryItemService } from '../items/temporary-items/services/temporary-item.service';
-import { ITemporaryItemModel, TemporaryItemModel } from '../items/temporary-items/services/temporary-item.service.models';
+import { TemporaryItemModel } from '../items/temporary-items/services/temporary-item.service.models';
 import { Category } from '../settings/categories/services/categories.service.models';
+import { ListCategory } from '../settings/listcategories/services/listcategories.service.models';
 import { SubCategory } from '../settings/subcategories/services/subcategories.service.models';
 import { State } from '../settings/states/services/states.service.models';
 import { CategoriesService } from '../settings/categories/services/categories.service';
 import { SubcategoriesService } from '../settings/subcategories/services/subcategories.service';
+import { ListcategoriesService } from '../settings/listcategories/services/listcategories.service';
 import { StatesService } from '../settings/states/services/states.service';
 import { UsersService } from '../accounts/users/services/users.service';
 import { User } from '../accounts/users/services/users.service.models';
-import { Expense, IExpense } from '../finances/expenses/services/expenses.service.models';
+import { Expense } from '../finances/expenses/services/expenses.service.models';
 import { ExpensesService } from '../finances/expenses/services/expenses.service';
 import { ExpenseDetailsService } from '../finances/expense-details/services/expense-details.service';
 import { GroupService } from '../accounts/groups/services/groups.service';
 import { ExpenseDetail } from '../finances/expense-details/services/expense-details.service.models';
 import { Group } from '../accounts/groups/services/groups.service.models';
-import { Saldo, SaldoFilters } from '../finances/saldo/services/saldo.service.models';
+import { Saldo } from '../finances/saldo/services/saldo.service.models';
 import { SaldoService } from '../finances/saldo/services/saldo.service';
 import { ExpenseSettingsService } from '../finances/expenses-settings/services/expenses-settings.service';
 import { ExpenseSettings } from '../finances/expenses-settings/services/expenses-settings.service.models';
@@ -32,7 +34,6 @@ import { AuthService } from 'src/app/modules/shared/services/authentication/auth
   providedIn: 'root'
 })
 export class DataProviderService {
-
   ONE_TIME_GROUP: string = "GROUP_ONE_TIME"
 
   groups: Group[] = [];
@@ -40,6 +41,7 @@ export class DataProviderService {
   usersSettings: ExpenseSettings[] = [];
   categories: Category[] = [];
   subcategories: SubCategory[] = [];
+  listcategories: ListCategory[] = [];
   states: State[] = [];
   user: User;
   group: Group;
@@ -53,6 +55,7 @@ export class DataProviderService {
     private permanentItemService: PermanentItemService,
     private shoppingItemService: ShoppingItemsService,
     private temporaryItemService: TemporaryItemService,
+    private listcategoryService: ListcategoriesService,
     private shoppingListsService: ShoppingListsService,
     private groupsService: GroupService,
     private usersService: UsersService,
@@ -74,6 +77,7 @@ export class DataProviderService {
     await this.login(this.authService.id);
     await this.getGroups(this.user.id);
     this.group = this.groups[0];
+    await this.reloadListcategories();
     await this.getOneTimeList(this.group)
   }
 
@@ -81,8 +85,7 @@ export class DataProviderService {
     filters = this.extendsFilters(this.group.id, filters);
     filters["name"] = this.ONE_TIME_GROUP;
     let response = (await this.shoppingListsService.fetch(filters));
-
-    this.oneTimeList = ShoppingListModel.createFromJson(response.data[0], null)
+    this.oneTimeList = ShoppingListModel.createFromJson(response.data[0], null, this.listcategories)
 
   }
 
@@ -120,6 +123,17 @@ export class DataProviderService {
     response.data.forEach(a => data.push(Category.createFromJson(a)))
 
     this.categories = data;
+
+    return {data: data, total:response.total, error:"", message:""};
+  }
+
+  async reloadListcategories(filters?: { [key: string]: any; }): Promise<ResponseData>{
+    filters = this.extendsFilters(this.group.id, filters);
+    let response = (await this.listcategoryService.fetch(filters));
+    let data: any[] = []
+    response.data.forEach(a => data.push(ListCategory.createFromJson(a)))
+
+    this.listcategories = data;
 
     return {data: data, total:response.total, error:"", message:""};
   }
@@ -180,7 +194,7 @@ export class DataProviderService {
     let response = (await this.shoppingListsService.fetch(filters));
     let data: any[] = []
     for(var res of response.data){
-        data.push(ShoppingListModel.createSimpleFromJson(res))
+        data.push(ShoppingListModel.createSimpleFromJson(res, this.listcategories))
     }
 
     return {data: data, total:response.total, error:"", message:""};
@@ -188,7 +202,7 @@ export class DataProviderService {
 
   async getShoppingList(id: string) : Promise<IShoppingListModel>{
     let response = (await this.shoppingListsService.get(id));
-    return ShoppingListModel.createSimpleFromJson(response)
+    return ShoppingListModel.createSimpleFromJson(response, this.listcategories)
   }
 
   async getExpenseDetails(filters?: { [key: string]: any; }) : Promise<ResponseData> {
@@ -272,6 +286,10 @@ export class DataProviderService {
 
   async addCategories(data: Category): Promise<string> {
     return await this.categoryService.add(Category.toJson(data));
+  }
+
+  async addListCategories(data: ListCategory): Promise<string> {
+    return await this.listcategoryService.add(ListCategory.toJson(data));
   }
 
   async addExpenseDetail(data: ExpenseDetail, expenseId: string): Promise<string> {

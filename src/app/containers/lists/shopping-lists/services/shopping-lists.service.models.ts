@@ -2,6 +2,7 @@ import { ActivatedRouteSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ITemporaryItemModel, TemporaryItemModel } from 'src/app/containers/items/temporary-items/services/temporary-item.service.models';
 import { IModel } from 'src/app/containers/models/models';
+import { ListCategory } from 'src/app/containers/settings/listcategories/services/listcategories.service.models';
 
 export enum ShoppingListsTypes {
   NAME = 'name',
@@ -11,6 +12,7 @@ export enum ShoppingListsTypes {
   MORE = 'more',
   ARCHIVE = 'remove',
   DESCRIPTION = "description",
+  CATEGORY = 'category',
   VISIBLE = "visible"
 }
 
@@ -19,6 +21,7 @@ export interface IShoppingListModel extends IModel {
     groupId: string;
     name: string;
     description: string;
+    category: ListCategory;
     visible: boolean;
     data: ITemporaryItemModel[];
     createTime: string;
@@ -31,6 +34,7 @@ export class ShoppingListModel implements IShoppingListModel {
     name: string;
     groupId: string;
     description: string;
+    category: ListCategory;
     visible: boolean;
     data: ITemporaryItemModel[];
     createTime: string;
@@ -41,12 +45,13 @@ export class ShoppingListModel implements IShoppingListModel {
         Object.assign(this, init);
     }
 
-    static createFromJson(a: any, data: ITemporaryItemModel[]): ShoppingListModel {
+    static createFromJson(a: any, data: ITemporaryItemModel[], categories: ListCategory[]): ShoppingListModel {
         return new ShoppingListModel({
             id: a.uuid,
             groupId: a.groupUuid,
             name: a.name,
             description: a.description,
+            category: categories.filter(i=>i.id === a.categoryUuid)[0],
             visible: a.visible,
             data: data,
             createTime: a.createTime,
@@ -55,12 +60,13 @@ export class ShoppingListModel implements IShoppingListModel {
         });
     }
 
-    static createSimpleFromJson(a: any): ShoppingListModel {
+    static createSimpleFromJson(a: any, categories: ListCategory[]): ShoppingListModel {
         return new ShoppingListModel({
             id: a.uuid,
             groupId: a.groupUuid,
             name: a.name,
             description: a.description,
+            category: categories.filter(i=>i.id === a.categoryUuid)[0],
             visible: a.visible,
             data: null,
             createTime: a.createTime,
@@ -70,6 +76,7 @@ export class ShoppingListModel implements IShoppingListModel {
     }
 
     static toJson(entity: ShoppingListModel): string{
+        debugger;
         var tmp: any = {};
         tmp.uuid = entity.id;
         tmp.groupUuid = entity.groupId;
@@ -78,6 +85,7 @@ export class ShoppingListModel implements IShoppingListModel {
         tmp.deleteTime = entity.deleteTime;
         tmp.name = entity.name;
         tmp.description = entity.description;
+        tmp.categoryUuid = entity.category.id;
         tmp.visible = entity.visible
         
         return JSON.stringify(tmp)
@@ -91,10 +99,15 @@ export interface ShoppingListAction {
     data: ShoppingListModel
 }
 
+export enum ShoppingListsFilterTypes {
+    CATEGORY = 'categoryUuid'
+}
+
 export class ShoppingListsFilters {
     constructor(
         public pageNumber = 1,
         public pageSize = 30,
+        public categoryUuid = '',
         public orderBy = "visible desc, updateTime desc, createTime desc") {
     }
 }

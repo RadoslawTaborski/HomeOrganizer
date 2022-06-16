@@ -14,6 +14,7 @@ import { CategoriesComponent } from './settings/categories/categories.component'
 import { SubcategoriesComponent } from './settings/subcategories/subcategories.component';
 import { ExpensesComponent } from './finances/expenses/expenses.component';
 import { SaldoComponent } from './finances/saldo/saldo.component';
+import { ListcategoriesComponent } from './settings/listcategories/listcategories.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { SaldoComponent } from './finances/saldo/saldo.component';
     CategoriesComponent,
     SubcategoriesComponent,
     ExpensesComponent,
-    SaldoComponent
+    SaldoComponent,
+    ListcategoriesComponent
   ],
   imports: [
     BrowserModule,

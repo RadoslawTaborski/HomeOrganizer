@@ -173,9 +173,10 @@ export class SubcategoriesComponent implements OnInit {
       new AddItemSelect.Builder()
         .setKey(SubcategoryTypes.PARENT)
         .setDisplay(this.translate.instant('containers.settings.subcategories.parent'))
-        .setOptions(await this.operationsService.getCategories())
+        .setOptions(await this.dataProvider.categories)
         .setDisplayProvider((t: Category) => this.translateCategory(t))
         .setIdentifierProvider((t: Category) => t?.id)
+        .setValue(await this.dataProvider.categories.filter(i=>i.name=="none")[0].id)
         .build()
     ]);
   }

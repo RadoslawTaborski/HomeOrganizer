@@ -8,6 +8,7 @@
             "expenses": "Expenses",
             "saldo": "Debt",
             "settings": "Settings",
+            "listcategories": "Lists Categories",
             "categories": "Categories",
             "subcategories": "Subcategories",
             "saldosettings": "Expenses settings",
@@ -49,6 +50,7 @@
             "more":"more",
             "delete": "archive",
             "description": "description",
+            "category": "category",
             "one-time-list": "one-time purchases",
             "visible": "visible",
             "created": "created",
@@ -57,6 +59,11 @@
         },
         "settings":{
             "categories":{
+                "name": "name",
+                "categories": "categories",
+                "none": "none"
+            },
+            "listcategories":{
                 "name": "name",
                 "categories": "categories",
                 "none": "none"

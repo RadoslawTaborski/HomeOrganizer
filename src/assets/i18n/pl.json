@@ -8,6 +8,7 @@
             "expenses": "Wydatki",
             "saldo": "Zadłużenie",
             "settings": "Ustawienia",
+            "listcategories": "Kategorie list",
             "categories": "Kategorie",
             "subcategories": "Podkategorie",
             "saldosettings": "Ustawienia wydatków",
@@ -49,6 +50,7 @@
             "more":"więcej",
             "delete": "archiwizuj",
             "description": "opis",
+            "category": "kategoria",
             "one-time-list": "jednorazowe zakupy",
             "visible": "widoczny",
             "created": "utworzono",
@@ -57,6 +59,11 @@
         },
         "settings":{
             "categories":{
+                "name": "nazwa",
+                "categories": "kategorie",
+                "none": "brak"
+            },
+            "listcategories":{
                 "name": "nazwa",
                 "categories": "kategorie",
                 "none": "brak"

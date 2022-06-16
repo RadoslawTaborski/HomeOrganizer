@@ -11,6 +11,7 @@ export class Api {
     static PERMANENT_ITEMS_END_POINT = Api.DATA_BASE_END_POINT + 'permanentitems';
     static TEMPORARY_ITEMS_END_POINT = Api.DATA_BASE_END_POINT + 'temporaryitems';
     static SHOPPING_ITEMS_END_POINT = Api.DATA_BASE_END_POINT + 'shoppingitems';
+    static LIST_CATEGORIES_END_POINT = Api.DATA_BASE_END_POINT + 'listcategories';
     static SHOPPING_LISTS_END_POINT = Api.DATA_BASE_END_POINT + 'shoppinglists';
 
     static EXPENSES_SETTINGS_END_POINT = Api.DATA_BASE_END_POINT + 'expensessettings';
