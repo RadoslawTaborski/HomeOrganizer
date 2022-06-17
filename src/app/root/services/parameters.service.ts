@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class ParametersService {
   static AppName="HomeOrganizer"
-  static FooterText="© HomeOrganizer - Radosław Taborski - 2020-2022"
+  static FooterText="© HomeOrganizer - 2020-2022"
 
   constructor() { }
 }
