@@ -1,10 +1,10 @@
 import { ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { TemplateRef } from "@angular/core";
-import { NgForm, FormGroup } from '@angular/forms';
+import { NgForm, UntypedFormGroup } from '@angular/forms';
 
 export interface ModalModel {
     open(content: TemplateRef<any>);
-    checkAndSend?(form: NgForm | FormGroup): void;
+    checkAndSend?(form: NgForm | UntypedFormGroup): void;
     go(result: {}): void;
 }
 
