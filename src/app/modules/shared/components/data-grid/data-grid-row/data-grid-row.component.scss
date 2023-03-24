@@ -2,8 +2,12 @@ table {
     table-layout: auto;
     border: none;
     width: 100%;
-    margin-bottom: 0px;
-    padding-bottom: 0px;
+    margin: 0px;
+    padding: 0px;
+
+    > :not(caption) > * > * {
+      padding: 0px;
+    }
 }
 
 td {
@@ -33,4 +37,4 @@ table .absorbing-column {
 input.checkbox {
     width: 20px;
     height: 20px;
-  }
+}
