@@ -90,6 +90,7 @@ export class ShoppingListsComponent implements OnInit {
           .setKey(ShoppingListsTypes.MORE)
           .setDisplay(this.translate.instant('containers.lists.more'))
           .setIconProvider(() => "<i class=\"fas fa-info\"></i>")
+          .setStyleProvider(() => "width: 48.5px;")
           .setClassProvider((t: ShoppingListModel) => "btn btn-primary")
           .setAccess(this.stateService.access)
           .setColumnClass("fitwidth")
