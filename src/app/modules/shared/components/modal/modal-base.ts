@@ -1,4 +1,4 @@
-import { ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { TemplateRef } from "@angular/core";
 import { NgForm, UntypedFormGroup } from '@angular/forms';
 
@@ -13,7 +13,7 @@ export class ModalBase implements ModalModel {
     openedModal: NgbModalRef;
     closeResult = '';
 
-    constructor(private modalService) { }
+    constructor(private modalService: NgbModal) { }
 
     checkAndSend(form) {
         if (form.valid) {
@@ -24,7 +24,7 @@ export class ModalBase implements ModalModel {
     }
 
     open(content) {
-        this.openedModal = this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
+        this.openedModal = this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', backdrop: 'static' });
         this.openedModal.result.then((result) => {
             if(result!=="accept"){
                 this.closeResult = `Closed with: ${result}`;

@@ -5,9 +5,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import {TranslateHttpLoader} from '@ngx-translate/http-loader';
-import {ContainersModule} from "./containers/containers.module"
-import {ModulesModule} from "./modules/modules.module";
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { ContainersModule } from "./containers/containers.module"
+import { ModulesModule } from "./modules/modules.module";
 import { HeaderComponent } from './root/header/header.component';
 import { FooterComponent } from './root/footer/footer.component'
 import { ParametersService } from './root/services/parameters.service';

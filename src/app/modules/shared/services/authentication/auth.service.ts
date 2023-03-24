@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
-import { UserManager, UserManagerSettings, User, WebStorageStateStore } from 'oidc-client';
+import { UserManager, UserManagerSettings, User } from 'oidc-client';
 import { BehaviorSubject, throwError } from 'rxjs';
 
 import { environment } from '../../../../../environments/environment';

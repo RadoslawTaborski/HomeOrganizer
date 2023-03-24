@@ -111,7 +111,7 @@ export class TemporaryItemsComponent implements OnInit {
         new DataGridItemButton.Builder()
           .setKey(TemporaryItemTypes.ARCHIVE)
           .setDisplay(this.translate.instant('containers.items.delete'))
-          .setIconProvider(() => "<i class=\"fas fa-window-close\"></i>")
+          .setIconProvider(() => "<i class=\"fa fa-window-close\"></i>")
           .setClassProvider((t: ITemporaryItemModel) => "btn btn-danger")
           .setAccess(this.stateService.access)
           .setColumnClass("fitwidth")

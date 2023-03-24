@@ -1,6 +1,13 @@
-/* You can add global styles to this file, and also import other style files */
+.modal-backdrop {
+  display: none;
+  z-index: 1040 !important;
+}
 
-/* Importing Bootstrap SCSS file. */
-@import "~bootswatch/dist/superhero/variables";
-@import "~bootstrap/scss/bootstrap";
-@import "~bootswatch/dist/superhero/bootswatch";
+.modal-content {
+  margin: 2px auto;
+  z-index: 1100 !important;
+}
+
+.visually-hidden {
+  display: none;
+}

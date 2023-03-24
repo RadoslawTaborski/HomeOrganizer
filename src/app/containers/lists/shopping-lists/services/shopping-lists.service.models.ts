@@ -76,7 +76,6 @@ export class ShoppingListModel implements IShoppingListModel {
     }
 
     static toJson(entity: ShoppingListModel): string{
-        debugger;
         var tmp: any = {};
         tmp.uuid = entity.id;
         tmp.groupUuid = entity.groupId;

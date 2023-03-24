@@ -98,7 +98,7 @@ export class ShoppingListsComponent implements OnInit {
         new DataGridItemButton.Builder()
           .setKey(ShoppingListsTypes.ARCHIVE)
           .setDisplay(this.translate.instant('containers.lists.delete'))
-          .setIconProvider(() => "<i class=\"fas fa-window-close\"></i>")
+          .setIconProvider(() => "<i class=\"fa fa-window-close\"></i>")
           .setClassProvider((t: ShoppingListModel) => "btn btn-danger")
           .setAccess(this.stateService.access)
           .setColumnClass("fitwidth")

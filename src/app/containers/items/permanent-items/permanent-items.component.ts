@@ -124,7 +124,7 @@ export class PermanentItemsComponent implements OnInit {
         new DataGridItemButton.Builder()
           .setKey(PermanentItemTypes.ARCHIVE)
           .setDisplay(this.translate.instant('containers.items.delete'))
-          .setIconProvider(() => "<i class=\"fas fa-window-close\"></i>")
+          .setIconProvider(() => "<i class=\"fa fa-window-close\"></i>")
           .setClassProvider((t: IPermanentItemModel) => "btn btn-danger")
           .setAccess(this.stateService.access)
           .setColumnClass("fitwidth")
