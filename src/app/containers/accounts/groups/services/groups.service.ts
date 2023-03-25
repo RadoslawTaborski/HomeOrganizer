@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Api } from '../../../../utils/api'
 import { map } from 'rxjs/operators';
 import { Group } from './groups.service.models';
+import { ConfigService } from 'src/app/modules/shared/services/config/config.service';
 
 const httpOptions = {
   headers: new HttpHeaders()
@@ -15,34 +16,34 @@ const httpOptions = {
 })
 export class GroupService implements HttpServiceModel {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private configService: ConfigService) { }
 
   fetch(filters?: { [key: string]: any; }): Promise<ResponseData> {
-    return this.http.get<ResponseData>(Api.GROUPS_END_POINT, {params: filters}).toPromise();
+    return this.http.get<ResponseData>(this.configService.config.api + Api.GROUPS_END_POINT, {params: filters}).toPromise();
   }
 
   get(id: string, deep?: number): Promise<Group> {
     return this.http
-      .get<ResponseData>(Api.GROUPS_END_POINT + `/${id}`)
+      .get<ResponseData>(this.configService.config.api + Api.GROUPS_END_POINT + `/${id}`)
       .pipe(
         map((resp: { data }) => resp.data)
       ).toPromise();
   } 
 
   add(item: any): Promise<string> {
-    return this.http.post(Api.GROUPS_END_POINT, item, httpOptions).pipe(
+    return this.http.post(this.configService.config.api + Api.GROUPS_END_POINT, item, httpOptions).pipe(
       map((resp: { uuid }) => resp.uuid)
     ).toPromise();
   }
 
   update(item: any): Promise<string> {
-    return this.http.put(Api.GROUPS_END_POINT, item, httpOptions).pipe(
+    return this.http.put(this.configService.config.api + Api.GROUPS_END_POINT, item, httpOptions).pipe(
       map((resp: { uuid }) => resp.uuid)
     ).toPromise();
   }
 
   remove(id: string): Promise<any> {
-    return this.http.delete(Api.GROUPS_END_POINT+`/${id}`).pipe(
+    return this.http.delete(this.configService.config.api + Api.GROUPS_END_POINT+`/${id}`).pipe(
       map((resp: { data }) => resp.data)
     ).toPromise();
   }

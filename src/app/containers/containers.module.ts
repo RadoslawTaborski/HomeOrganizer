@@ -15,6 +15,8 @@ import { SubcategoriesComponent } from './settings/subcategories/subcategories.c
 import { ExpensesComponent } from './finances/expenses/expenses.component';
 import { SaldoComponent } from './finances/saldo/saldo.component';
 import { ListcategoriesComponent } from './settings/listcategories/listcategories.component';
+import { DataProviderService } from './services/data-provider.service';
+import { AuthService } from '../modules/shared/services/authentication/auth.service';
 
 @NgModule({
   declarations: [
@@ -40,6 +42,6 @@ import { ListcategoriesComponent } from './settings/listcategories/listcategorie
   ],
   exports: [
     PermanentItemsComponent
-  ]
+  ],
 })
 export class ContainersModule { }

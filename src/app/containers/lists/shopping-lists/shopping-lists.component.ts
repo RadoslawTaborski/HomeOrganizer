@@ -18,7 +18,7 @@ import { OperationsService } from '../../services/operations.service';
 @Component({
   selector: 'app-shopping-lists',
   templateUrl: './shopping-lists.component.html',
-  styleUrls: ['./shopping-lists.component.scss']
+  styleUrls: ['./shopping-lists.component.scss'],
 })
 export class ShoppingListsComponent implements OnInit {
 
@@ -75,7 +75,7 @@ export class ShoppingListsComponent implements OnInit {
           .setDisplay(this.translate.instant('containers.lists.visible'))
           .setValueProvider((t: ShoppingListModel) => t.visible)
           .setColumnClass("exactValue")
-          .setColumnStyle("--value: 40px;")
+          .setColumnStyle("--value: 38px;")
           .setEditable((t: ShoppingListModel)=>this.editable(t))
           .setVisible(true)
           .build(),
@@ -90,7 +90,7 @@ export class ShoppingListsComponent implements OnInit {
           .setKey(ShoppingListsTypes.MORE)
           .setDisplay(this.translate.instant('containers.lists.more'))
           .setIconProvider(() => "<i class=\"fas fa-info\"></i>")
-          .setStyleProvider(() => "width: 48.5px;")
+          .setStyleProvider(() => "width: 38px;")
           .setClassProvider((t: ShoppingListModel) => "btn btn-primary")
           .setAccess(this.stateService.access)
           .setColumnClass("fitwidth")

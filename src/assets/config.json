@@ -1,0 +1,10 @@
+{
+  "title": "HomeOrganizer",
+  "footer": "© HomeOrganizer - Radosław Taborski - 2020-2023",
+  "url": "http://localhost:5090/",
+  "api": "http://localhost:5091/api/v1/",
+  "authority": "http://localhost:5000/",
+  "id": "homeorganizer",
+  "scope": "openid profile email offline_access ho.read",
+  "responseType": "id_token token"
+}

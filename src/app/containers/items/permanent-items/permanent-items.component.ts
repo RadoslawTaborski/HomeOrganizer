@@ -220,13 +220,13 @@ export class PermanentItemsComponent implements OnInit {
   stateButtonStyleProvider(data: PermanentItemModel): string {
     switch (data.state) {
       case this.dataProvider.getCriticalState():
-        return "background-color: darkred; background-image: none; width: 48.5px; height: 48.5px;"
+        return "background-color: darkred; background-image: none; width: 38px; height: 38px;"
       case this.dataProvider.getLittleState():
-        return "background-color: red; background-image: none; width: 48.5px; height: 48.5px;"
+        return "background-color: red; background-image: none; width: 38px; height: 38px;"
       case this.dataProvider.getMediumState():
-        return "background-color: orange; background-image: none; width: 48.5px; height: 48.5px;"
+        return "background-color: orange; background-image: none; width: 38px; height: 38px;"
       case this.dataProvider.getLotState():
-        return "background-color: green; background-image: none; width: 48.5px; height: 48.5px;"
+        return "background-color: green; background-image: none; width: 38px; height: 38px;"
     }
   }
 

@@ -197,13 +197,13 @@ export class ShoppingItemsComponent implements OnInit {
   buttonStyleProvider(data: ShoppingItemModel): string {
     switch (data.state) {
       case this.dataProvider.getCriticalState():
-        return "background-color: darkred; width: 40px; height: 40px;"
+        return "background-color: darkred; width: 38px; height: 38px;"
       case this.dataProvider.getLittleState():
-        return "background-color: red; width: 40px; height: 40px;"
+        return "background-color: red; width: 38px; height: 38px;"
       case this.dataProvider.getMediumState():
-        return "background-color: orange; width: 40px; height: 40px;"
+        return "background-color: orange; width: 38px; height: 38px;"
       case this.dataProvider.getLotState():
-        return "background-color: green; width: 40px; height: 40px;"
+        return "background-color: green; width: 38px; height: 38px;"
     }
   }
 

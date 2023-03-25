@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ParametersService } from '../services/parameters.service';
+import { ConfigService } from 'src/app/modules/shared/services/config/config.service';
 
 @Component({
   selector: 'app-footer',
@@ -8,13 +8,13 @@ import { ParametersService } from '../services/parameters.service';
 })
 export class FooterComponent implements OnInit {
 
-  constructor() { }
+  constructor(private configService: ConfigService) { }
 
   ngOnInit(): void {
   }
 
-  getText():string{
-    return ParametersService.FooterText;
+  getText(): string{
+    return this.configService.config.footer;
   }
 
 }

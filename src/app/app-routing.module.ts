@@ -17,8 +17,8 @@ import { ListcategoriesComponent } from './containers/settings/listcategories/li
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'auth-callback', component: AuthCallbackComponent  },
-  { path: 'home', component: HomeComponent  },
+  { path: 'auth-callback', component: AuthCallbackComponent },
+  { path: 'home', component: HomeComponent },
   { path: 'shopping', component: ShoppingItemsComponent, canActivate: [AuthGuard]},
   { path: 'permanent', component: PermanentItemsComponent, canActivate: [AuthGuard] },
   { path: 'shopping-lists', component: ShoppingListsComponent, canActivate: [AuthGuard] },

@@ -2,12 +2,12 @@
     <div style="width: 100%;">
         <div class="card card-body">
               <div class="mx-auto">
-                  <div class="badge badge-success ml-1">{{badgeItemName}}:
+                  <div class="badge badge-secondary ml-1">{{badgeItemName}}:
                       {{items?.data.length}} / {{items?.total}}</div>
               </div>
             <div class="row">
                 <div *ngIf="addOn || filterOn || actionOn" class="col">
-                    <button *ngIf="filterOn" type="button" class="btn btn-primary" (click)="openFilter()">
+                    <button *ngIf="filterOn" type="button" class="btn btn-primary m-right-3" (click)="openFilter()">
                         <i class="fa fa-arrow-right" aria-hidden="true"></i>
                     </button>
                     <app-add *ngIf="addOn" [config]="addConfig" (addAction)="addItem($event)"></app-add>

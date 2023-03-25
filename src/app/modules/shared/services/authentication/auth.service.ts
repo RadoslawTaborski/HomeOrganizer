@@ -6,6 +6,8 @@ import { BehaviorSubject, throwError } from 'rxjs';
 
 import { environment } from '../../../../../environments/environment';
 import { Router } from '@angular/router';
+import { ConfigService } from '../config/config.service';
+import { AppConfig } from '../config/app-config';
 
 @Injectable({
   providedIn: 'root'
@@ -16,10 +18,14 @@ export class AuthService {
   // Observable navItem stream
   authNavStatus$ = this._authNavStatusSource.asObservable();
 
-  private manager = new UserManager(getClientSettings());
+  private manager: UserManager;
   private user: User = null;
+  private authorityAccount: string = ''
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private http: HttpClient, private router: Router) {}
+
+  initialize(config: AppConfig) {
+    this.manager = new UserManager(getClientSettings(config));
     this.manager.getUser().then(user => {
       this.user = user;
       this._authNavStatusSource.next(this.isAuthenticated());
@@ -29,6 +35,7 @@ export class AuthService {
       this.manager.signinSilent().then(x=>this.router.navigate([environment.authConfig.redirect_component_signin])).catch(x=>this.login())
       this._authNavStatusSource.next(this.isAuthenticated());
     }
+    this.authorityAccount = config.authority + 'api/account';
   }
 
   login() {
@@ -81,7 +88,7 @@ export class AuthService {
   }
 
   register(userRegistration: any) {
-    return this.http.post(environment.authConfig.authorityApi + '/account', userRegistration)
+    return this.http.post(this.authorityAccount, userRegistration)
       .pipe(
         catchError(({ status, error: { error, message } }: HttpErrorResponse) => {
           switch (status) {
@@ -118,19 +125,21 @@ export class AuthService {
   }
 }
 
-export function getClientSettings(): UserManagerSettings {
+export function getClientSettings(config: AppConfig): UserManagerSettings {
+  let authority: string = config.authority;
+  let url: string = config.url;
   return {
-    authority: environment.authConfig.authority,
-    client_id: environment.authConfig.client_id,
-    redirect_uri: environment.authConfig.redirect_uri,
-    post_logout_redirect_uri: environment.authConfig.post_logout_redirect_uri,
-    response_type: environment.authConfig.response_type,
-    scope: environment.authConfig.scope,
+    authority: authority,
+    client_id: config.id,
+    redirect_uri: url + 'auth-callback',
+    post_logout_redirect_uri: url,
+    response_type: config.responseType,
+    scope: config.scope,
     filterProtocolClaims: true,
     loadUserInfo: true,
     automaticSilentRenew: true,
     monitorSession: false,
-    silent_redirect_uri: environment.authConfig.silent_redirect_uri,
+    silent_redirect_uri: url + 'assets/silent-refresh.html',
     silentRequestTimeout: 5000
     //userStore: new WebStorageStateStore({ store: window.localStorage })
   };

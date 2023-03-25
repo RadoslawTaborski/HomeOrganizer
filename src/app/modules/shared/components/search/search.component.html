@@ -1,10 +1,11 @@
-<form #searchForm="ngForm" id="search-form" class="card card-body">
+<form #searchForm="ngForm" id="search-form" class="card card-body search__container">
     <h4 class="card-title">
         {{'modules.shared.components.search.filter'|translate}}
-        <button class="btn btn-primary btn-sm"
+        <button class="btn btn-warning btn search__button-clean"
             (click)="clear()">{{'modules.shared.components.search.clean'|translate}}</button>
-        <button type="button" aria-label="Close" class="close"
-            (click)="close()"><span aria-hidden="true">&times;</span></button>
+        <button type="button" aria-label="Close" class="close" (click)="close()">
+          <i class="fa fa-window-close" style="color:white; text-shadow: none;"></i>
+        </button>
     </h4>
 
     <div class="form-group" *ngFor="let control of controls" [ngSwitch]="control.type">
@@ -13,13 +14,13 @@
             {{control.display | camelCaseToSign:' '}}
         </label>
 
-        <input *ngSwitchCase="'INPUT_TEXT'" type="text" class="form-control" [id]="'search-by-' + control.key"
+        <input *ngSwitchCase="'INPUT_TEXT'" type="text" class="form-control form-item" [id]="'search-by-' + control.key"
             [name]="control.key" ngModel>
 
-        <input *ngSwitchCase="'INPUT_NUMBER'" type="number" class="form-control" [id]="'search-by-' + control.key"
+        <input *ngSwitchCase="'INPUT_NUMBER'" type="number" class="form-control form-item" [id]="'search-by-' + control.key"
             [name]="control.key" ngModel>
 
-        <select *ngSwitchCase="'SELECT'" class="form-control" [id]="'search-by-' + control.key" [name]="control.key"
+        <select *ngSwitchCase="'SELECT'" class="form-control form-item" [id]="'search-by-' + control.key" [name]="control.key"
             [ngModel]="provideSelectIdentifier(control, control.options[0])">
             <option *ngFor="let opt of control.options" [value]="provideSelectIdentifier(control, opt)">
                 {{provideSelectText(control, opt)}}
