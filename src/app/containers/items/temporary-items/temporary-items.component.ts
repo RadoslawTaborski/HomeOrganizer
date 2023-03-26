@@ -191,7 +191,6 @@ export class TemporaryItemsComponent implements OnInit {
   }
 
   more(data: TemporaryItemModel) {
-    console.log("more");
   }
 
   async update(data: TemporaryItemModel) {
@@ -239,7 +238,7 @@ export class TemporaryItemsComponent implements OnInit {
         await this.add(item);
 
         break;
-      case 'dissmised': console.log('nok', data); break;
+      case 'dissmised': break;
     }
   }
 }

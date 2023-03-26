@@ -231,7 +231,6 @@ export class PermanentItemsComponent implements OnInit {
   }
 
   more(data: PermanentItemModel) {
-    console.log("more");
   }
 
   async update(data: PermanentItemModel) {
@@ -249,7 +248,7 @@ export class PermanentItemsComponent implements OnInit {
         await this.dataProvider.removePermanentItem(data.object);
         this.ngOnInit();
         break;
-      case 'dissmised': console.log('nok', data); break;
+      case 'dissmised': break;
     }
   }
 
@@ -295,7 +294,7 @@ export class PermanentItemsComponent implements OnInit {
         await this.add(item);
 
         break;
-      case 'dissmised': console.log('nok', data); break;
+      case 'dissmised': break;
     }
   }
 }

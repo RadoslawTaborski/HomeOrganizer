@@ -38,12 +38,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   login(){
-    console.log("login")
     this.authService.login();
   }
 
   async signout() {
-    console.log("logout")
     await this.authService.signout();     
   }
 }

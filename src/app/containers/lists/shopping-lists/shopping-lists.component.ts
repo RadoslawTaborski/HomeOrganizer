@@ -240,7 +240,7 @@ export class ShoppingListsComponent implements OnInit {
         await this.dataProvider.removeShoppingList(data.object);
         this.ngOnInit();
         break;
-      case 'dissmised': console.log('nok', data); break;
+      case 'dissmised': break;
     }
   }
 
@@ -271,7 +271,7 @@ export class ShoppingListsComponent implements OnInit {
         await this.add(item);
 
         break;
-      case 'dissmised': console.log('nok', data); break;
+      case 'dissmised': break;
     }
   }
 

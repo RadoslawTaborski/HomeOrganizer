@@ -208,7 +208,6 @@ export class ShoppingItemsComponent implements OnInit {
   }
 
   more(data: ShoppingItemModel) {
-    console.log("more");
   }
 
   async update(data: ShoppingItemModel) {
@@ -253,7 +252,7 @@ export class ShoppingItemsComponent implements OnInit {
         await this.addOneTimeItem(item);
 
         break;
-      case 'dissmised': console.log('nok', data); break;
+      case 'dissmised': break;
     }
   }
 
@@ -279,7 +278,6 @@ export class ShoppingItemsComponent implements OnInit {
           text: res
         });
       } else {
-        console.log("nothing to export.")
       }
     });
   }
@@ -309,11 +307,9 @@ export class ShoppingItemsComponent implements OnInit {
   }
 
   remove(data: ShoppingItemModel) {
-    console.log("remove");
   }
 
   async add(data: ShoppingItemModel) {
-    console.log("add");
   }
 
   async addOneTimeItem(data: TemporaryItemModel) {

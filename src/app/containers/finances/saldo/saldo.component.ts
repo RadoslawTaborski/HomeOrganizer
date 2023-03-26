@@ -52,7 +52,6 @@ export class SaldoComponent implements OnInit {
       await this.dataProvider.init();
       await this.dataProvider.reloadUsers();
       await this.dataProvider.reloadUsersSettings();
-      //console.log(this.dataProvider.users);
       await this.configuration();
 
       this.filters = new BehaviorSubject(new SaldoFilters());
@@ -87,7 +86,7 @@ export class SaldoComponent implements OnInit {
       case 'ok':
         await this.removeItem(data.object);
         break;
-      case 'dissmised': console.log('nok', data); break;
+      case 'dissmised': break;
     }
   }
 
@@ -98,12 +97,11 @@ export class SaldoComponent implements OnInit {
         if (obj)
           this.add(obj);
         break;
-      case 'dissmised': console.log('nok', data); break;
+      case 'dissmised': break;
     }
   }
 
   async removeItem(data: Saldo) {
-    console.log("remove");
     this.ngOnInit();
   }
 
@@ -119,11 +117,9 @@ export class SaldoComponent implements OnInit {
   }
 
   async more(data: Saldo) {
-    console.log("more");
   }
 
   async update(data: Saldo) {
-    console.log("update");
   }
 
   createFrom(data: Map<string, any>): Expense {

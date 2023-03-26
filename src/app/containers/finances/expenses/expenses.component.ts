@@ -90,7 +90,7 @@ export class ExpensesComponent implements OnInit {
       case 'ok':
         await this.removeItem(data.object);
         break;
-      case 'dissmised': console.log('nok', data); break;
+      case 'dissmised': break;
     }
   }
 
@@ -101,12 +101,11 @@ export class ExpensesComponent implements OnInit {
         if(obj)
           this.add(obj);
         break;
-      case 'dissmised': console.log('nok', data); break;
+      case 'dissmised': break;
     }
   }
 
   async removeItem(data: Expense){
-    console.log("remove");
     this.ngOnInit();
   }
 
@@ -122,11 +121,9 @@ export class ExpensesComponent implements OnInit {
   }
 
   async more(data: Expense) {
-    console.log("more");
   }
 
   async update(data: Expense) {
-    console.log("update");
   }
 
   createFrom(data: Map<string, any>) : Expense {

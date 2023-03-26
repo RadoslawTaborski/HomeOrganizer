@@ -85,7 +85,7 @@ export class ListcategoriesComponent implements OnInit {
       case 'ok':
         await this.removeItem(data.object);
         break;
-      case 'dissmised': console.log('nok', data); break;
+      case 'dissmised': break;
     }
   }
 
@@ -95,12 +95,11 @@ export class ListcategoriesComponent implements OnInit {
         let obj = this.createFrom(data.details);
         this.add(obj);
         break;
-      case 'dissmised': console.log('nok', data); break;
+      case 'dissmised': break;
     }
   }
 
   async removeItem(data: ListCategory) {
-    console.log("remove");
     this.ngOnInit();
   }
 
@@ -116,11 +115,9 @@ export class ListcategoriesComponent implements OnInit {
   }
 
   async more(data: ListCategory) {
-    console.log("more");
   }
 
   async update(data: ListCategory) {
-    console.log("update");
   }
 
   createFrom(data: Map<string,any>): ListCategory {

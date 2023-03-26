@@ -91,7 +91,7 @@ export class SubcategoriesComponent implements OnInit {
       case 'ok':
         await this.removeItem(data.object);
         break;
-      case 'dissmised': console.log('nok', data); break;
+      case 'dissmised': break;
     }
   }
 
@@ -101,12 +101,11 @@ export class SubcategoriesComponent implements OnInit {
         let obj = this.createFrom(data.details);
         this.add(obj);
         break;
-      case 'dissmised': console.log('nok', data); break;
+      case 'dissmised': break;
     }
   }
 
   async removeItem(data: SubCategory) {
-    console.log("remove");
     this.ngOnInit();
   }
 
@@ -122,11 +121,9 @@ export class SubcategoriesComponent implements OnInit {
   }
 
   async more(data: SubCategory) {
-    console.log("more");
   }
 
   async update(data: SubCategory) {
-    console.log("update");
   }
 
   createFrom(data: Map<string,any>): SubCategory {

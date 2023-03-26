@@ -19,7 +19,6 @@ export class ModalBase implements ModalModel {
         if (form.valid) {
             this.openedModal.close(form.value);
         } else {
-            console.log('form invalid');
         }
     }
 

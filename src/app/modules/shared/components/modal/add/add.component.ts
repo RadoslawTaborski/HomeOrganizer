@@ -25,7 +25,6 @@ export class AddComponent extends ModalBase implements OnInit {
 
   go(result: any) {
     if (typeof result !== "string") {
-      //console.log(result)
       this.addAction.emit({ result: 'ok', details: result });
     } else {
       this.addAction.emit({ result: 'dissmised', details: result });

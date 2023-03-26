@@ -31,7 +31,7 @@ export class AuthService {
       this._authNavStatusSource.next(this.isAuthenticated());
       this.subscribeevents();
     });
-    if(this.user == null){
+    if(this.user == null && window.location.pathname !== environment.authConfig.redirect_component_register){
       this.manager.signinSilent().then(x=>this.router.navigate([environment.authConfig.redirect_component_signin])).catch(x=>this.login())
       this._authNavStatusSource.next(this.isAuthenticated());
     }
@@ -61,6 +61,10 @@ export class AuthService {
       console.log(new Date().toLocaleTimeString()+" access token expired");
       this.user = null;
       this._authNavStatusSource.next(this.isAuthenticated());
+      console.log(this.router.url)
+      if(this.router.url === environment.authConfig.redirect_component_register){
+        return;
+      }
       this.router.navigate([environment.authConfig.redirect_component_signout]);
     });
 
