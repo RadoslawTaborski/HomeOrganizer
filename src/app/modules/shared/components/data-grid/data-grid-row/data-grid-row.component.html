@@ -7,7 +7,7 @@
                 </div>
 
                 <div *ngSwitchCase="'checkbox'" class="form-group form-inline">
-                    <input class="form-control checkbox" type="checkbox" [(ngModel)]="model[item.key]"
+                    <input class="form-check-input checkbox" type="checkbox" [(ngModel)]="model[item.key]"
                         [disabled]="provideEditableValue(item, model) ? (castToInput(item).access ? !(castToInput(item).access | async) : false) : true"
                         [readonly]="!provideEditableValue(item, model)"
                         [checked]="provideCheckboxValue(item, model)"

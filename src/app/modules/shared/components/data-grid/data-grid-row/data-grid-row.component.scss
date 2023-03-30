@@ -1,21 +1,21 @@
 table {
-    table-layout: auto;
-    border: none;
-    width: 100%;
-    height: 100%;
-    margin: 0px;
-    padding: 0px;
+  table-layout: auto;
+  border: none;
+  width: 100%;
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
 
-    > :not(caption) > * > * {
-      padding: 0px;
-    }
+  > :not(caption) > * > * {
+    padding: 0px;
+  }
 }
 
 td {
-    border: none;
-    margin: 0;
-    padding: 0;
-    vertical-align: middle;
+  border: none;
+  margin: 0;
+  padding: 0;
+  vertical-align: middle;
 }
 
 td > div, p {
@@ -24,21 +24,21 @@ td > div, p {
 }
 
 th {
-    border: none;
+  border: none;
 }
 
 td.fitwidth {
-    width: 1px;
-    white-space: nowrap;
+  width: 1px;
+  white-space: nowrap;
 }
 
 td.exactValue {
-    width: var(--value);
-    white-space: nowrap;
+  width: var(--value);
+  white-space: nowrap;
 }
 
 table .absorbing-column {
-    max-width:100%;
+  max-width:100%;
 }
 
 input.checkbox {
