@@ -282,7 +282,7 @@ export class ShoppingItemsComponent implements OnInit {
     });
   }
 
-  getActionClass(): string{
+  getActionClass(): string {
     return "fas fa-file-download"
   }
 

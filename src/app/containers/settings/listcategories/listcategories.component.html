@@ -1,8 +1,8 @@
 <div *ngIf="isLoaded">
-    <app-grid-search-add [dataGridConfig]="dataGridConfig" [items]="items" [action]="itemAction"
-        [badgeItemName]="'containers.settings.categories.categories'|translate" [filterOn]="false" [addOn]="true"
-        [addConfig]="addConfig" (addAction)="addItem($event)" [filters]="filters">
-    </app-grid-search-add>
-    <modal-confirm #confirmModal [object]="toRemove" [question]="'containers.lists.confirm'|translate"
-        [displayButton]="false" (outputAction)="removeAction($event)"></modal-confirm>
+  <app-grid-search-add [dataGridConfig]="dataGridConfig" [items]="items" [action]="itemAction"
+    [badgeItemName]="'containers.settings.categories.categories'|translate" [filterOn]="false"
+    [addOn]="true" [addConfig]="addConfig" (addAction)="addItem($event)" [filters]="filters">
+  </app-grid-search-add>
+  <modal-confirm #confirmModal [object]="toRemove" [question]="'containers.lists.confirm'|translate"
+    [displayButton]="false" (outputAction)="removeAction($event)"></modal-confirm>
 </div>

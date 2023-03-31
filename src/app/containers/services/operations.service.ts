@@ -13,23 +13,23 @@ export class OperationsService {
     private dataProvider: DataProviderService
   ) { }
 
-  public async getListCategories(subcategoryId?: string) : Promise<ListCategory[]>{
+  public async getListCategories(subcategoryId?: string): Promise<ListCategory[]> {
     let result: ListCategory[] = Object.assign([], await this.dataProvider.listcategories);
-    result.unshift(new ListCategory({id:""}));
+    result.unshift(new ListCategory({ id: "" }));
 
     return result;
   }
 
-  public async getCategories(subcategoryId?: string) : Promise<Category[]>{
+  public async getCategories(subcategoryId?: string): Promise<Category[]> {
     let result: Category[] = await this.updateCategories(subcategoryId)
-    result.unshift(new Category({id:""}));
+    result.unshift(new Category({ id: "" }));
 
     return result;
   }
 
   public async getSubCategories(categoryId?: string): Promise<SubCategory[]> {
     let result: SubCategory[] = await this.updateSubCategories(categoryId)
-    result.unshift(new SubCategory({id: ""}));
+    result.unshift(new SubCategory({ id: "" }));
 
     return result;
   }
@@ -48,7 +48,7 @@ export class OperationsService {
 
   public async fetchSubCategories(categories: Category[], subcategories: SubCategory[]) {
     await this.dataProvider.reloadSubCategories();
-    
+
     categories = Object.assign([], this.dataProvider.categories)
     subcategories = Object.assign([], this.dataProvider.subcategories)
   }

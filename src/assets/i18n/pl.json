@@ -1,146 +1,146 @@
 {
-    "root": {
-        "header": {
-            "shopping": "Lista zbiorcza",
-            "shopping-lists": "Listy zakupów",
-            "permanent": "Lista permanentna",
-            "temporary": "Lista tymczasowa",
-            "expenses": "Wydatki",
-            "saldo": "Zadłużenie",
-            "settings": "Ustawienia",
-            "listcategories": "Kategorie list",
-            "categories": "Kategorie",
-            "subcategories": "Podkategorie",
-            "saldosettings": "Ustawienia wydatków",
-            "login": "Zaloguj się",
-            "logout": "Wyloguj się"
-        }
-    },
-    "containers": {
-        "items": {
-            "name": "nazwa",
-            "category": "kategoria1",
-            "subcategory": "kategoria2",
-            "articles": "artykuły",
-            "delete": "usuń",
-            "permanent-item": {
-                "state": "stan",
-                "lastUpdate": "ostatnia zmiana",
-                "critical": "stan krytyczny",
-                "little": "mało",
-                "medium": "w normie",
-                "lot": "dużo"
-            },
-            "temporary-item": {
-                "bought": "kupione",
-                "quantity": "ilość"
-            },
-            "shopping":{
-                "bought": "kupione",
-                "state": "stan",
-                "critical": "pilnie potrzeba",
-                "little": "brakuje",
-                "medium": "w normie",
-                "lot": "ok"
-            }
-        },
-        "lists":{
-            "name": "nazwa",
-            "shoppingLists":"listy",
-            "more":"więcej",
-            "delete": "archiwizuj",
-            "description": "opis",
-            "category": "kategoria",
-            "one-time-list": "jednorazowe zakupy",
-            "visible": "widoczny",
-            "created": "utworzono",
-            "updated": "zaktualizowano",
-            "confirm": "Czy na pewno?"
-        },
-        "settings":{
-            "categories":{
-                "name": "nazwa",
-                "categories": "kategorie",
-                "none": "brak"
-            },
-            "listcategories":{
-                "name": "nazwa",
-                "categories": "kategorie",
-                "none": "brak"
-            },
-            "subcategories":{
-                "name": "nazwa",
-                "parent": "kategoria",
-                "categories": "kategorie",
-                "category": "kategoria",
-                "none": "brak"
-            },
-            "saldo-settings":{
-                "name": "nazwa",
-                "posts": "rekord"
-            }
-        },
-        "finances": {
-            "expenses":{
-                "name": "nazwa",
-                "date": "data",
-                "expenses": "wydatki",
-                "contributors": "osoby składające się na wydatek",
-                "payer": "opłacone przez",
-                "amount": "kwota",
-                "fifty-fifty": "po równo"
-            },
-            "saldo":{
-                "name":"nazwa",
-                "person1": "osoba1",
-                "person2": "osoba2",
-                "amount": "kwota",
-                "posts":"posty",
-                "user": "użytkownik",
-                "indebt": "zadłużony u",
-                "debtRepayment": "zwrot pieniędzy",
-                "repayer": "osoba spłacająca",
-                "toWhom": "komu"
-            }
-        }
-    },
-    "modules": {
-        "shared": {
-            "components": {
-                "search": {
-                    "clean": "wyczyść",
-                    "filter": "Filtr",
-                    "close": "zamknij"
-                },
-                "add": {
-                    "add": "dodaj",
-                    "title": "dodaj nowy element"
-                },
-                "home": {
-                    "text": "Nie jesteś zalogowany."
-                },
-                "authentication": {
-                    "account": {
-                        "register": {
-                            "register": "Rejestracja",
-                            "yourName": "Twój login",
-                            "yourEmail": "Adres email",
-                            "yourPassword": "Hasło",
-                            "validationDescription": "Min. 6 znaków z przynajmniej jednym niealfanumerycznym znakiem.",
-                            "start": "Zatwierdź",
-                            "ops": "Uups!",
-                            "success": "Sukces!",
-                            "success-detail": "Twoje konto zostało poprawnie utworzone",
-                            "login": "Proszę się zalogować",
-                            "login2": "by kontynuować.",
-                            "validEmail": "Wprowadź poprawny adres email",
-                            "email": "Adres email",
-                            "name": "Login",
-                            "password": "Hasło"
-                        }
-                    }
-                }
-            }
-        }
+  "root": {
+    "header": {
+      "shopping": "Lista zbiorcza",
+      "shopping-lists": "Listy zakupów",
+      "permanent": "Lista permanentna",
+      "temporary": "Lista tymczasowa",
+      "expenses": "Wydatki",
+      "saldo": "Zadłużenie",
+      "settings": "Ustawienia",
+      "listcategories": "Kategorie list",
+      "categories": "Kategorie",
+      "subcategories": "Podkategorie",
+      "saldosettings": "Ustawienia wydatków",
+      "login": "Zaloguj się",
+      "logout": "Wyloguj się"
     }
+  },
+  "containers": {
+    "items": {
+      "name": "nazwa",
+      "category": "kategoria1",
+      "subcategory": "kategoria2",
+      "articles": "artykuły",
+      "delete": "usuń",
+      "permanent-item": {
+        "state": "stan",
+        "lastUpdate": "ostatnia zmiana",
+        "critical": "stan krytyczny",
+        "little": "mało",
+        "medium": "w normie",
+        "lot": "dużo"
+      },
+      "temporary-item": {
+        "bought": "kupione",
+        "quantity": "ilość"
+      },
+      "shopping": {
+        "bought": "kupione",
+        "state": "stan",
+        "critical": "pilnie potrzeba",
+        "little": "brakuje",
+        "medium": "w normie",
+        "lot": "ok"
+      }
+    },
+    "lists": {
+      "name": "nazwa",
+      "shoppingLists": "listy",
+      "more": "więcej",
+      "delete": "archiwizuj",
+      "description": "opis",
+      "category": "kategoria",
+      "one-time-list": "jednorazowe zakupy",
+      "visible": "widoczny",
+      "created": "utworzono",
+      "updated": "zaktualizowano",
+      "confirm": "Czy na pewno?"
+    },
+    "settings": {
+      "categories": {
+        "name": "nazwa",
+        "categories": "kategorie",
+        "none": "brak"
+      },
+      "listcategories": {
+        "name": "nazwa",
+        "categories": "kategorie",
+        "none": "brak"
+      },
+      "subcategories": {
+        "name": "nazwa",
+        "parent": "kategoria",
+        "categories": "kategorie",
+        "category": "kategoria",
+        "none": "brak"
+      },
+      "saldo-settings": {
+        "name": "nazwa",
+        "posts": "rekord"
+      }
+    },
+    "finances": {
+      "expenses": {
+        "name": "nazwa",
+        "date": "data",
+        "expenses": "wydatki",
+        "contributors": "osoby składające się na wydatek",
+        "payer": "opłacone przez",
+        "amount": "kwota",
+        "fifty-fifty": "po równo"
+      },
+      "saldo": {
+        "name": "nazwa",
+        "person1": "osoba1",
+        "person2": "osoba2",
+        "amount": "kwota",
+        "posts": "posty",
+        "user": "użytkownik",
+        "indebt": "zadłużony u",
+        "debtRepayment": "zwrot pieniędzy",
+        "repayer": "osoba spłacająca",
+        "toWhom": "komu"
+      }
+    }
+  },
+  "modules": {
+    "shared": {
+      "components": {
+        "search": {
+          "clean": "wyczyść",
+          "filter": "Filtr",
+          "close": "zamknij"
+        },
+        "add": {
+          "add": "dodaj",
+          "title": "dodaj nowy element"
+        },
+        "home": {
+          "text": "Nie jesteś zalogowany."
+        },
+        "authentication": {
+          "account": {
+            "register": {
+              "register": "Rejestracja",
+              "yourName": "Twój login",
+              "yourEmail": "Adres email",
+              "yourPassword": "Hasło",
+              "validationDescription": "Min. 6 znaków z przynajmniej jednym niealfanumerycznym znakiem.",
+              "start": "Zatwierdź",
+              "ops": "Uups!",
+              "success": "Sukces!",
+              "success-detail": "Twoje konto zostało poprawnie utworzone",
+              "login": "Proszę się zalogować",
+              "login2": "by kontynuować.",
+              "validEmail": "Wprowadź poprawny adres email",
+              "email": "Adres email",
+              "name": "Login",
+              "password": "Hasło"
+            }
+          }
+        }
+      }
+    }
+  }
 }

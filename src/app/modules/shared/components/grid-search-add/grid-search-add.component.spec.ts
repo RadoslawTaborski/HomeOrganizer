@@ -8,9 +8,9 @@ describe('GridSearchAddComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ GridSearchAddComponent ]
+      declarations: [GridSearchAddComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

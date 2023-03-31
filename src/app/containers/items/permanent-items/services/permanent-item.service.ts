@@ -18,7 +18,7 @@ export class PermanentItemService implements HttpServiceModel {
   constructor(private http: HttpClient, private configService: ConfigService) { }
 
   fetch(filters?: { [key: string]: any; }): Promise<ResponseData> {
-    return this.http.get<ResponseData>(this.configService.config.api + Api.PERMANENT_ITEMS_END_POINT, {params: filters}).toPromise();
+    return this.http.get<ResponseData>(this.configService.config.api + Api.PERMANENT_ITEMS_END_POINT, { params: filters }).toPromise();
   }
 
   get(id: string, deep?: number): Promise<PermanentItemModel> {
@@ -27,7 +27,7 @@ export class PermanentItemService implements HttpServiceModel {
       .pipe(
         map((resp: { data }) => resp.data)
       ).toPromise();
-  } 
+  }
 
   add(item: any): Promise<string> {
     return this.http.post(this.configService.config.api + Api.PERMANENT_ITEMS_END_POINT, item, httpOptions).pipe(
@@ -42,7 +42,7 @@ export class PermanentItemService implements HttpServiceModel {
   }
 
   remove(id: string): Promise<any> {
-    return this.http.delete(this.configService.config.api + Api.PERMANENT_ITEMS_END_POINT+`/${id}`).pipe(
+    return this.http.delete(this.configService.config.api + Api.PERMANENT_ITEMS_END_POINT + `/${id}`).pipe(
       map((resp: { data }) => resp)
     ).toPromise();
   }

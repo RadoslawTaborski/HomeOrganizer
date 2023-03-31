@@ -6,9 +6,9 @@ import { ConfigService } from './config.service';
 
 export function preloadFactory(httpClient: HttpClient, configService: ConfigService, authService: AuthService) {
   return () => httpClient.get<AppConfig>('./assets/config.json')
-  .pipe(
-    tap((response: AppConfig) => {
-      configService.initialize(response);
-      authService.initialize(response);
-  })).toPromise()
+    .pipe(
+      tap((response: AppConfig) => {
+        configService.initialize(response);
+        authService.initialize(response);
+      })).toPromise()
 }

@@ -35,19 +35,19 @@ export class GridSearchAddComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  openFilter(){
+  openFilter() {
     this.filterVisible = true;
   }
 
-  takeAction(){
+  takeAction() {
     this.actionAction.emit();
   }
 
-  closeFilter(){
+  closeFilter() {
     this.filterVisible = false;
   }
 
-  addItem(data: any){
+  addItem(data: any) {
     this.addAction.emit(data);
   }
 

@@ -1,298 +1,298 @@
 import { BehaviorSubject } from 'rxjs';
 
 export interface DataGridItemModel {
-    readonly key: string;
-    readonly display: string;
-    readonly type: string;
-    readonly alwaysVisible: boolean;
-    readonly columnStyle?: string;
-    readonly columnClass?: string;
-    editableProvider?: Function;
+  readonly key: string;
+  readonly display: string;
+  readonly type: string;
+  readonly alwaysVisible: boolean;
+  readonly columnStyle?: string;
+  readonly columnClass?: string;
+  editableProvider?: Function;
 }
 
 export abstract class DataGridItemBase implements DataGridItemModel {
+  key: string;
+  display: string;
+  type: string;
+  alwaysVisible: boolean;
+  columnStyle?: string;
+  columnClass?: string;
+  editableProvider?: Function;
+
+  static Builder = class {
     key: string;
     display: string;
-    type: string;
-    alwaysVisible: boolean;
+    alwaysVisible: boolean = false;
     columnStyle?: string;
     columnClass?: string;
     editableProvider?: Function;
 
-    static Builder = class {
-        key: string;
-        display: string;
-        alwaysVisible: boolean = false;
-        columnStyle?: string; 
-        columnClass?: string;
-        editableProvider?: Function;
-
-        public setEditable(editableProvider: Function) {
-            this.editableProvider = editableProvider;
-            return this;
-        }
-
-        public setKey(key: string): this {
-            this.key = key;
-            return this;
-        }
-
-        public setDisplay(display: string): this{
-            this.display = display;
-            return this;
-        }
-
-        public setVisible(visible: boolean): this{
-            this.alwaysVisible = visible;
-            return this;
-        }
-
-        public setColumnStyle(columnStyle: string): this{
-            this.columnStyle = columnStyle;
-            return this;
-        }
-
-        public setColumnClass(columnClass: string): this{
-            this.columnClass = columnClass;
-            return this;
-        }
-
-        protected internalSetter(instance: DataGridItemBase, type: string) {
-            instance.key = this.key;
-            instance.display = this.display;
-            instance.alwaysVisible = this.alwaysVisible;
-            instance.columnStyle = this.columnStyle;
-            instance.columnClass = this.columnClass;
-            instance.type = type;
-            
-            if(this.editableProvider){
-                instance.editableProvider = this.editableProvider;
-            } else {
-                instance.editableProvider = () => true;
-            }
-        }
+    public setEditable(editableProvider: Function) {
+      this.editableProvider = editableProvider;
+      return this;
     }
+
+    public setKey(key: string): this {
+      this.key = key;
+      return this;
+    }
+
+    public setDisplay(display: string): this {
+      this.display = display;
+      return this;
+    }
+
+    public setVisible(visible: boolean): this {
+      this.alwaysVisible = visible;
+      return this;
+    }
+
+    public setColumnStyle(columnStyle: string): this {
+      this.columnStyle = columnStyle;
+      return this;
+    }
+
+    public setColumnClass(columnClass: string): this {
+      this.columnClass = columnClass;
+      return this;
+    }
+
+    protected internalSetter(instance: DataGridItemBase, type: string) {
+      instance.key = this.key;
+      instance.display = this.display;
+      instance.alwaysVisible = this.alwaysVisible;
+      instance.columnStyle = this.columnStyle;
+      instance.columnClass = this.columnClass;
+      instance.type = type;
+
+      if (this.editableProvider) {
+        instance.editableProvider = this.editableProvider;
+      } else {
+        instance.editableProvider = () => true;
+      }
+    }
+  }
 }
 
 export interface DataGridItemTextModel extends DataGridItemModel {
-    readonly textProvider?: Function;
+  readonly textProvider?: Function;
 }
 
 export interface DataGridItemListModel extends DataGridItemModel {
-    readonly valuesProvider?: Function
-    readonly valuesTextProvider?: Function
+  readonly valuesProvider?: Function
+  readonly valuesTextProvider?: Function
 }
 
 export interface DataGridItemCheckboxModel extends DataGridItemModel {
-    readonly textProvider?: Function;
-    readonly valueProvider?: Function;
-    editableProvider?: Function;
+  readonly textProvider?: Function;
+  readonly valueProvider?: Function;
+  editableProvider?: Function;
 }
 
 export interface DataGridItemButtonModel extends DataGridItemModel {
-    readonly displayProvider: Function;
-    readonly iconProvider?: Function;
-    readonly classProvider?: Function;
-    readonly access: BehaviorSubject<boolean>;
-    readonly styleProvider?: Function
+  readonly displayProvider: Function;
+  readonly iconProvider?: Function;
+  readonly classProvider?: Function;
+  readonly access: BehaviorSubject<boolean>;
+  readonly styleProvider?: Function
 }
 
 export interface DataGridItemInputModel extends DataGridItemModel {
-    readonly access: BehaviorSubject<boolean>;
+  readonly access: BehaviorSubject<boolean>;
 }
 
 export interface DataGridItemImageModel extends DataGridItemModel {
-    readonly src: string;
+  readonly src: string;
 }
 
 export class DataGridItemText extends DataGridItemBase implements DataGridItemTextModel {
+  textProvider?: Function;
+
+  static Builder = class extends DataGridItemBase.Builder {
     textProvider?: Function;
 
-    static Builder = class extends DataGridItemBase.Builder {
-        textProvider?: Function;
-
-        public setTextProvider(textProvider: Function) : this{
-            this.textProvider = textProvider;
-            return this;
-        }
-
-        public build(): DataGridItemText {
-            let entity = new DataGridItemText();
-            super.internalSetter(entity, null);
-            entity.textProvider = this.textProvider;
-
-            return entity;
-        }
+    public setTextProvider(textProvider: Function): this {
+      this.textProvider = textProvider;
+      return this;
     }
+
+    public build(): DataGridItemText {
+      let entity = new DataGridItemText();
+      super.internalSetter(entity, null);
+      entity.textProvider = this.textProvider;
+
+      return entity;
+    }
+  }
 }
 
 export class DataGridItemList extends DataGridItemBase implements DataGridItemListModel {
+  valuesProvider?: Function
+  valuesTextProvider?: Function
+
+  static Builder = class extends DataGridItemBase.Builder {
     valuesProvider?: Function
-    valuesTextProvider?: Function
+    valueTextProvider?: Function
 
-    static Builder = class extends DataGridItemBase.Builder {
-        valuesProvider?: Function
-        valueTextProvider?: Function
-
-        public setValuesProvider(valuesProvider: Function) : this{
-            this.valuesProvider = valuesProvider;
-            return this;
-        }
-
-        public setValueTextProvider(valueTextProvider: Function){
-            this.valueTextProvider = valueTextProvider
-            return this;
-        }
-
-        public build(): DataGridItemList {
-            let entity = new DataGridItemList();
-            super.internalSetter(entity, FieldTypes.LIST);
-            entity.valuesTextProvider = this.valueTextProvider;
-            entity.valuesProvider = this.valuesProvider
-            entity.alwaysVisible = false;
-
-            return entity;
-        }
+    public setValuesProvider(valuesProvider: Function): this {
+      this.valuesProvider = valuesProvider;
+      return this;
     }
+
+    public setValueTextProvider(valueTextProvider: Function) {
+      this.valueTextProvider = valueTextProvider
+      return this;
+    }
+
+    public build(): DataGridItemList {
+      let entity = new DataGridItemList();
+      super.internalSetter(entity, FieldTypes.LIST);
+      entity.valuesTextProvider = this.valueTextProvider;
+      entity.valuesProvider = this.valuesProvider
+      entity.alwaysVisible = false;
+
+      return entity;
+    }
+  }
 }
 
 export class DataGridItemCheckbox extends DataGridItemBase implements DataGridItemCheckboxModel {
+  textProvider?: Function;
+  valueProvider?: Function;
+
+  static Builder = class extends DataGridItemBase.Builder {
     textProvider?: Function;
     valueProvider?: Function;
 
-    static Builder = class extends DataGridItemBase.Builder {
-        textProvider?: Function;
-        valueProvider?: Function;
-
-        public setTextProvider(textProvider: Function) : this{
-            this.textProvider = textProvider;
-            return this;
-        }
-
-        public setValueProvider(valueProvider: Function) : this{
-            this.valueProvider = valueProvider;
-            return this;
-        }
-
-        public build(): DataGridItemCheckbox {
-            let entity = new DataGridItemCheckbox();
-            super.internalSetter(entity, FieldTypes.CHECKBOX);
-            entity.textProvider = this.textProvider;
-            entity.valueProvider = this.valueProvider;
-
-            return entity;
-        }
+    public setTextProvider(textProvider: Function): this {
+      this.textProvider = textProvider;
+      return this;
     }
+
+    public setValueProvider(valueProvider: Function): this {
+      this.valueProvider = valueProvider;
+      return this;
+    }
+
+    public build(): DataGridItemCheckbox {
+      let entity = new DataGridItemCheckbox();
+      super.internalSetter(entity, FieldTypes.CHECKBOX);
+      entity.textProvider = this.textProvider;
+      entity.valueProvider = this.valueProvider;
+
+      return entity;
+    }
+  }
 }
 
 export class DataGridItemButton extends DataGridItemBase implements DataGridItemButtonModel {
+  displayProvider: Function;
+  iconProvider?: Function;
+  classProvider?: Function;
+  access: BehaviorSubject<boolean>;
+  styleProvider?: Function;
+
+  static Builder = class extends DataGridItemBase.Builder {
     displayProvider: Function;
-    iconProvider?: Function;
+    iconProvider: Function;
     classProvider?: Function;
     access: BehaviorSubject<boolean>;
     styleProvider?: Function;
 
-    static Builder = class extends DataGridItemBase.Builder {
-        displayProvider: Function;
-        iconProvider: Function;
-        classProvider?: Function;
-        access: BehaviorSubject<boolean>;
-        styleProvider?: Function;
-
-        public setTextProvider(displayProvider: Function) : this{
-            this.displayProvider = displayProvider;
-            return this;
-        }
-
-        public setIconProvider(iconProvider: Function) : this{
-            this.iconProvider = iconProvider;
-            return this;
-        }
-
-        public setClassProvider(classProvider: Function) : this{
-            this.classProvider = classProvider;
-            return this;
-        }
-
-        public setAccess(access: BehaviorSubject<boolean>): this{
-            this.access = access;
-            return this;
-        }
-
-        public setStyleProvider(styleProvider: Function): this{
-            this.styleProvider = styleProvider;
-            return this;
-        }
-
-        public build(): DataGridItemButton {
-            let entity = new DataGridItemButton();
-            super.internalSetter(entity, FieldTypes.BUTTON);
-            entity.displayProvider = this.displayProvider;
-            entity.iconProvider = this.iconProvider;
-            entity.classProvider = this.classProvider;
-            entity.access = this.access;
-            entity.styleProvider = this.styleProvider;
-
-            return entity;
-        }
+    public setTextProvider(displayProvider: Function): this {
+      this.displayProvider = displayProvider;
+      return this;
     }
+
+    public setIconProvider(iconProvider: Function): this {
+      this.iconProvider = iconProvider;
+      return this;
+    }
+
+    public setClassProvider(classProvider: Function): this {
+      this.classProvider = classProvider;
+      return this;
+    }
+
+    public setAccess(access: BehaviorSubject<boolean>): this {
+      this.access = access;
+      return this;
+    }
+
+    public setStyleProvider(styleProvider: Function): this {
+      this.styleProvider = styleProvider;
+      return this;
+    }
+
+    public build(): DataGridItemButton {
+      let entity = new DataGridItemButton();
+      super.internalSetter(entity, FieldTypes.BUTTON);
+      entity.displayProvider = this.displayProvider;
+      entity.iconProvider = this.iconProvider;
+      entity.classProvider = this.classProvider;
+      entity.access = this.access;
+      entity.styleProvider = this.styleProvider;
+
+      return entity;
+    }
+  }
 }
 
 export class DataGridItemInput extends DataGridItemBase implements DataGridItemInputModel {
+  access: BehaviorSubject<boolean>;
+
+  static Builder = class extends DataGridItemBase.Builder {
     access: BehaviorSubject<boolean>;
 
-    static Builder = class extends DataGridItemBase.Builder {
-        access: BehaviorSubject<boolean>;
-
-        public setAccess(access: BehaviorSubject<boolean>): this{
-            this.access = access;
-            return this;
-        }
-
-        public build(): DataGridItemInput {
-            let entity = new DataGridItemInput();
-            super.internalSetter(entity, FieldTypes.INPUT);
-            entity.access = this.access;
-
-            return entity;
-        }
+    public setAccess(access: BehaviorSubject<boolean>): this {
+      this.access = access;
+      return this;
     }
+
+    public build(): DataGridItemInput {
+      let entity = new DataGridItemInput();
+      super.internalSetter(entity, FieldTypes.INPUT);
+      entity.access = this.access;
+
+      return entity;
+    }
+  }
 }
 
 export class DataGridItemImage extends DataGridItemBase implements DataGridItemImageModel {
+  src: string;
+
+  static Builder = class extends DataGridItemBase.Builder {
     src: string;
 
-    static Builder = class extends DataGridItemBase.Builder {
-        src: string;
-
-        public setSource(src: string): this{
-            this.src = src;
-            return this;
-        }
-
-        public build(): DataGridItemImage {
-            let entity = new DataGridItemImage();
-            super.internalSetter(entity, FieldTypes.IMAGE);
-            entity.src = this.src;
-
-            return entity;
-        }
+    public setSource(src: string): this {
+      this.src = src;
+      return this;
     }
+
+    public build(): DataGridItemImage {
+      let entity = new DataGridItemImage();
+      super.internalSetter(entity, FieldTypes.IMAGE);
+      entity.src = this.src;
+
+      return entity;
+    }
+  }
 }
 
 export class FieldTypes {
-    static INPUT = 'input';
-    static IMAGE = 'img';
-    static BUTTON = 'button';
-    static CHECKBOX = 'checkbox';
-    static LIST = 'list';
+  static INPUT = 'input';
+  static IMAGE = 'img';
+  static BUTTON = 'button';
+  static CHECKBOX = 'checkbox';
+  static LIST = 'list';
 }
 
 export class DataGridConfig {
-    constructor(public data: DataGridItemModel[]) {
-    }
+  constructor(public data: DataGridItemModel[]) {
+  }
 
-    add(item: DataGridItemModel) {
-        this.data.push(item);
-    }
+  add(item: DataGridItemModel) {
+    this.data.push(item);
+  }
 }

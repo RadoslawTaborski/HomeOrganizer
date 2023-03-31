@@ -20,7 +20,8 @@
   width: 38px;
   height: 38px;
   padding: 0;
-  > i {
+
+  >i {
     font-size: medium;
   }
 }
@@ -33,6 +34,7 @@
 
 .form {
   padding: 10px;
+
   &-item {
     height: auto;
     padding: 6px 8px;

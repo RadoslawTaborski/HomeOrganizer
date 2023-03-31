@@ -3,86 +3,86 @@ import { SubCategory } from 'src/app/containers/settings/subcategories/services/
 import { IItemModel } from "../../models/models";
 
 export enum ShoppingItemTypes {
-    BOUGHT = 'boughtCheckbox',
-    NAME = 'name',
-    CATEGORY = 'category',
-    SUBCATEGORY = 'subcategory',
-    STATE = 'state',
-    ID = 'id',
-    DATE = "date"
+  BOUGHT = 'boughtCheckbox',
+  NAME = 'name',
+  CATEGORY = 'category',
+  SUBCATEGORY = 'subcategory',
+  STATE = 'state',
+  ID = 'id',
+  DATE = "date"
 }
 
 export interface IShoppingItemModel extends IItemModel {
-    boughtCheckbox?: boolean
-    state?: State;
-    quantity?: string;
-    bought?: string;
-    counter: number;
-    shoppingListId?: string;
-    visible?: boolean;
-    archieved?: string;
+  boughtCheckbox?: boolean
+  state?: State;
+  quantity?: string;
+  bought?: string;
+  counter: number;
+  shoppingListId?: string;
+  visible?: boolean;
+  archieved?: string;
 }
 
 export class ShoppingItemModel implements IShoppingItemModel {
-    boughtCheckbox?: boolean
-    state?: State;
-    quantity?: string;
-    bought?: string;
-    counter: number;
-    shoppingListId?: string;
-    groupId: string;
-    id: string;
-    name: string;
-    visible?: boolean;
-    archieved?: string;
-    category: SubCategory;
-    createTime: string;
-    updateTime: string;
-    deleteTime: string;
+  boughtCheckbox?: boolean
+  state?: State;
+  quantity?: string;
+  bought?: string;
+  counter: number;
+  shoppingListId?: string;
+  groupId: string;
+  id: string;
+  name: string;
+  visible?: boolean;
+  archieved?: string;
+  category: SubCategory;
+  createTime: string;
+  updateTime: string;
+  deleteTime: string;
 
-    public constructor(init?: Partial<ShoppingItemModel>) {
-        Object.assign(this, init);
-    }
+  public constructor(init?: Partial<ShoppingItemModel>) {
+    Object.assign(this, init);
+  }
 
-    static createFromJson(a: any, states: State[], subcategories: SubCategory[]): ShoppingItemModel {
-        return new ShoppingItemModel({
-            id: a.uuid,
-            name: a.name,
-            category: subcategories.filter(i => i.id === a.categoryUuid)[0],
-            shoppingListId: a.shoppingListUuid,
-            quantity: a.quantity,
-            bought: a.bought,
-            boughtCheckbox: a.bought?true:false,
-            groupId: a.groupUuid,
-            counter: a.counter,
-            state: states.filter(i => i.id === a.stateUuid)[0],
-            visible: a.visible,
-            archieved: a.archieved,
-            createTime: a.createTime,
-            updateTime: a.updateTime,
-            deleteTime: a.deleteTime,
-        });
-    }
+  static createFromJson(a: any, states: State[], subcategories: SubCategory[]): ShoppingItemModel {
+    return new ShoppingItemModel({
+      id: a.uuid,
+      name: a.name,
+      category: subcategories.filter(i => i.id === a.categoryUuid)[0],
+      shoppingListId: a.shoppingListUuid,
+      quantity: a.quantity,
+      bought: a.bought,
+      boughtCheckbox: a.bought ? true : false,
+      groupId: a.groupUuid,
+      counter: a.counter,
+      state: states.filter(i => i.id === a.stateUuid)[0],
+      visible: a.visible,
+      archieved: a.archieved,
+      createTime: a.createTime,
+      updateTime: a.updateTime,
+      deleteTime: a.deleteTime,
+    });
+  }
 }
 
 export type ShoppingItemMethods = 'add' | 'remove' | 'update' | 'more';
 
 export interface ShoppingItemAction {
-    type: ShoppingItemMethods
-    data: ShoppingItemModel
+  type: ShoppingItemMethods
+  data: ShoppingItemModel
 }
 
 export enum ShoppingItemsFilterTypes {
-    CATEGORY = 'categoryUuid',
-    SUBCATEGORY = 'subcategoryUuid',
+  CATEGORY = 'categoryUuid',
+  SUBCATEGORY = 'subcategoryUuid',
 }
 
 export class ShoppingItemsFilters {
-    constructor(
-        public categoryUuid = '',
-        public subcategoryUuid = '',
-        public pageNumber = 1,
-        public pageSize = 50,
-        public orderBy = "categoryUuid asc, name asc") {
-    }
+  constructor(
+    public categoryUuid = '',
+    public subcategoryUuid = '',
+    public pageNumber = 1,
+    public pageSize = 50,
+    public orderBy = "categoryUuid asc, name asc") {
+  }
 }

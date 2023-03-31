@@ -4,7 +4,7 @@ import { map } from 'rxjs/operators';
 import { ConfigService } from 'src/app/modules/shared/services/config/config.service';
 import { Api } from 'src/app/utils/api';
 import { HttpServiceModel, ResponseData } from 'src/app/utils/interfaces/http.models';
-import {TemporaryItemModel } from '../services/temporary-item.service.models'
+import { TemporaryItemModel } from '../services/temporary-item.service.models'
 
 const httpOptions = {
   headers: new HttpHeaders().append('Content-Type', 'application/json')
@@ -18,7 +18,7 @@ export class TemporaryItemService implements HttpServiceModel {
   constructor(private http: HttpClient, private configService: ConfigService) { }
 
   fetch(filters?: { [key: string]: any; }): Promise<ResponseData> {
-    return this.http.get<ResponseData>(this.configService.config.api + Api.TEMPORARY_ITEMS_END_POINT, {params: filters}).toPromise();
+    return this.http.get<ResponseData>(this.configService.config.api + Api.TEMPORARY_ITEMS_END_POINT, { params: filters }).toPromise();
   }
 
   get(id: string, deep?: number): Promise<TemporaryItemModel> {
@@ -27,7 +27,7 @@ export class TemporaryItemService implements HttpServiceModel {
       .pipe(
         map((resp: { data }) => resp.data)
       ).toPromise();
-  } 
+  }
 
   add(item: any): Promise<string> {
     return this.http.post(this.configService.config.api + Api.TEMPORARY_ITEMS_END_POINT, item, httpOptions).pipe(
@@ -42,7 +42,7 @@ export class TemporaryItemService implements HttpServiceModel {
   }
 
   remove(id: string): Promise<any> {
-    return this.http.delete(this.configService.config.api + Api.TEMPORARY_ITEMS_END_POINT+`/${id}`).pipe(
+    return this.http.delete(this.configService.config.api + Api.TEMPORARY_ITEMS_END_POINT + `/${id}`).pipe(
       map((resp: { data }) => resp)
     ).toPromise();
   }

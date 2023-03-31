@@ -22,7 +22,7 @@ export class AuthService {
   private user: User = null;
   private authorityAccount: string = ''
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router) { }
 
   initialize(config: AppConfig) {
     this.manager = new UserManager(getClientSettings(config));
@@ -31,8 +31,8 @@ export class AuthService {
       this._authNavStatusSource.next(this.isAuthenticated());
       this.subscribeevents();
     });
-    if(this.user == null && window.location.pathname !== environment.authConfig.redirect_component_register){
-      this.manager.signinSilent().then(x=>this.router.navigate([environment.authConfig.redirect_component_signin])).catch(x=>this.login())
+    if (this.user == null && window.location.pathname !== environment.authConfig.redirect_component_register) {
+      this.manager.signinSilent().then(x => this.router.navigate([environment.authConfig.redirect_component_signin])).catch(x => this.login())
       this._authNavStatusSource.next(this.isAuthenticated());
     }
     this.authorityAccount = config.authority + 'api/account';
@@ -50,26 +50,26 @@ export class AuthService {
 
   public subscribeevents(): void {
     this.manager.events.addSilentRenewError((e) => {
-      console.log(new Date().toLocaleTimeString()+" error SilentRenew", e);
+      console.log(new Date().toLocaleTimeString() + " error SilentRenew", e);
     });
 
     this.manager.events.addAccessTokenExpiring(() => {
-      console.log(new Date().toLocaleTimeString()+" access token expiring");
+      console.log(new Date().toLocaleTimeString() + " access token expiring");
     });
 
     this.manager.events.addAccessTokenExpired(() => {
-      console.log(new Date().toLocaleTimeString()+" access token expired");
+      console.log(new Date().toLocaleTimeString() + " access token expired");
       this.user = null;
       this._authNavStatusSource.next(this.isAuthenticated());
       console.log(this.router.url)
-      if(this.router.url === environment.authConfig.redirect_component_register){
+      if (this.router.url === environment.authConfig.redirect_component_register) {
         return;
       }
       this.router.navigate([environment.authConfig.redirect_component_signout]);
     });
 
     this.manager.events.addUserLoaded(() => {
-      console.log(new Date().toLocaleTimeString()+" user loaded");
+      console.log(new Date().toLocaleTimeString() + " user loaded");
       this.manager.getUser().then(user => {
         this.user = user;
         this._authNavStatusSource.next(this.isAuthenticated());
@@ -77,11 +77,11 @@ export class AuthService {
     });
 
     this.manager.events.addUserSignedOut(() => {
-      console.log(new Date().toLocaleTimeString()+" user signedOut");
+      console.log(new Date().toLocaleTimeString() + " user signedOut");
       this.manager.getUser().then(user => {
         this.user = null;
         this._authNavStatusSource.next(this.isAuthenticated());
-        this.router.navigate([environment.authConfig.redirect_component_signout]);    
+        this.router.navigate([environment.authConfig.redirect_component_signout]);
       });
     });
   }
@@ -109,7 +109,7 @@ export class AuthService {
   }
 
   get authorizationHeaderValue(): string {
-    if(this.user){
+    if (this.user) {
       return `${this.user.token_type} ${this.user.access_token}`;
     }
     return null;

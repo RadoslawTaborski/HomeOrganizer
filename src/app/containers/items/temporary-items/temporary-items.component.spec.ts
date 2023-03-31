@@ -8,9 +8,9 @@ describe('TemporaryItemsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ TemporaryItemsComponent ]
+      declarations: [TemporaryItemsComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

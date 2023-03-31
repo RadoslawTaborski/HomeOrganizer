@@ -63,7 +63,7 @@ export class PermanentItemsComponent implements OnInit {
 
     await this.translate.get('containers.items.name').subscribe(async t => {
       let states = this.getStates();
-      states.sort((a,b)=>parseInt(b.level)-parseInt(a.level));
+      states.sort((a, b) => parseInt(b.level) - parseInt(a.level));
       let subcategories = await this.operationsService.getSubCategories();
       this.searchConfig = new SearchConfig([
         new SearchSelect.Builder()
@@ -143,7 +143,7 @@ export class PermanentItemsComponent implements OnInit {
           .setOptions(this.dataProvider.subcategories)
           .setDisplayProvider((t: SubCategory) => this.translateSubcategory(t))
           .setIdentifierProvider((t: SubCategory) => t?.id)
-          .setValue(this.dataProvider.subcategories.filter(i=>i.name=="none")[0].id)
+          .setValue(this.dataProvider.subcategories.filter(i => i.name == "none")[0].id)
           .build(),
         new AddItemSelect.Builder()
           .setKey(PermanentItemTypes.STATE)
@@ -177,20 +177,20 @@ export class PermanentItemsComponent implements OnInit {
   }
 
   translateSubcategory(t: SubCategory) {
-    if(!t){
+    if (!t) {
       return "";
     }
-    if(t.name == "none"){
+    if (t.name == "none") {
       return this.translate.instant('containers.settings.subcategories.none');
     }
     return t.name;
   }
 
   translateCategory(t: Category): string {
-    if(!t){
+    if (!t) {
       return "";
     }
-    if(t.name == "none"){
+    if (t.name == "none") {
       return this.translate.instant('containers.settings.categories.none');
     }
     return t.name;
@@ -281,7 +281,7 @@ export class PermanentItemsComponent implements OnInit {
     })
   }
 
-  async addItem(data: { result: AddOption, details: Map<string,any> }) {
+  async addItem(data: { result: AddOption, details: Map<string, any> }) {
     switch (data.result) {
       case 'ok':
         let item = new PermanentItemModel({

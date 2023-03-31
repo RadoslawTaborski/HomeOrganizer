@@ -11,34 +11,34 @@ import { UserRegistration } from './models/user.registration';
 })
 export class RegisterComponent implements OnInit {
 
-success: boolean;
+  success: boolean;
   error: string;
-  userRegistration: UserRegistration = { name: '', email: '', password: ''};
+  userRegistration: UserRegistration = { name: '', email: '', password: '' };
   submitted: boolean = false;
 
   constructor(private translate: TranslateService, private authService: AuthService) {
-    this.translate.addLangs(["en","pl"]);
+    this.translate.addLangs(["en", "pl"]);
   }
 
   ngOnInit() {
-    this.translate.get('modules.shared.components.authentication.account.register.register').subscribe(t=>{
-      
+    this.translate.get('modules.shared.components.authentication.account.register.register').subscribe(t => {
+
     });
   }
 
-  onSubmit() { 
+  onSubmit() {
     this.authService.register(this.userRegistration)
       .pipe(finalize(() => {
-      }))  
+      }))
       .subscribe(
-      result => {         
-         if(result) {
-           this.success = true;
-         }
-      },
-      error => {
-        this.error = error;       
-      });
+        result => {
+          if (result) {
+            this.success = true;
+          }
+        },
+        error => {
+          this.error = error;
+        });
   }
 
 }

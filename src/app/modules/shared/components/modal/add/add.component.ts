@@ -33,20 +33,20 @@ export class AddComponent extends ModalBase implements OnInit {
 
   onClickSubmit(data) {
     let dataMap = new Map<string, any>();
-    Object.keys(data).forEach(function(key) {
-      if(key.startsWith("array:")){
+    Object.keys(data).forEach(function (key) {
+      if (key.startsWith("array:")) {
         let controlName = key.split(':').pop().split('[')[0]
         let identifier = key.split('[').pop().split(']')[0]
-        if(data[key]==true){
-          if(!dataMap.has(controlName)){
-            dataMap.set(controlName,[]);
+        if (data[key] == true) {
+          if (!dataMap.has(controlName)) {
+            dataMap.set(controlName, []);
           }
           let tmp = dataMap.get(controlName)
           tmp.push(identifier)
           dataMap.set(controlName, tmp);
         }
       } else {
-        dataMap.set(key,data[key])
+        dataMap.set(key, data[key])
       }
     })
     this.go(dataMap)

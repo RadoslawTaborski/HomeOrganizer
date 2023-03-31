@@ -1,146 +1,146 @@
 {
-    "root": {
-        "header": {
-            "shopping": "General list",
-            "shopping-lists": "Shopping lists",
-            "permanent": "Permanent list",
-            "temporary": "Temporary list",
-            "expenses": "Expenses",
-            "saldo": "Debt",
-            "settings": "Settings",
-            "listcategories": "Lists Categories",
-            "categories": "Categories",
-            "subcategories": "Subcategories",
-            "saldosettings": "Expenses settings",
-            "login": "Login",
-            "logout": "Logout"
-        }
-    },
-    "containers": {
-        "items": {
-            "name": "name",
-            "category": "category1",
-            "subcategory": "category2",
-            "articles": "items",
-            "delete": "delete",
-            "permanent-item": {
-                "state": "state",
-                "lastUpdate": "last update",
-                "critical": "critical",
-                "little": "little",
-                "medium": "medium",
-                "lot": "lot"
-            },
-            "temporary-item": {
-                "bought": "bought",
-                "quantity": "quantity"
-            },
-            "shopping":{
-                "bought": "bought",
-                "state": "state",
-                "critical": "urgent",
-                "little": "needed",
-                "medium": "regular",
-                "lot": "ok"
-            }
-        },
-        "lists":{
-            "name": "name",
-            "shoppingLists":"lists",
-            "more":"more",
-            "delete": "archive",
-            "description": "description",
-            "category": "category",
-            "one-time-list": "one-time purchases",
-            "visible": "visible",
-            "created": "created",
-            "updated": "updated",
-            "confirm": "Are you sure?"
-        },
-        "settings":{
-            "categories":{
-                "name": "name",
-                "categories": "categories",
-                "none": "none"
-            },
-            "listcategories":{
-                "name": "name",
-                "categories": "categories",
-                "none": "none"
-            },
-            "subcategories":{
-                "name": "name",
-                "parent": "category",
-                "categories": "categories",
-                "category": "category",
-                "none": "none"
-            },
-            "saldo-settings":{
-                "name": "name",
-                "posts": "posts"
-            }
-        },
-        "finances": {
-            "expenses":{
-                "name": "name",
-                "date": "date",
-                "expenses": "expenses",
-                "contributors": "contributors",
-                "payer": "payer",
-                "amount": "amount",
-                "fifty-fifty": "fifty-fifty"
-            },
-            "saldo":{
-                "name":"name",
-                "person1": "person1",
-                "person2": "person2",
-                "amount": "amount",
-                "posts":"posts",
-                "user": "user",
-                "indebt": "in debt to",
-                "debtRepayment": "debt repayment",
-                "repayer": "debt repayer",
-                "toWhom": "to whom"
-            }
-        }
-    },
-    "modules": {
-        "shared": {
-            "components": {
-                "search": {
-                    "clean": "clean",
-                    "filter": "Filter",
-                    "close": "close"
-                },
-                "add": {
-                    "add": "add",
-                    "title": "add new item"
-                },
-                "home": {
-                    "text": "You're not logged in."
-                },
-                "authentication": {
-                    "account": {
-                        "register": {
-                            "register": "Register",
-                            "yourName": "Your name",
-                            "yourEmail": "Email address",
-                            "yourPassword": "Password",
-                            "validationDescription": "Min. 6 characters with at least one non alphanumeric character",
-                            "start": "Go",
-                            "ops": "Oops!",
-                            "success": "Well done!",
-                            "success-detail": "Your account was created successfully",
-                            "login": "Please login",
-                            "login2": "to continue.",
-                            "validEmail": "Please enter a valid email",
-                            "email": "Email address",
-                            "name": "Name",
-                            "password": "Password"
-                        }
-                    }
-                }
-            }
-        }
+  "root": {
+    "header": {
+      "shopping": "General list",
+      "shopping-lists": "Shopping lists",
+      "permanent": "Permanent list",
+      "temporary": "Temporary list",
+      "expenses": "Expenses",
+      "saldo": "Debt",
+      "settings": "Settings",
+      "listcategories": "Lists Categories",
+      "categories": "Categories",
+      "subcategories": "Subcategories",
+      "saldosettings": "Expenses settings",
+      "login": "Login",
+      "logout": "Logout"
     }
+  },
+  "containers": {
+    "items": {
+      "name": "name",
+      "category": "category1",
+      "subcategory": "category2",
+      "articles": "items",
+      "delete": "delete",
+      "permanent-item": {
+        "state": "state",
+        "lastUpdate": "last update",
+        "critical": "critical",
+        "little": "little",
+        "medium": "medium",
+        "lot": "lot"
+      },
+      "temporary-item": {
+        "bought": "bought",
+        "quantity": "quantity"
+      },
+      "shopping": {
+        "bought": "bought",
+        "state": "state",
+        "critical": "urgent",
+        "little": "needed",
+        "medium": "regular",
+        "lot": "ok"
+      }
+    },
+    "lists": {
+      "name": "name",
+      "shoppingLists": "lists",
+      "more": "more",
+      "delete": "archive",
+      "description": "description",
+      "category": "category",
+      "one-time-list": "one-time purchases",
+      "visible": "visible",
+      "created": "created",
+      "updated": "updated",
+      "confirm": "Are you sure?"
+    },
+    "settings": {
+      "categories": {
+        "name": "name",
+        "categories": "categories",
+        "none": "none"
+      },
+      "listcategories": {
+        "name": "name",
+        "categories": "categories",
+        "none": "none"
+      },
+      "subcategories": {
+        "name": "name",
+        "parent": "category",
+        "categories": "categories",
+        "category": "category",
+        "none": "none"
+      },
+      "saldo-settings": {
+        "name": "name",
+        "posts": "posts"
+      }
+    },
+    "finances": {
+      "expenses": {
+        "name": "name",
+        "date": "date",
+        "expenses": "expenses",
+        "contributors": "contributors",
+        "payer": "payer",
+        "amount": "amount",
+        "fifty-fifty": "fifty-fifty"
+      },
+      "saldo": {
+        "name": "name",
+        "person1": "person1",
+        "person2": "person2",
+        "amount": "amount",
+        "posts": "posts",
+        "user": "user",
+        "indebt": "in debt to",
+        "debtRepayment": "debt repayment",
+        "repayer": "debt repayer",
+        "toWhom": "to whom"
+      }
+    }
+  },
+  "modules": {
+    "shared": {
+      "components": {
+        "search": {
+          "clean": "clean",
+          "filter": "Filter",
+          "close": "close"
+        },
+        "add": {
+          "add": "add",
+          "title": "add new item"
+        },
+        "home": {
+          "text": "You're not logged in."
+        },
+        "authentication": {
+          "account": {
+            "register": {
+              "register": "Register",
+              "yourName": "Your name",
+              "yourEmail": "Email address",
+              "yourPassword": "Password",
+              "validationDescription": "Min. 6 characters with at least one non alphanumeric character",
+              "start": "Go",
+              "ops": "Oops!",
+              "success": "Well done!",
+              "success-detail": "Your account was created successfully",
+              "login": "Please login",
+              "login2": "to continue.",
+              "validEmail": "Please enter a valid email",
+              "email": "Email address",
+              "name": "Name",
+              "password": "Password"
+            }
+          }
+        }
+      }
+    }
+  }
 }

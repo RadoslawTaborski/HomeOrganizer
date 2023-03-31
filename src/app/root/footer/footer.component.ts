@@ -4,7 +4,7 @@ import { ConfigService } from 'src/app/modules/shared/services/config/config.ser
 @Component({
   selector: 'app-footer',
   templateUrl: './footer.component.html',
-  styleUrls: ['./footer.component.scss'] 
+  styleUrls: ['./footer.component.scss']
 })
 export class FooterComponent implements OnInit {
 
@@ -13,7 +13,7 @@ export class FooterComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  getText(): string{
+  getText(): string {
     return this.configService.config.footer;
   }
 

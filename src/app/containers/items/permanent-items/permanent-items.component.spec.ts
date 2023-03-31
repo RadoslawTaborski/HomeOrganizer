@@ -8,9 +8,9 @@ describe('PermanentItemsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ PermanentItemsComponent ]
+      declarations: [PermanentItemsComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

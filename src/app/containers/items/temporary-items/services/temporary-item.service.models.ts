@@ -13,80 +13,80 @@ export enum TemporaryItemTypes {
 }
 
 export interface ITemporaryItemModel extends IItemModel {
-    boughtCheckbox?: boolean
-    quantity: string;
-    bought: string;
-    shoppingListId: string;
+  boughtCheckbox?: boolean
+  quantity: string;
+  bought: string;
+  shoppingListId: string;
 }
 
 export class TemporaryItemModel implements ITemporaryItemModel {
-    boughtCheckbox?: boolean
-    quantity: string;
-    shoppingListId: string;
-    id: string;
-    groupId: string;
-    name: string;
-    category: SubCategory;
-    bought: string;
-    createTime: string;
-    updateTime: string;
-    deleteTime: string;
+  boughtCheckbox?: boolean
+  quantity: string;
+  shoppingListId: string;
+  id: string;
+  groupId: string;
+  name: string;
+  category: SubCategory;
+  bought: string;
+  createTime: string;
+  updateTime: string;
+  deleteTime: string;
 
-    public constructor(init?: Partial<TemporaryItemModel>) {
-        Object.assign(this, init);
-    }
+  public constructor(init?: Partial<TemporaryItemModel>) {
+    Object.assign(this, init);
+  }
 
-    static createFromJson(a: any, subcategories:SubCategory[]): TemporaryItemModel {
-        return new TemporaryItemModel ({
-            id: a.uuid,
-            groupId: a.groupUuid,
-            name: a.name,
-            shoppingListId: a.shoppingListUuid,
-            category: subcategories.filter(i => i.id === a.categoryUuid)[0],
-            quantity: a.quantity,
-            bought: a.bought,
-            boughtCheckbox: a.bought?true:false,
-            createTime: a.createTime,
-            updateTime: a.updateTime,
-            deleteTime: a.deleteTime,
-        });
-      }
+  static createFromJson(a: any, subcategories: SubCategory[]): TemporaryItemModel {
+    return new TemporaryItemModel({
+      id: a.uuid,
+      groupId: a.groupUuid,
+      name: a.name,
+      shoppingListId: a.shoppingListUuid,
+      category: subcategories.filter(i => i.id === a.categoryUuid)[0],
+      quantity: a.quantity,
+      bought: a.bought,
+      boughtCheckbox: a.bought ? true : false,
+      createTime: a.createTime,
+      updateTime: a.updateTime,
+      deleteTime: a.deleteTime,
+    });
+  }
 
-      static toJson(entity: TemporaryItemModel): string{
-        var tmp: any = {};
-        tmp.uuid = entity.id;
-        tmp.groupUuid = entity.groupId;
-        tmp.createTime = entity.createTime;
-        tmp.updateTime = entity.updateTime;
-        tmp.deleteTime = entity.deleteTime;
-        tmp.name = entity.name;
-        tmp.quantity = entity.quantity;
-        tmp.shoppingListUuid = entity.shoppingListId;
-        tmp.categoryUuid = entity.category?.id;
-        tmp.bought = entity.bought;
-        return JSON.stringify(tmp)
-    }
+  static toJson(entity: TemporaryItemModel): string {
+    var tmp: any = {};
+    tmp.uuid = entity.id;
+    tmp.groupUuid = entity.groupId;
+    tmp.createTime = entity.createTime;
+    tmp.updateTime = entity.updateTime;
+    tmp.deleteTime = entity.deleteTime;
+    tmp.name = entity.name;
+    tmp.quantity = entity.quantity;
+    tmp.shoppingListUuid = entity.shoppingListId;
+    tmp.categoryUuid = entity.category?.id;
+    tmp.bought = entity.bought;
+    return JSON.stringify(tmp)
+  }
 }
 
 export type TemporaryItemMethods = 'add' | 'remove' | 'update' | 'more';
 
 export interface TemporaryItemAction {
-    type: TemporaryItemMethods
-    data: TemporaryItemModel
+  type: TemporaryItemMethods
+  data: TemporaryItemModel
 }
 
 export enum TemporaryItemsFilterTypes {
-    CATEGORY = 'categoryUuid',
-    SUBCATEGORY = 'subcategoryUuid',
+  CATEGORY = 'categoryUuid',
+  SUBCATEGORY = 'subcategoryUuid',
 }
 
 export class TemporaryItemsFilters {
-    constructor(
-        public shoppingListUuid,
-        public categoryUuid = '',
-        public subcategoryUuid = '',
-        public pageNumber = 1,
-        public pageSize = 30,
-        public orderBy = "bought asc, categoryUuid asc, name asc") {
-    }
+  constructor(
+    public shoppingListUuid,
+    public categoryUuid = '',
+    public subcategoryUuid = '',
+    public pageNumber = 1,
+    public pageSize = 30,
+    public orderBy = "bought asc, categoryUuid asc, name asc") {
+  }
 }

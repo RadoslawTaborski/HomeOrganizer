@@ -1,13 +1,14 @@
 <ng-template #content let-c="close" let-d="dismiss">
-    <div class="modal-header">
-        <h4 class="modal-title">{{question}}</h4>
-        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-            <i class="fa fa-window-close" style="color:white; text-shadow: none;"></i>
-        </button>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-secondary btn-sm btn-confirm" (click)="c('ok')">ok</button>
-    </div>
+  <div class="modal-header">
+    <h4 class="modal-title">{{question}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <i class="fa fa-window-close" style="color:white; text-shadow: none;"></i>
+    </button>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary btn-sm btn-confirm" (click)="c('ok')">ok</button>
+  </div>
 </ng-template>
 
-<button attr.hidden="{{!displayButton}}" #openBtn class="btn btn-sm btn-danger" (click)="open(content)">{{btnText}}</button>
+<button attr.hidden="{{!displayButton}}" #openBtn class="btn btn-sm btn-danger"
+  (click)="open(content)">{{btnText}}</button>

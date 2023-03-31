@@ -1,71 +1,80 @@
-<div class="card-header" attr.id="heading{{index}}" data-toggle="collapse" attr.data-target="#body{{index}}">
-    <table class="table" data-toggle="collapse" attr.href="#body{{index}}">
-        <tr style="width: 100%;">
-            <td [ngSwitch]="item.type" *ngFor="let item of getVisibleAttributes(true)" [class]="provideColumnClass(item)" [style]="provideColumnStyle(item)">
-                <div *ngSwitchCase="'img'">
-                    <img src={{castToImg(item).src}} height="70">
-                </div>
+<div class="card-header" attr.id="heading{{index}}" data-toggle="collapse"
+  attr.data-target="#body{{index}}">
+  <table class="table" data-toggle="collapse" attr.href="#body{{index}}">
+    <tr style="width: 100%;">
+      <td [ngSwitch]="item.type" *ngFor="let item of getVisibleAttributes(true)"
+        [class]="provideColumnClass(item)" [style]="provideColumnStyle(item)">
+        <div *ngSwitchCase="'img'">
+          <img src={{castToImg(item).src}} height="70">
+        </div>
 
-                <div *ngSwitchCase="'checkbox'" class="form-group form-inline">
-                    <input class="form-check-input checkbox" type="checkbox" [(ngModel)]="model[item.key]"
-                        [disabled]="provideEditableValue(item, model) ? (castToInput(item).access ? !(castToInput(item).access | async) : false) : true"
-                        [readonly]="!provideEditableValue(item, model)"
-                        [checked]="provideCheckboxValue(item, model)"
-                        (input)="action('update', model)" (click)="$event.stopPropagation();">
-                </div>
+        <div *ngSwitchCase="'checkbox'" class="form-group form-inline">
+          <input class="form-check-input checkbox" type="checkbox" [(ngModel)]="model[item.key]"
+            [disabled]="provideEditableValue(item, model) ? (castToInput(item).access ? !(castToInput(item).access | async) : false) : true"
+            [readonly]="!provideEditableValue(item, model)"
+            [checked]="provideCheckboxValue(item, model)" (input)="action('update', model)"
+            (click)="$event.stopPropagation();">
+        </div>
 
-                <div *ngSwitchCase="'input'" class="form-group form-inline">
-                    <input class="form-control" type="number" [(ngModel)]="model[item.key]"
-                        [disabled]="castToInput(item).access ? !(castToInput(item).access | async) : false"
-                        (input)="action('update', model)">
-                </div>
+        <div *ngSwitchCase="'input'" class="form-group form-inline">
+          <input class="form-control" type="number" [(ngModel)]="model[item.key]"
+            [disabled]="castToInput(item).access ? !(castToInput(item).access | async) : false"
+            (input)="action('update', model)">
+        </div>
 
-                <div *ngSwitchCase="'button'" class="form-group form-inline">
-                    <button [disabled]="provideEditableValue(item, model) ? (castToButton(item).access ? !(castToButton(item).access | async) : false) : true"
-                        [class]="provideButtonClass(item, model)" [style]="provideButtonStyle(item,model)"
-                        (click)="action(castToButton(item).key, model); $event.stopPropagation()" [innerHTML]="provideButtonInner(item, model)"></button>
-                </div>
+        <div *ngSwitchCase="'button'" class="form-group form-inline">
+          <button
+            [disabled]="provideEditableValue(item, model) ? (castToButton(item).access ? !(castToButton(item).access | async) : false) : true"
+            [class]="provideButtonClass(item, model)" [style]="provideButtonStyle(item,model)"
+            (click)="action(castToButton(item).key, model); $event.stopPropagation()"
+            [innerHTML]="provideButtonInner(item, model)"></button>
+        </div>
 
-                <div *ngSwitchDefault>
-                    <p *ngIf="castToText(item).textProvider" [innerHTML]="provideText(item, model)"></p>
-                    <p *ngIf="!castToText(item).textProvider">{{model[item.key]}}</p>
-                </div>
-            </td>
-        </tr>
-    </table>
+        <div *ngSwitchDefault>
+          <p *ngIf="castToText(item).textProvider" [innerHTML]="provideText(item, model)"></p>
+          <p *ngIf="!castToText(item).textProvider">{{model[item.key]}}</p>
+        </div>
+      </td>
+    </tr>
+  </table>
 </div>
 
-<div attr.id="body{{index}}" class="collapse in" role="tabpanel" attr.aria-labelledby="heading{{index}}">
-    <div class="card-block">
-        <div [ngSwitch]="item.type" *ngFor="let item of getVisibleAttributes(false)" style="width: 100%;">
-            <p style="display:inline; margin-left: 1em;" *ngIf="item.display">{{item.display}}: </p>
-            <div *ngSwitchCase="'img'" style="display:inline">
-                <img src={{castToImg(item).src}} height="70">
-            </div>
+<div attr.id="body{{index}}" class="collapse in" role="tabpanel"
+  attr.aria-labelledby="heading{{index}}">
+  <div class="card-block">
+    <div [ngSwitch]="item.type" *ngFor="let item of getVisibleAttributes(false)"
+      style="width: 100%;">
+      <p style="display:inline; margin-left: 1em;" *ngIf="item.display">{{item.display}}: </p>
+      <div *ngSwitchCase="'img'" style="display:inline">
+        <img src={{castToImg(item).src}} height="70">
+      </div>
 
-            <div *ngSwitchCase="'input'" class="form-group form-inline" style="display:inline">
-                <input class="form-control" type="number" [(ngModel)]="model[item.key]"
-                    [disabled]="castToInput(item).access ? !(castToInput(item).access | async) : false"
-                    (input)="action('update', model)">
-            </div>
+      <div *ngSwitchCase="'input'" class="form-group form-inline" style="display:inline">
+        <input class="form-control" type="number" [(ngModel)]="model[item.key]"
+          [disabled]="castToInput(item).access ? !(castToInput(item).access | async) : false"
+          (input)="action('update', model)">
+      </div>
 
-            <div *ngSwitchCase="'button'" class="form-group form-inline" style="display:inline">
-                <button [disabled]="castToButton(item).access ? !(castToButton(item).access | async) : false"
-                    class="btn btn-secondary" [style]="provideButtonStyle(item,model)"
-                    (click)="action(castToButton(item).key, model)">{{provideButtonText(item, model)}}</button>
-            </div>
+      <div *ngSwitchCase="'button'" class="form-group form-inline" style="display:inline">
+        <button
+          [disabled]="castToButton(item).access ? !(castToButton(item).access | async) : false"
+          class="btn btn-secondary" [style]="provideButtonStyle(item,model)"
+          (click)="action(castToButton(item).key, model)">{{provideButtonText(item,
+          model)}}</button>
+      </div>
 
-            <div *ngSwitchCase="'list'">
-                <div *ngFor="let value of provideListObjects(item, model)">
-                    <p style="display:inline; margin-left: 1em;" *ngIf="castToList(item).valuesProvider">
-                        {{provideListItemText(item, value)}}</p>
-                </div>
-            </div>
-
-            <div *ngSwitchDefault style="display:inline">
-                <p style="display:inline" *ngIf="castToText(item).textProvider" [innerHTML]="provideText(item, model)"></p>
-                <p style="display:inline" *ngIf="!castToText(item).textProvider">{{model[item.key]}}</p>
-            </div>
+      <div *ngSwitchCase="'list'">
+        <div *ngFor="let value of provideListObjects(item, model)">
+          <p style="display:inline; margin-left: 1em;" *ngIf="castToList(item).valuesProvider">
+            {{provideListItemText(item, value)}}</p>
         </div>
+      </div>
+
+      <div *ngSwitchDefault style="display:inline">
+        <p style="display:inline" *ngIf="castToText(item).textProvider"
+          [innerHTML]="provideText(item, model)"></p>
+        <p style="display:inline" *ngIf="!castToText(item).textProvider">{{model[item.key]}}</p>
+      </div>
     </div>
+  </div>
 </div>

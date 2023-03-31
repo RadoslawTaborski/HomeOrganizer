@@ -46,7 +46,7 @@ export class CategoriesComponent implements OnInit {
 
   async ngOnInit() {
     await this.dataProvider.init();
-    
+
     await this.translate.get('containers.settings.categories.name').subscribe(async t => {
       await this.configuration();
 
@@ -89,7 +89,7 @@ export class CategoriesComponent implements OnInit {
     }
   }
 
-  async addItem(data: { result: AddOption, details: Map<string,any> }) {
+  async addItem(data: { result: AddOption, details: Map<string, any> }) {
     switch (data.result) {
       case 'ok':
         let obj = this.createFrom(data.details);
@@ -120,7 +120,7 @@ export class CategoriesComponent implements OnInit {
   async update(data: Category) {
   }
 
-  createFrom(data: Map<string,any>): Category {
+  createFrom(data: Map<string, any>): Category {
     return new Category({
       name: data.get(CategoryTypes.NAME),
       groupId: this.dataProvider.group.id
@@ -128,10 +128,10 @@ export class CategoriesComponent implements OnInit {
   }
 
   translateCategory(t: Category): string {
-    if(!t){
+    if (!t) {
       return "";
     }
-    if(t.name == "none"){
+    if (t.name == "none") {
       return this.translate.instant('containers.settings.categories.none');
     }
     return t.name;

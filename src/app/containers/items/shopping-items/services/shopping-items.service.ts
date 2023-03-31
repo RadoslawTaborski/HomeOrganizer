@@ -14,7 +14,7 @@ export class ShoppingItemsService implements HttpServiceModel {
   constructor(private http: HttpClient, private configService: ConfigService) { }
 
   fetch(filters?: { [key: string]: any; }): Promise<ResponseData> {
-    return this.http.get<ResponseData>(this.configService.config.api + Api.SHOPPING_ITEMS_END_POINT, {params: filters}).toPromise();
+    return this.http.get<ResponseData>(this.configService.config.api + Api.SHOPPING_ITEMS_END_POINT, { params: filters }).toPromise();
   }
 
   get(id: string, deep?: number): Promise<ShoppingItemsService> {
@@ -23,7 +23,7 @@ export class ShoppingItemsService implements HttpServiceModel {
       .pipe(
         map((resp: { data }) => resp.data)
       ).toPromise();
-  } 
+  }
 
   add(item: any): Promise<string> {
     return this.http.post(this.configService.config.api + Api.SHOPPING_ITEMS_END_POINT, item).pipe(
@@ -38,7 +38,7 @@ export class ShoppingItemsService implements HttpServiceModel {
   }
 
   remove(id: string): Promise<any> {
-    return this.http.delete(this.configService.config.api + Api.SHOPPING_ITEMS_END_POINT+`/${id}`).pipe(
+    return this.http.delete(this.configService.config.api + Api.SHOPPING_ITEMS_END_POINT + `/${id}`).pipe(
       map((resp: { data }) => resp.data)
     ).toPromise();
   }

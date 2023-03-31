@@ -23,7 +23,7 @@ export class StatesService implements HttpServiceModel {
       .pipe(
         map((resp: { data }) => resp.data)
       ).toPromise();
-  } 
+  }
 
   add(item: any): Promise<string> {
     return this.http.post(this.configService.config.api + Api.STATES_END_POINT, item).pipe(
@@ -38,7 +38,7 @@ export class StatesService implements HttpServiceModel {
   }
 
   remove(id: string): Promise<any> {
-    return this.http.delete(this.configService.config.api + Api.STATES_END_POINT+`/${id}`).pipe(
+    return this.http.delete(this.configService.config.api + Api.STATES_END_POINT + `/${id}`).pipe(
       map((resp: { data }) => resp.data)
     ).toPromise();
   }

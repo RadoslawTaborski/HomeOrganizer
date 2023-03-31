@@ -8,9 +8,9 @@ describe('ExpensesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ExpensesComponent ]
+      declarations: [ExpensesComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

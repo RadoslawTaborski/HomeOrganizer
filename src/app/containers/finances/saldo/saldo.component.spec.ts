@@ -8,9 +8,9 @@ describe('SaldoComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SaldoComponent ]
+      declarations: [SaldoComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

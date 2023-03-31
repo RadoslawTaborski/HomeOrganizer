@@ -65,15 +65,15 @@ export class DataProviderService {
     private saldoService: SaldoService
   ) { }
 
-  private extendsFilters(groupId: string, filters: { [key: string]: any; }): any{
-    if(!filters){
+  private extendsFilters(groupId: string, filters: { [key: string]: any; }): any {
+    if (!filters) {
       filters = {};
     }
     filters["groupUuid"] = groupId;
     return filters;
   }
 
-  async init(){
+  async init() {
     await this.login(this.authService.id);
     await this.getGroups(this.user.id);
     this.group = this.groups[0];
@@ -94,18 +94,18 @@ export class DataProviderService {
     this.user = User.createFromJson(response);
   }
 
-  async reloadUsersSettings(filters?: { [key: string]: any; }): Promise<ResponseData>{
+  async reloadUsersSettings(filters?: { [key: string]: any; }): Promise<ResponseData> {
     filters = this.extendsFilters(this.group.id, filters);
     let response = (await this.expensesSettingsService.fetch(filters));
     let data: any[] = []
-    response.data.forEach(a => data.push(ExpenseSettings.createFromJson(a, this.users.filter(u=>u.id == a.userUuid)[0])));
+    response.data.forEach(a => data.push(ExpenseSettings.createFromJson(a, this.users.filter(u => u.id == a.userUuid)[0])));
 
     this.usersSettings = data;
 
-    return {data: data, total:response.total, error:"", message:""};
+    return { data: data, total: response.total, error: "", message: "" };
   }
 
-  async reloadUsers(filters?: { [key: string]: any; }): Promise<ResponseData>{
+  async reloadUsers(filters?: { [key: string]: any; }): Promise<ResponseData> {
     filters = this.extendsFilters(this.group.id, filters);
     let response = (await this.usersService.fetch(filters));
     let data: any[] = []
@@ -113,10 +113,10 @@ export class DataProviderService {
 
     this.users = data;
 
-    return {data: data, total:response.total, error:"", message:""};
+    return { data: data, total: response.total, error: "", message: "" };
   }
 
-  async reloadCategories(filters?: { [key: string]: any; }): Promise<ResponseData>{
+  async reloadCategories(filters?: { [key: string]: any; }): Promise<ResponseData> {
     filters = this.extendsFilters(this.group.id, filters);
     let response = (await this.categoryService.fetch(filters));
     let data: any[] = []
@@ -124,10 +124,10 @@ export class DataProviderService {
 
     this.categories = data;
 
-    return {data: data, total:response.total, error:"", message:""};
+    return { data: data, total: response.total, error: "", message: "" };
   }
 
-  async reloadListcategories(filters?: { [key: string]: any; }): Promise<ResponseData>{
+  async reloadListcategories(filters?: { [key: string]: any; }): Promise<ResponseData> {
     filters = this.extendsFilters(this.group.id, filters);
     let response = (await this.listcategoryService.fetch(filters));
     let data: any[] = []
@@ -135,148 +135,148 @@ export class DataProviderService {
 
     this.listcategories = data;
 
-    return {data: data, total:response.total, error:"", message:""};
+    return { data: data, total: response.total, error: "", message: "" };
   }
 
-  async reloadSubCategories(filters?: { [key: string]: any; }): Promise<ResponseData>{
+  async reloadSubCategories(filters?: { [key: string]: any; }): Promise<ResponseData> {
     filters = this.extendsFilters(this.group.id, filters);
-    filters["orderBy"]="categoryUuid asc"
+    filters["orderBy"] = "categoryUuid asc"
     let response = (await this.subcategoryService.fetch(filters));
     let data: any[] = []
     response.data.forEach(a => data.push(SubCategory.createFromJson(a, this.categories)))
 
     this.subcategories = data;
 
-    return {data: data, total:response.total, error:"", message:""};
-  } 
+    return { data: data, total: response.total, error: "", message: "" };
+  }
 
-  async reloadStates(filters?: { [key: string]: any; }): Promise<ResponseData>{
+  async reloadStates(filters?: { [key: string]: any; }): Promise<ResponseData> {
     let response = (await this.stateService.fetch(filters));
     let data: any[] = []
     response.data.forEach(a => data.push(State.createFromJson(a)))
 
     this.states = data;
 
-    return {data: data, total:response.total, error:"", message:""};
+    return { data: data, total: response.total, error: "", message: "" };
   }
 
-  async getPermanentItems(filters?: { [key: string]: any; }) : Promise<ResponseData>{
+  async getPermanentItems(filters?: { [key: string]: any; }): Promise<ResponseData> {
     filters = this.extendsFilters(this.group.id, filters);
     let response = (await this.permanentItemService.fetch(filters));
     let data: any[] = []
     response.data.forEach(a => data.push(PermanentItemModel.createFromJson(a, this.states, this.subcategories)))
 
-    return {data: data, total:response.total, error:"", message:""};
+    return { data: data, total: response.total, error: "", message: "" };
   }
 
-  async getShoppingItems(filters?: { [key: string]: any; }) : Promise<ResponseData>{
+  async getShoppingItems(filters?: { [key: string]: any; }): Promise<ResponseData> {
     filters = this.extendsFilters(this.group.id, filters);
     let response = (await this.shoppingItemService.fetch(filters));
     let data: any[] = []
     response.data.forEach(a => data.push(ShoppingItemModel.createFromJson(a, this.states, this.subcategories)))
 
-    return {data: data, total:response.total, error:"", message:""};
+    return { data: data, total: response.total, error: "", message: "" };
   }
 
-  async getTemporeryItems(filters?: { [key: string]: any; }) : Promise<ResponseData>{
+  async getTemporeryItems(filters?: { [key: string]: any; }): Promise<ResponseData> {
     filters = this.extendsFilters(this.group.id, filters);
     let response = (await this.temporaryItemService.fetch(filters));
     let data: any[] = []
-    for(let res of response.data){
+    for (let res of response.data) {
       data.push(TemporaryItemModel.createFromJson(res, this.subcategories))
     }
 
-    return {data: data, total:response.total, error:"", message:""};
+    return { data: data, total: response.total, error: "", message: "" };
   }
 
-  async getShoppingLists(filters?: { [key: string]: any; }) : Promise<ResponseData>{
+  async getShoppingLists(filters?: { [key: string]: any; }): Promise<ResponseData> {
     filters = this.extendsFilters(this.group.id, filters);
     let response = (await this.shoppingListsService.fetch(filters));
     let data: any[] = []
-    for(var res of response.data){
-        data.push(ShoppingListModel.createSimpleFromJson(res, this.listcategories))
+    for (var res of response.data) {
+      data.push(ShoppingListModel.createSimpleFromJson(res, this.listcategories))
     }
 
-    return {data: data, total:response.total, error:"", message:""};
+    return { data: data, total: response.total, error: "", message: "" };
   }
 
-  async getShoppingList(id: string) : Promise<IShoppingListModel>{
+  async getShoppingList(id: string): Promise<IShoppingListModel> {
     let response = (await this.shoppingListsService.get(id));
     return ShoppingListModel.createSimpleFromJson(response, this.listcategories)
   }
 
-  async getExpenseDetails(filters?: { [key: string]: any; }) : Promise<ResponseData> {
+  async getExpenseDetails(filters?: { [key: string]: any; }): Promise<ResponseData> {
     filters = this.extendsFilters(this.group.id, filters);
     let response = (await this.expenseDetailsService.fetch(filters));
     let data: any[] = []
-    response.data.forEach(a => data.push(ExpenseDetail.createFromJson(a, this.users.filter(u=>u.id==a.payerUuid)[0], this.usersSettings.filter(u=>u.user.id==a.recipientUuid)[0])))
+    response.data.forEach(a => data.push(ExpenseDetail.createFromJson(a, this.users.filter(u => u.id == a.payerUuid)[0], this.usersSettings.filter(u => u.user.id == a.recipientUuid)[0])))
 
-    return {data: data, total:response.total, error:"", message:""};
+    return { data: data, total: response.total, error: "", message: "" };
   }
 
-  async getExpenses(filters?: { [key: string]: any; }) : Promise<ResponseData> {
+  async getExpenses(filters?: { [key: string]: any; }): Promise<ResponseData> {
     filters = this.extendsFilters(this.group.id, filters);
     let response = (await this.expensesService.fetch(filters));
     let data: any[] = []
-    for(var res of response.data){
+    for (var res of response.data) {
       data.push(Expense.createFromJson(res, (await this.getExpenseDetails({ "expenseUuid": `${res.uuid}` })).data))
     }
 
-    return {data: data, total:response.total, error:"", message:""};
+    return { data: data, total: response.total, error: "", message: "" };
   }
 
-  async getSaldos(filters?: { [key: string]: any; }) : Promise<ResponseData> {
+  async getSaldos(filters?: { [key: string]: any; }): Promise<ResponseData> {
     filters = this.extendsFilters(this.group.id, filters);
     let response = (await this.saldoService.fetch(filters));
     let data: any[] = []
-    await response.data.forEach(async a => data.push(Saldo.createFromJson(a, this.users.filter(u=>u.id==a.payerUuid)[0], this.users.filter(u=>u.id==a.recipientUuid)[0])));
+    await response.data.forEach(async a => data.push(Saldo.createFromJson(a, this.users.filter(u => u.id == a.payerUuid)[0], this.users.filter(u => u.id == a.recipientUuid)[0])));
 
-    return {data: data, total:response.total, error:"", message:""};
+    return { data: data, total: response.total, error: "", message: "" };
   }
 
-  async getGroups(userId: string) : Promise<ResponseData> {
-    let response = (await this.groupsService.fetch({"userUuid": `${userId}`}));
+  async getGroups(userId: string): Promise<ResponseData> {
+    let response = (await this.groupsService.fetch({ "userUuid": `${userId}` }));
     let data: any[] = []
     response.data.forEach(a => data.push(Group.createFromJson(a)));
 
     this.groups = data;
 
-    return {data: data, total:response.total, error:"", message:""};
+    return { data: data, total: response.total, error: "", message: "" };
   }
 
-  async addShoppingList(list: ShoppingListModel): Promise<string>{
+  async addShoppingList(list: ShoppingListModel): Promise<string> {
     return await this.shoppingListsService.add(ShoppingListModel.toJson(list));
   }
 
-  async removeShoppingList(list: ShoppingListModel): Promise<ResponseData>{
+  async removeShoppingList(list: ShoppingListModel): Promise<ResponseData> {
     return await this.shoppingListsService.remove(list.id);
   }
 
-  async updateShoppingList(list: ShoppingListModel): Promise<string>{
+  async updateShoppingList(list: ShoppingListModel): Promise<string> {
     return await this.shoppingListsService.update(ShoppingListModel.toJson(list));
   }
 
-  async addPermanentItem(item: PermanentItemModel): Promise<string>{
+  async addPermanentItem(item: PermanentItemModel): Promise<string> {
     return await this.permanentItemService.add(PermanentItemModel.toJson(item));
   }
 
-  async removePermanentItem(item: PermanentItemModel): Promise<string>{
+  async removePermanentItem(item: PermanentItemModel): Promise<string> {
     return await this.permanentItemService.remove(item.id);
   }
 
-  async updatePermanentItem(item: PermanentItemModel): Promise<string>{
+  async updatePermanentItem(item: PermanentItemModel): Promise<string> {
     return await this.permanentItemService.update(PermanentItemModel.toJson(item));
   }
 
-  async addTemporaryItem(item: TemporaryItemModel): Promise<string>{
+  async addTemporaryItem(item: TemporaryItemModel): Promise<string> {
     return await this.temporaryItemService.add(TemporaryItemModel.toJson(item));
   }
 
-  async removeTemporaryItem(item: TemporaryItemModel): Promise<ResponseData>{
+  async removeTemporaryItem(item: TemporaryItemModel): Promise<ResponseData> {
     return await this.temporaryItemService.remove(item.id);
   }
 
-  async updateTemporaryItem(item: TemporaryItemModel): Promise<string>{
+  async updateTemporaryItem(item: TemporaryItemModel): Promise<string> {
     return await this.temporaryItemService.update(TemporaryItemModel.toJson(item));
   }
 
@@ -298,26 +298,26 @@ export class DataProviderService {
 
   async addExpense(data: Expense): Promise<string> {
     let result = await this.expensesService.add(Expense.toJson(data));
-    for(var res of data.details){
+    for (var res of data.details) {
       await this.addExpenseDetail(res, result);
     }
-    
+
     return result;
   }
 
   getCriticalState(): State {
-    return this.states.filter(i=>i.name === "CRITICAL")[0];
+    return this.states.filter(i => i.name === "CRITICAL")[0];
   }
 
   getLittleState(): State {
-    return this.states.filter(i=>i.name === "LITTLE")[0];
+    return this.states.filter(i => i.name === "LITTLE")[0];
   }
 
   getMediumState(): State {
-    return this.states.filter(i=>i.name === "MEDIUM")[0];
+    return this.states.filter(i => i.name === "MEDIUM")[0];
   }
 
   getLotState(): State {
-    return this.states.filter(i=>i.name === "LOT")[0];
+    return this.states.filter(i => i.name === "LOT")[0];
   }
 }

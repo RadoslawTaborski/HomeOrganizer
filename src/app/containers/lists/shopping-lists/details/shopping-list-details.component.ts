@@ -10,17 +10,17 @@ import { Observable } from 'rxjs';
   styleUrls: ['./shopping-list-details.component.scss']
 })
 export class ShoppingListDetailsComponent {
-  
+
   data: Observable<Data>;
 
   constructor(
-      private route: ActivatedRoute,
-      private location: Location) {
-      this.data = route.data.pipe(map(({ item }) => item));    
+    private route: ActivatedRoute,
+    private location: Location) {
+    this.data = route.data.pipe(map(({ item }) => item));
   }
 
   back() {
-      this.location.back();
+    this.location.back();
   }
 
 }

@@ -6,7 +6,7 @@ table {
   margin: 0px;
   padding: 0px;
 
-  > :not(caption) > * > * {
+  > :not(caption)>*>* {
     padding: 0px;
   }
 }
@@ -18,7 +18,8 @@ td {
   vertical-align: middle;
 }
 
-td > div, p {
+td>div,
+p {
   vertical-align: middle;
   margin: 4px;
 }
@@ -38,12 +39,12 @@ td.exactValue {
 }
 
 table .absorbing-column {
-  max-width:100%;
+  max-width: 100%;
 }
 
 input.checkbox {
-    width: 22px;
-    height: 22px;
+  width: 22px;
+  height: 22px;
 }
 
 .card-header {

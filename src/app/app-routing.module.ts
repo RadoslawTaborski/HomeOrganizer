@@ -19,7 +19,7 @@ const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'auth-callback', component: AuthCallbackComponent },
   { path: 'home', component: HomeComponent },
-  { path: 'shopping', component: ShoppingItemsComponent, canActivate: [AuthGuard]},
+  { path: 'shopping', component: ShoppingItemsComponent, canActivate: [AuthGuard] },
   { path: 'permanent', component: PermanentItemsComponent, canActivate: [AuthGuard] },
   { path: 'shopping-lists', component: ShoppingListsComponent, canActivate: [AuthGuard] },
   { path: 'finances/saldo', component: SaldoComponent, canActivate: [AuthGuard] },
@@ -27,7 +27,7 @@ const routes: Routes = [
   { path: 'settings/categories', component: CategoriesComponent, canActivate: [AuthGuard] },
   { path: 'settings/subcategories', component: SubcategoriesComponent, canActivate: [AuthGuard] },
   { path: 'settings/listcategories', component: ListcategoriesComponent, canActivate: [AuthGuard] },
-  { path: 'shopping-lists/:id', component: ShoppingListDetailsComponent, resolve: { item: ShoppingListDetailsResolver}, canActivate: [AuthGuard] },
+  { path: 'shopping-lists/:id', component: ShoppingListDetailsComponent, resolve: { item: ShoppingListDetailsResolver }, canActivate: [AuthGuard] },
   { path: 'register', component: RegisterComponent },
   { path: '**', redirectTo: 'home' }
 ];

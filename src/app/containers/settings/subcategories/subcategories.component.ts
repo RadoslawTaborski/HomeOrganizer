@@ -95,7 +95,7 @@ export class SubcategoriesComponent implements OnInit {
     }
   }
 
-  async addItem(data: { result: AddOption, details: Map<string,any> }) {
+  async addItem(data: { result: AddOption, details: Map<string, any> }) {
     switch (data.result) {
       case 'ok':
         let obj = this.createFrom(data.details);
@@ -126,7 +126,7 @@ export class SubcategoriesComponent implements OnInit {
   async update(data: SubCategory) {
   }
 
-  createFrom(data: Map<string,any>): SubCategory {
+  createFrom(data: Map<string, any>): SubCategory {
     return new SubCategory({
       name: data.get(SubcategoryTypes.NAME),
       parent: this.dataProvider.categories.filter(i => i.id == data.get(SubcategoryTypes.PARENT))[0],
@@ -173,26 +173,26 @@ export class SubcategoriesComponent implements OnInit {
         .setOptions(await this.dataProvider.categories)
         .setDisplayProvider((t: Category) => this.translateCategory(t))
         .setIdentifierProvider((t: Category) => t?.id)
-        .setValue(await this.dataProvider.categories.filter(i=>i.name=="none")[0].id)
+        .setValue(await this.dataProvider.categories.filter(i => i.name == "none")[0].id)
         .build()
     ]);
   }
 
   translateSubcategory(t: SubCategory): string {
-    if(!t){
+    if (!t) {
       return "";
     }
-    if(t.name == "none"){
+    if (t.name == "none") {
       return this.translate.instant('containers.settings.subcategories.none');
     }
     return t.name;
   }
 
   translateCategory(t: Category): string {
-    if(!t){
+    if (!t) {
       return "";
     }
-    if(t.name == "none"){
+    if (t.name == "none") {
       return this.translate.instant('containers.settings.categories.none');
     }
     return t.name;

@@ -8,13 +8,13 @@ import { DataProviderService } from 'src/app/containers/services/data-provider.s
 @Injectable({ providedIn: 'root' })
 export class ShoppingListDetailsResolver implements ShoppingListResolver<IShoppingListModel> {
 
-    constructor(private service: DataProviderService) { }
+  constructor(private service: DataProviderService) { }
 
-    async resolve(route: ActivatedRouteSnapshot): Promise<IShoppingListModel> {
-        await this.service.init();
-        await this.service.reloadCategories();
-        await this.service.reloadSubCategories();
-        return this.service.getShoppingList(route.params['id'])
-    }
+  async resolve(route: ActivatedRouteSnapshot): Promise<IShoppingListModel> {
+    await this.service.init();
+    await this.service.reloadCategories();
+    await this.service.reloadSubCategories();
+    return this.service.getShoppingList(route.params['id'])
+  }
 
 }

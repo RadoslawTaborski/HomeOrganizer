@@ -1,7 +1,8 @@
 <div class="card border-primary" style="width: 100%;">
-    <div *ngIf="data">
-        <div *ngFor="let item of data; let i = index">
-            <data-grid-row [index]="i" [model]="data[i]" [config]="config" [itemAction]="itemAction"></data-grid-row>
-        </div>
+  <div *ngIf="data">
+    <div *ngFor="let item of data; let i = index">
+      <data-grid-row [index]="i" [model]="data[i]" [config]="config"
+        [itemAction]="itemAction"></data-grid-row>
     </div>
+  </div>
 </div>

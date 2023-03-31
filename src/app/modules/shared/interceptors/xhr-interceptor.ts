@@ -14,23 +14,23 @@ export class XhrInterceptor implements HttpInterceptor {
   constructor(private authService: AuthService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-      return this.sendRequest(req, next);
+    return this.sendRequest(req, next);
   }
 
-  sendRequest(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>{
+  sendRequest(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let header = this.authService.authorizationHeaderValue;
     let reqClone = req;
-    if(header){
+    if (header) {
       reqClone = this.addHeader(req, header);
     }
     return next
       .handle(reqClone)
       .pipe(
-        catchError(({status, error, message}: HttpErrorResponse) => {
+        catchError(({ status, error, message }: HttpErrorResponse) => {
           switch (status) {
             case 401:
             default:
-                console.log(status + '\n' + error + '\n' + message);
+              console.log(status + '\n' + error + '\n' + message);
           }
           return throwError(error);
         })

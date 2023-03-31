@@ -49,7 +49,7 @@ import { AuthService } from './services/authentication/auth.service';
     AddComponent,
     GridSearchAddComponent,
   ],
-  providers : [
+  providers: [
     ConfigService,
     AuthService,
     {

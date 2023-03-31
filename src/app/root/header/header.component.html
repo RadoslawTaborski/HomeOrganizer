@@ -42,8 +42,9 @@
               data-target=".navbar-collapse.show">{{'root.header.saldo'|translate}}</a>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
-              aria-expanded="true">{{'root.header.settings'|translate}}<span class="caret"></span></a>
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+              aria-haspopup="true" aria-expanded="true">{{'root.header.settings'|translate}}<span
+                class="caret"></span></a>
             <div class="dropdown-menu" aria-labelledby="download">
               <a class="nav-link" routerLink="/settings/categories/" data-toggle="collapse"
                 data-target=".navbar-collapse.show">{{'root.header.categories'|translate}}</a>
@@ -56,11 +57,12 @@
         </ul>
         <ul class="navbar-nav ms-md-auto">
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
-              aria-expanded="true">{{userName}}<span class="caret"></span></a>
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+              aria-haspopup="true" aria-expanded="true">{{userName}}<span class="caret"></span></a>
             <div class="dropdown-menu" aria-labelledby="download">
-              <a class="nav-link" (click)="signout()" href="javascript:void(0)" data-toggle="collapse"
-              data-target=".navbar-collapse.show">{{'root.header.logout'|translate}}</a>
+              <a class="nav-link" (click)="signout()" href="javascript:void(0)"
+                data-toggle="collapse"
+                data-target=".navbar-collapse.show">{{'root.header.logout'|translate}}</a>
             </div>
           </li>
         </ul>

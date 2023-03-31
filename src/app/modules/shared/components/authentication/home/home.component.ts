@@ -14,11 +14,11 @@ export class HomeComponent implements OnInit {
   isLoaded = false;
 
   constructor(private authService: AuthService, private router: Router, private translate: TranslateService) {
-    this.translate.addLangs(["en","pl"]);
+    this.translate.addLangs(["en", "pl"]);
   }
 
   ngOnInit(): void {
-    this.translate.get('modules.shared.components.home.text').subscribe(t=>{
+    this.translate.get('modules.shared.components.home.text').subscribe(t => {
       if (this.authService.isAuthenticated()) {
         this.isLoaded = true;
         this.router.navigate([environment.authConfig.redirect_component_signin]);

@@ -1,6 +1,7 @@
 <div *ngIf="isLoaded">
-    <app-grid-search-add [dataGridConfig]="dataGridConfig" [items]="items" [action]="itemAction"
-        [badgeItemName]="'containers.items.articles'|translate" [filterOn]="true" [searchConfig]="updateSearchConfig()"
-        [filters]="filters" (updFilters)="updateFilters($event)" [addOn]="true" [addConfig]="addConfig" (addAction)="addItem($event)">
-    </app-grid-search-add>
+  <app-grid-search-add [dataGridConfig]="dataGridConfig" [items]="items" [action]="itemAction"
+    [badgeItemName]="'containers.items.articles'|translate" [filterOn]="true"
+    [searchConfig]="updateSearchConfig()" [filters]="filters" (updFilters)="updateFilters($event)"
+    [addOn]="true" [addConfig]="addConfig" (addAction)="addItem($event)">
+  </app-grid-search-add>
 </div>

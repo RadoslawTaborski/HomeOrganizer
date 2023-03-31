@@ -98,14 +98,14 @@ export class ExpensesComponent implements OnInit {
     switch (data.result) {
       case 'ok':
         let obj = this.createFrom(data.details);
-        if(obj)
+        if (obj)
           this.add(obj);
         break;
       case 'dissmised': break;
     }
   }
 
-  async removeItem(data: Expense){
+  async removeItem(data: Expense) {
     this.ngOnInit();
   }
 
@@ -126,23 +126,23 @@ export class ExpensesComponent implements OnInit {
   async update(data: Expense) {
   }
 
-  createFrom(data: Map<string, any>) : Expense {
+  createFrom(data: Map<string, any>): Expense {
     let recipientsGuids: string[] = data.get(ExpenseTypes.RECIPIENTS);
-    let recipients = recipientsGuids.map(s=>this.dataProvider.usersSettings.filter(u=>u.user.id==s)[0])
+    let recipients = recipientsGuids.map(s => this.dataProvider.usersSettings.filter(u => u.user.id == s)[0])
     let payer = data.get(ExpenseTypes.PAYER);
     let amount = data.get(ExpenseTypes.AMOUNT);
     let fiftyfifty = data.get(ExpenseTypes.FIFTY_FIFTY);
-    let coefficient = recipients.map(c=>c.value).reduce((prev, next) => prev + next)
-    if(payer == null || recipients.length == 0){
+    let coefficient = recipients.map(c => c.value).reduce((prev, next) => prev + next)
+    if (payer == null || recipients.length == 0) {
       return null;
     }
 
-    let details: ExpenseDetail[]=[]
-    for(var recipient of recipients){
+    let details: ExpenseDetail[] = []
+    for (var recipient of recipients) {
       details.push(new ExpenseDetail({
-        payer: this.dataProvider.users.filter(u=>u.id==payer)[0],
+        payer: this.dataProvider.users.filter(u => u.id == payer)[0],
         recipient: recipient,
-        value: fiftyfifty? amount/recipients.length :amount * recipient.value / coefficient
+        value: fiftyfifty ? amount / recipients.length : amount * recipient.value / coefficient
       }))
     }
 
@@ -160,68 +160,68 @@ export class ExpensesComponent implements OnInit {
     this.filters.next({ ...this.filters.value, ...value });
   }
 
-  async configuration(){
+  async configuration() {
     this.dataGridConfig = new DataGridConfig([
       new DataGridItemText.Builder()
-      .setKey(ExpenseTypes.NAME)
-      .setDisplay(this.translate.instant('containers.finances.expenses.name'))
-      .setTextProvider((t: Expense): string => t.name)
-      .setVisible(true)
-      .build(),
+        .setKey(ExpenseTypes.NAME)
+        .setDisplay(this.translate.instant('containers.finances.expenses.name'))
+        .setTextProvider((t: Expense): string => t.name)
+        .setVisible(true)
+        .build(),
       new DataGridItemText.Builder()
-      .setKey(ExpenseTypes.VALUE)
-      .setDisplay(this.translate.instant('containers.finances.expenses.amount'))
-      .setTextProvider((t: Expense): string => t.calculateTotalValue().toFixed(2).toString()+" zł")
-      .setColumnClass("fitwidth")
-      .setVisible(true)
-      .build(),
+        .setKey(ExpenseTypes.VALUE)
+        .setDisplay(this.translate.instant('containers.finances.expenses.amount'))
+        .setTextProvider((t: Expense): string => t.calculateTotalValue().toFixed(2).toString() + " zł")
+        .setColumnClass("fitwidth")
+        .setVisible(true)
+        .build(),
       new DataGridItemText.Builder()
-      .setKey(ExpenseTypes.DATE)
-      .setDisplay(this.translate.instant('containers.finances.expenses.date'))
-      .setTextProvider((t: Expense): string => this.dateService.isoToLocal(t.createTime))
-      .build(),
+        .setKey(ExpenseTypes.DATE)
+        .setDisplay(this.translate.instant('containers.finances.expenses.date'))
+        .setTextProvider((t: Expense): string => this.dateService.isoToLocal(t.createTime))
+        .build(),
       new DataGridItemText.Builder()
-      .setKey(ExpenseTypes.PAYER)
-      .setDisplay(this.translate.instant('containers.finances.expenses.payer'))
-      .setTextProvider((t: Expense): string => t.details[0].payer.username)
-      .build(),
+        .setKey(ExpenseTypes.PAYER)
+        .setDisplay(this.translate.instant('containers.finances.expenses.payer'))
+        .setTextProvider((t: Expense): string => t.details[0].payer.username)
+        .build(),
       new DataGridItemList.Builder()
-      .setValuesProvider((t:Expense): ExpenseDetail[] => t.details)
-      .setValueTextProvider((t:ExpenseDetail)=>`${t.recipient.user.username}: ${t.value.toFixed(2)} zł`)
-      .build()
+        .setValuesProvider((t: Expense): ExpenseDetail[] => t.details)
+        .setValueTextProvider((t: ExpenseDetail) => `${t.recipient.user.username}: ${t.value.toFixed(2)} zł`)
+        .build()
     ]);
 
     this.addConfig = new AddItemConfig([
       new AddItemInput.Builder()
-      .setKey(ExpenseTypes.NAME)
-      .setDisplay(this.translate.instant('containers.finances.expenses.name'))
-      .build(),
+        .setKey(ExpenseTypes.NAME)
+        .setDisplay(this.translate.instant('containers.finances.expenses.name'))
+        .build(),
       new AddItemNumber.Builder()
-      .setKey(ExpenseTypes.AMOUNT)
-      .setStep(0.01)
-      .setDefault(0.00)
-      .setDisplay(this.translate.instant('containers.finances.expenses.amount'))
-      .build(),
+        .setKey(ExpenseTypes.AMOUNT)
+        .setStep(0.01)
+        .setDefault(0.00)
+        .setDisplay(this.translate.instant('containers.finances.expenses.amount'))
+        .build(),
       new AddItemRadio.Builder()
-      .setKey(ExpenseTypes.PAYER)
-      .setDisplay(this.translate.instant('containers.finances.expenses.payer'))
-      .setOptions(this.dataProvider.users)
-      .setValue(this.dataProvider.users.filter(u=>u.id==this.dataProvider.user.id)[0])
-      .setDisplayProvider((t: User) => t?.username)
-      .setIdentifierProvider((t: User) => t?.id)
-      .build(),
+        .setKey(ExpenseTypes.PAYER)
+        .setDisplay(this.translate.instant('containers.finances.expenses.payer'))
+        .setOptions(this.dataProvider.users)
+        .setValue(this.dataProvider.users.filter(u => u.id == this.dataProvider.user.id)[0])
+        .setDisplayProvider((t: User) => t?.username)
+        .setIdentifierProvider((t: User) => t?.id)
+        .build(),
       new AddItemCheckbox.Builder()
-      .setKey(ExpenseTypes.FIFTY_FIFTY)
-      .setValue(false)
-      .setDisplayProvider(() => this.translate.instant('containers.finances.expenses.fifty-fifty'))
-      .build(),
+        .setKey(ExpenseTypes.FIFTY_FIFTY)
+        .setValue(false)
+        .setDisplayProvider(() => this.translate.instant('containers.finances.expenses.fifty-fifty'))
+        .build(),
       new AddItemCheckboxes.Builder()
-      .setKey(ExpenseTypes.RECIPIENTS)
-      .setDisplay(this.translate.instant('containers.finances.expenses.contributors'))
-      .setOptions(this.dataProvider.users.map(u=>new CheckboxPair(u, true)))
-      .setDisplayProvider((t: User) => t?.username)
-      .setIdentifierProvider((t: User) => t?.id)
-      .build()
+        .setKey(ExpenseTypes.RECIPIENTS)
+        .setDisplay(this.translate.instant('containers.finances.expenses.contributors'))
+        .setOptions(this.dataProvider.users.map(u => new CheckboxPair(u, true)))
+        .setDisplayProvider((t: User) => t?.username)
+        .setIdentifierProvider((t: User) => t?.id)
+        .build()
     ]);
   }
 }

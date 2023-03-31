@@ -16,14 +16,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
   appName = this.configService.config.title;
   userName: string;
   isAuthenticated: boolean;
-  subscription:Subscription;
+  subscription: Subscription;
 
-  constructor(private translate: TranslateService, private authService: AuthService, private router: Router, private configService: ConfigService) { 
-    this.translate.addLangs(["en","pl"]);
+  constructor(private translate: TranslateService, private authService: AuthService, private router: Router, private configService: ConfigService) {
+    this.translate.addLangs(["en", "pl"]);
   }
 
   ngOnInit(): void {
-    this.translate.get('root.header.shopping').subscribe(t=>{
+    this.translate.get('root.header.shopping').subscribe(t => {
       this.subscription = this.authService.authNavStatus$.subscribe(status => {
         this.isAuthenticated = status
         this.userName = this.authService.name;
@@ -32,16 +32,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if(this.subscription!=null){
+    if (this.subscription != null) {
       this.subscription.unsubscribe();
     }
   }
 
-  login(){
+  login() {
     this.authService.login();
   }
 
   async signout() {
-    await this.authService.signout();     
+    await this.authService.signout();
   }
 }

@@ -7,9 +7,9 @@ export class CamelCaseToSignPipe implements PipeTransform {
 
   transform(expression, sign) {
     return expression
-        .replace(/[A-Z]/g, function (val) {
-            return sign + val.toLowerCase();
-        });
-}
+      .replace(/[A-Z]/g, function (val) {
+        return sign + val.toLowerCase();
+      });
+  }
 
 }

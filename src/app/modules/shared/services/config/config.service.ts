@@ -7,7 +7,7 @@ import { AppConfig } from './app-config';
 export class ConfigService {
 
   private _config: AppConfig
-  
+
   public get config(): AppConfig {
     return this._config;
   }

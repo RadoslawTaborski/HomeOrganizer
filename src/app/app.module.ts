@@ -11,8 +11,8 @@ import { ModulesModule } from "./modules/modules.module";
 import { HeaderComponent } from './root/header/header.component';
 import { FooterComponent } from './root/footer/footer.component'
 import { StateService } from './root/services/state.service';
-import { FormsModule } from '@angular/forms'; 
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap'; 
+import { FormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -33,12 +33,12 @@ export function createTranslateLoader(http: HttpClient) {
     HttpClientModule,
     TranslateModule.forRoot({
       loader: {
-          provide: TranslateLoader,
-          useFactory: (createTranslateLoader),
-          deps: [HttpClient]
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient]
       },
       isolate: false
-  }),
+    }),
     NgbModule
   ],
   providers: [
