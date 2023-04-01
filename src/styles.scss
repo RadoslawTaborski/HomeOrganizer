@@ -1,3 +1,23 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.content {
+  flex: auto;
+}
+
+.footer {
+  padding: 8px 0;
+}
+
 .modal-backdrop {
   display: none;
   z-index: 1040 !important;
@@ -5,7 +25,6 @@
 
 .modal-content {
   margin: 2px auto;
-  z-index: 1100 !important;
 }
 
 .visually-hidden {
@@ -26,9 +45,9 @@
   }
 }
 
-.m-right {
+.mr {
   &-3 {
-    margin-right: 3px;
+    margin-right: 3px !important;
   }
 }
 

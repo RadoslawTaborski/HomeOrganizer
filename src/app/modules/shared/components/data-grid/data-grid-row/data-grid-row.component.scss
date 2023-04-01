@@ -45,9 +45,10 @@ table .absorbing-column {
 input.checkbox {
   width: 22px;
   height: 22px;
+  margin: 0;
 }
 
 .card-header {
   padding: 12px;
-  height: 76.5px;
+  height: auto;
 }
