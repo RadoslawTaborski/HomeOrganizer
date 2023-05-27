@@ -1,9 +1,10 @@
-<div class="container">
-  <div class="jumbotron mt-3">
-    <h1>Home Organizer</h1>
-    <p class="lead">{{'modules.shared.components.home.text'|translate}}</p>
+<header>
+  <div class="container-fluid text-center p-5 bg-primary home-container">
+    <!-- bg-light is background color & p-5 is padding -->
+    <h1 class="display-2 bold">Home Organizer</h1>
+    <h2 class="lead">{{'modules.shared.components.home.text'|translate}}</h2>
+    <div *ngIf="isLoaded == false" class="home-spinner">
+      <h1><i class="fa fa-spinner fa-spin"></i></h1>
+    </div>
   </div>
-  <div *ngIf="isLoaded == false" style="text-align: center;">
-    <h1><i class="fa fa-spinner fa-spin"></i></h1>
-  </div>
-</div>
+</header>

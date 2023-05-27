@@ -40,7 +40,7 @@
             "namedChunks": true,
             "allowedCommonJsDependencies": [
               "oidc-client"
-           ]
+            ]
           },
           "configurations": {
             "production": {

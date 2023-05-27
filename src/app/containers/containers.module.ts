@@ -6,7 +6,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { TemporaryItemsComponent } from './items/temporary-items/temporary-items.component';
 import { ShoppingItemsComponent } from './items/shopping-items/shopping-items.component';
-import { SidebarModule } from 'ng-sidebar';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ShoppingListsComponent } from './lists/shopping-lists/shopping-lists.component';
 import { ShoppingListDetailsComponent } from './lists/shopping-lists/details/shopping-list-details.component';
@@ -37,8 +36,7 @@ import { AuthService } from '../modules/shared/services/authentication/auth.serv
     ReactiveFormsModule,
     FormsModule,
     ModulesModule,
-    NgbModule,
-    SidebarModule.forRoot(),
+    NgbModule
   ],
   exports: [
     PermanentItemsComponent

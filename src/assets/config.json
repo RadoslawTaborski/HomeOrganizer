@@ -1,6 +1,6 @@
 {
   "title": "HomeOrganizer",
-  "footer": "© HomeOrganizer - Radosław Taborski - 2020-2023",
+  "footer": "© HomeOrganizer 2020-2023<br>Radosław Taborski",
   "url": "http://localhost:5090/",
   "api": "http://localhost:5091/api/v1/",
   "authority": "http://localhost:5000/",

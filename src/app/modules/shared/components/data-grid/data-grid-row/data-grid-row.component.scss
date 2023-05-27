@@ -52,3 +52,9 @@ input.checkbox {
   padding: 12px;
   height: auto;
 }
+
+.data-grid-row {
+  &_label {
+    margin-left: 1em;
+  }
+}

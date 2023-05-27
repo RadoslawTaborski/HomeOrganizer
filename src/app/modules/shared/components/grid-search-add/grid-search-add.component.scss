@@ -1,0 +1,15 @@
+.grid-search-add {
+  &_search-container {
+    position: absolute;
+    z-index: 999;
+  }
+
+  &_search-block {
+    display: inline-block;
+  }
+
+  &_container {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+}

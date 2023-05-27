@@ -7,7 +7,12 @@
 .body {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  position: fixed;
+  height: 100%;
+  max-height: -webkit-fill-available;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .content {
@@ -51,6 +56,12 @@
   }
 }
 
+.mb {
+  &-12 {
+    margin-bottom: 12px;
+  }
+}
+
 .form {
   padding: 10px;
 
@@ -58,4 +69,38 @@
     height: auto;
     padding: 6px 8px;
   }
+}
+
+.table {
+  --bs-table-accent-bg: rgba(0, 0, 0, 0);
+}
+
+.container {
+  padding: 5px;
+}
+
+.page-item.disabled .page-link {
+  border-color: rgb(0, 0, 0);
+}
+
+.action-btn {
+  color: white;
+  text-shadow: none;
+}
+
+.inline {
+  display: inline;
+}
+
+.collapsing {
+  -webkit-transition: none;
+  transition: height .35s;
+}
+
+.display-2 {
+  font-size: 36px;
+}
+
+.bold {
+  font-weight: 700;
 }
