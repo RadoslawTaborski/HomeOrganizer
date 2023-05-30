@@ -118,6 +118,7 @@ export class DataProviderService {
 
   async reloadCategories(filters?: { [key: string]: any; }): Promise<ResponseData> {
     filters = this.extendsFilters(this.group.id, filters);
+    filters["orderBy"] = "name asc";
     let response = (await this.categoryService.fetch(filters));
     let data: any[] = []
     response.data.forEach(a => data.push(Category.createFromJson(a)))
@@ -129,6 +130,7 @@ export class DataProviderService {
 
   async reloadListcategories(filters?: { [key: string]: any; }): Promise<ResponseData> {
     filters = this.extendsFilters(this.group.id, filters);
+    filters["orderBy"] = "name asc";
     let response = (await this.listcategoryService.fetch(filters));
     let data: any[] = []
     response.data.forEach(a => data.push(ListCategory.createFromJson(a)))
@@ -140,7 +142,7 @@ export class DataProviderService {
 
   async reloadSubCategories(filters?: { [key: string]: any; }): Promise<ResponseData> {
     filters = this.extendsFilters(this.group.id, filters);
-    filters["orderBy"] = "categoryUuid asc"
+    filters["orderBy"] = "name asc";
     let response = (await this.subcategoryService.fetch(filters));
     let data: any[] = []
     response.data.forEach(a => data.push(SubCategory.createFromJson(a, this.categories)))
